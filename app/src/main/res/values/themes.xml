@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Theme.Todo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Todo" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -10,7 +10,30 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="bottomSheetDialogTheme">@style/BotSheetDialogTheme</item>
+    </style>
+
+    <style name="BotAppBarItemColor">
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="BotSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BotSheetTheme</item>
+        <!--        TODO: Find a way to change navbar color-->
+        <!--        TODO: Find a way to keep the corner radius when swipe up-->
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="BotSheetTheme" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/BotSheetShape</item>
+
+    </style>
+
+    <style name="BotSheetShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeTopRight">16dp</item>
     </style>
 </resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/master_nav_graph"
+    app:startDestination="@id/allTaskFragment">
+
+    <fragment
+        android:id="@+id/allTaskFragment"
+        android:name="com.vstd.todo.AllTaskFragment"
+        android:label="AllTaskFragment"
+        tools:layout="@layout/fragment_all_tasks" />
+</navigation>

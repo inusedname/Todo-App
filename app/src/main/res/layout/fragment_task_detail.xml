@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".TaskDetailFragment">
+
+    <EditText
+        android:id="@+id/fixed_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:hint="@string/example_action"
+        android:importantForAutofill="no"
+        android:inputType="textCapSentences"
+        android:paddingBottom="16dp"
+        android:text="@string/hello_blank_fragment"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Đi mua sữa" />
+
+
+    <ImageView
+        android:id="@+id/fixed_iv_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_baseline_notes_24"
+        app:layout_constraintStart_toStartOf="@id/fixed_title"
+        app:layout_constraintTop_toBottomOf="@id/fixed_title"
+        tools:ignore="ContentDescription" />
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:background="@android:color/transparent"
+        android:importantForAutofill="no"
+        android:hint="@string/some_description"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        app:layout_constraintStart_toEndOf="@id/fixed_iv_description"
+        app:layout_constraintTop_toTopOf="@id/fixed_iv_description"
+        tools:text="Tại Ngô Chí Thanh\nLúc 12:30h" />
+
+    <ImageView
+        android:id="@+id/fixed_iv_alert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_alert"
+        app:layout_constraintStart_toStartOf="@id/fixed_title"
+        app:layout_constraintTop_toBottomOf="@id/et_title"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_due_date_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toEndOf="@id/fixed_iv_alert"
+        app:layout_constraintTop_toTopOf="@id/fixed_iv_alert"
+        tools:text="20:10 12/12/2020" />
+
+    <ImageView
+        android:id="@+id/fixed_iv_workspace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_baseline_dashboard_24"
+        app:layout_constraintStart_toStartOf="@id/fixed_title"
+        app:layout_constraintTop_toBottomOf="@id/chip_due_date_time"
+        tools:ignore="ContentDescription" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chip_workspace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintStart_toEndOf="@id/fixed_iv_alert"
+        app:layout_constraintTop_toTopOf="@id/fixed_iv_workspace"
+        tools:text="Default" />
+
+    <ImageView
+        android:id="@+id/fixed_iv_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_tag"
+        app:layout_constraintStart_toStartOf="@id/fixed_title"
+        app:layout_constraintTop_toBottomOf="@id/chip_workspace"
+        tools:ignore="ContentDescription" />
+
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/fixed_tag_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/fixed_iv_tag"
+        app:layout_constraintTop_toBottomOf="@id/chip_workspace">
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Important" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tag 1" />
+
+        <com.google.android.material.chip.Chip
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Tag 2" />
+    </com.google.android.material.chip.ChipGroup>
+
+    <ImageView
+        android:id="@+id/fixed_iv_sublist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:src="@drawable/ic_sublist"
+        app:layout_constraintStart_toStartOf="@id/fixed_title"
+        app:layout_constraintTop_toBottomOf="@id/fixed_tag_group"
+        tools:ignore="ContentDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_subtasks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/fixed_iv_sublist"
+        app:layout_constraintTop_toTopOf="@id/fixed_iv_sublist"
+        tools:itemCount="3"
+        tools:listitem="@layout/item_subtask" />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/bt_archive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/archive"
+        android:src="@drawable/ic_baseline_archive_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="?attr/colorPrimary" />
+
+    <ImageButton
+        android:id="@+id/bt_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="@string/delete_task"
+        android:src="@drawable/ic_baseline_delete_24"
+        app:layout_constraintBottom_toBottomOf="@id/bt_archive"
+        app:layout_constraintStart_toEndOf="@id/bt_archive"
+        app:tint="?attr/colorPrimary" />
+</androidx.constraintlayout.widget.ConstraintLayout>

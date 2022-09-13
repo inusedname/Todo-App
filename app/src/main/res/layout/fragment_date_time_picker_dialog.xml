@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".DateTimePickerDialog">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@drawable/divider_icons"
+            android:orientation="horizontal"
+            android:showDividers="middle">
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/tomorrow"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:icon="@drawable/ic_tomorrow"
+                app:iconGravity="top"
+                app:iconSize="@dimen/quick_date_icon_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/next_week"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:icon="@drawable/ic_nextweek"
+                app:iconGravity="top"
+                app:iconSize="@dimen/quick_date_icon_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/tonight"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:icon="@drawable/ic_tonight"
+                app:iconGravity="top"
+                app:iconSize="@dimen/quick_date_icon_size" />
+
+        </LinearLayout>
+
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/bg_big_button"
+            android:drawablePadding="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="?attr/colorOnPrimary"
+            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:drawableStartCompat="@drawable/ic_baseline_access_time_24"
+            app:drawableTint="?attr/colorOnPrimary"
+            tools:text="Due date" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:background="@drawable/bg_big_button"
+            android:drawablePadding="10dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="16dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="?attr/colorOnPrimary"
+            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:drawableStartCompat="@drawable/ic_baseline_repeat_24"
+            app:drawableTint="?attr/colorOnPrimary"
+            tools:text="Repeat" />
+
+    </LinearLayout>
+</layout>

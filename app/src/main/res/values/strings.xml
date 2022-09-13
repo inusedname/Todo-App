@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">Todo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add_a_task">Add a task</string>
+    <string name="search">Search</string>
+    <string name="do_search">Do search</string>
+    <string name="more">More</string>
+    <string name="more_options">More options</string>
+    <string name="choose_workspace">Choose Workspace</string>
+    <string name="create_task">CREATE TASK</string>
+    <string name="example_action">Book a call, make an appointment</string>
+    <string name="set_due_date">Set due date</string>
+    <string name="save">Save</string>
+    <string name="workspaces">Workspaces</string>
+    <string name="edit_workspaces">Edit Workspaces</string>
+    <string name="add_workspace">Add Workspace</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="next_week">Next Week</string>
+    <string name="tonight">Tonight</string>
+    <string name="sort">Sort</string>
+    <string name="archive">Archive</string>
+    <string name="some_description">Some description...</string>
 </resources>

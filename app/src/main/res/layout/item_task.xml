@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
@@ -25,20 +25,21 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:fontFamily="@font/noto_sans_jp"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline5"
             app:layout_constraintBottom_toBottomOf="@id/bt_complete"
             app:layout_constraintStart_toEndOf="@id/bt_complete"
             app:layout_constraintTop_toTopOf="@id/bt_complete"
-            tools:text="Đi mua sữa" />
+            tools:text="Vạn sự tuỳ duyên" />
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="Tại đường Lê Lợi\n 12h30" />
+            tools:text="Tại đường Lê Lợi\n12h30" />
 
         <View
             android:layout_width="match_parent"

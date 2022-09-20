@@ -1,5 +1,6 @@
 package com.vstd.todo.viewmodels
 
+import android.graphics.Color
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
@@ -9,26 +10,38 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-class AllTasksViewModel(private val repo: TodoRepo) : ViewModel() {
+class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
     private lateinit var tasks: MutableList<Task>
+    private var _workspace = "default"
+
+    init {
+        dummyData()
+    }
 
     private val _taskLiveData by lazy {
         MutableLiveData<List<Task>>().also {
-            loadTasks(it)
+            changeWorkspace(_workspace)
         }
     }
 
-    private fun loadTasks(tasksMutableLiveData: MutableLiveData<List<Task>>) {
+    private fun dummyData() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertWorkspace("default")
+            repo.insertWorkspace("default", Color.BLACK)
             repo.insertTask(
-                title = "Đi mua sữa",
-                description = "Tại công viên thống nhất\n19:30",
-                workspaceName = "default"
+                Task(
+                    title = "Đi mua sữa",
+                    description = "Tại công viên thống nhất\n19:30",
+                    workspaceName = "default"
+                )
             )
+        }
+    }
 
-            tasks = repo.getWorkspaceWithTask("default").tasks.toMutableList()
+    fun changeWorkspace(workspaceName: String) {
+        _workspace = workspaceName
+        viewModelScope.launch(Dispatchers.IO) {
+            tasks = repo.getWorkspaceWithTask(workspaceName).tasks.toMutableList()
             updateTasks()
         }
     }
@@ -47,16 +60,25 @@ class AllTasksViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
+    fun addTask(task: Task) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.insertTask(task)
+            tasks.add(task)
+            updateTasks()
+        }
+    }
+
     val taskLiveData: LiveData<List<Task>> = _taskLiveData
+    val workspaceName: String = _workspace
 }
 
 @Suppress("UNCHECKED_CAST")
 @RequiresApi(Build.VERSION_CODES.O)
-class AllTasksViewModelFactory(private val repo: TodoRepo) : ViewModelProvider.Factory {
+class TaskViewModelFactory(private val repo: TodoRepo) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AllTasksViewModel::class.java)) {
-            return AllTasksViewModel(repo) as T
+        if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
+            return TaskViewModel(repo) as T
         }
         throw IllegalArgumentException("Unknown ViewModel Class")
     }

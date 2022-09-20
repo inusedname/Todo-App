@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/due_date_inc"
+        android:title="@string/due_date_ascending"
+        app:showAsAction="never"/>
+    <item android:id="@+id/due_date_dec"
+        android:title="@string/due_date_descending"
+        app:showAsAction="never"/>
+    <item android:id="@+id/created_date_inc"
+        android:title="@string/created_date_ascending"
+        app:showAsAction="never"/>
+    <item android:id="@+id/created_date_dec"
+        android:title="@string/created_date_descending"
+        app:showAsAction="never"/>
+    <item android:id="@+id/last_modified_date_inc"
+        android:title="@string/last_modified_date_ascending"
+        app:showAsAction="never"/>
+    <item android:id="@+id/last_modified_date_dec"
+        android:title="@string/last_modified_date_descending"
+        app:showAsAction="never"/>
+</menu>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_back"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Workspace"
+            app:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_save"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+            app:layout_constraintBottom_toBottomOf="@id/bt_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/bt_back" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/et_workspace_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginEnd="16dp"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:layout_constraintEnd_toStartOf="@id/fixed_choose_color_layout"
+            app:layout_constraintStart_toStartOf="@id/bt_back"
+            app:layout_constraintTop_toBottomOf="@id/bt_back">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Workspace Name"
+                android:text="Default Workpace" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <FrameLayout
+            android:id="@+id/fixed_choose_color_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/et_workspace_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/et_workspace_name">
+
+            <include layout="@layout/item_color" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:src="@drawable/ic_baseline_palette_24"
+                app:tint="?attr/colorOnPrimary" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

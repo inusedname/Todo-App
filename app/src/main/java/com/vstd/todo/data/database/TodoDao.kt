@@ -25,10 +25,23 @@ interface TodoDao {
     suspend fun bindTaskAndTag(taskTagCrossRef: TaskTagCrossRef)
 
     @Delete
+    suspend fun unbindTaskAndTag(taskTagCrossRef: TaskTagCrossRef)
+
+    @Delete
     suspend fun deleteTask(task: Task)
 
     @Query("SELECT * FROM workspace_table")
     fun getWorkspaces(): List<Workspace>
+
+    suspend fun insertTagToTask(task: Task, tag: Tag) {
+        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, task.taskId)
+        bindTaskAndTag(taskTagCrossRef)
+    }
+
+    suspend fun removeTagFromTask(task: Task, tag: Tag) {
+        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, task.taskId)
+        unbindTaskAndTag(taskTagCrossRef)
+    }
 
     @Transaction
     @Query("SELECT * FROM workspace_table WHERE workspaceName = :workspaceName")

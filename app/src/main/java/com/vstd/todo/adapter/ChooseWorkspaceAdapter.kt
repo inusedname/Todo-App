@@ -9,16 +9,11 @@ import com.vstd.todo.data.Workspace
 import com.vstd.todo.databinding.ItemCardWorkspaceBinding
 
 class ChooseWorkspaceAdapter(
-    workspaces: List<Workspace>,
-    private val onWorkspaceClickListener: ((Workspace) -> Unit)
+    private val onWorkspaceClickListener: (String) -> Unit
 ) :
     ListAdapter<Workspace, ChooseWorkspaceAdapter.ChooseWorkspaceViewHolder>(
         DIFF_CALLBACK
     ) {
-
-    init {
-        submitList(workspaces)
-    }
 
     fun updateList(workspaces: List<Workspace>) {
         submitList(workspaces)
@@ -40,7 +35,7 @@ class ChooseWorkspaceAdapter(
         fun bind(workspace: Workspace) {
             binding.tvWorkspaceName.text = workspace.workspaceName
             binding.root.setOnClickListener {
-                onWorkspaceClickListener.invoke(workspace)
+                onWorkspaceClickListener.invoke(workspace.workspaceName)
             }
         }
     }

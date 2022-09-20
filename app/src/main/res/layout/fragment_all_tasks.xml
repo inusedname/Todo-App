@@ -7,28 +7,15 @@
     <data>
         <variable
             name="viewModel"
-            type="com.vstd.todo.viewmodels.AllTasksViewModel" />
+            type="com.vstd.todo.viewmodels.TaskViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_tasks"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="LIST"
-            android:paddingTop="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-            tools:ignore="HardcodedText" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_tasks"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_task" />
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_task"
+        android:paddingBottom="50dp"
+        android:clipToPadding="true"/>
 </layout>

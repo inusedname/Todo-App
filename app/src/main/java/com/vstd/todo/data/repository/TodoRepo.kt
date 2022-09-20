@@ -1,16 +1,15 @@
 package com.vstd.todo.data.repository
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.database.TodoDao
 import com.vstd.todo.data.relation.WorkspaceWithTasks
-import com.vstd.todo.utilities.DateTimeUtils
 
 class TodoRepo(private val todoDao: TodoDao) {
 
-    fun getWorkspaces(): List<Workspace> = todoDao.getWorkspaces()
+    fun getWorkspaces(): List<Workspace> {
+        return todoDao.getWorkspaces()
+    }
 
     suspend fun getWorkspaceWithTask(workspaceName: String): WorkspaceWithTasks {
         return todoDao.getWorkspaceWithTasks(workspaceName)
@@ -24,21 +23,16 @@ class TodoRepo(private val todoDao: TodoDao) {
         todoDao.deleteTask(task)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    suspend fun insertTask(title: String, description: String, workspaceName: String) {
-        todoDao.insertTask(
-            Task(
-                title = title,
-                description = description,
-                createdDateTime = DateTimeUtils.now().toString(),
-                lastModifiedDateTime = DateTimeUtils.now().toString(),
-                workspaceName = workspaceName
-            )
-        )
+    suspend fun insertWorkspace(workspace: Workspace) {
+        todoDao.insertWorkspace(workspace)
     }
 
-    suspend fun insertWorkspace(workspaceName: String) {
-        todoDao.insertWorkspace(Workspace(workspaceName))
+    suspend fun insertWorkspace(workspaceName: String, workspaceColor: Int) {
+        todoDao.insertWorkspace(Workspace(workspaceName, workspaceColor))
+    }
+
+    fun deleteWorkspace(workspace: Workspace) {
+        // TODO: Not implemented yet
     }
 
     companion object {

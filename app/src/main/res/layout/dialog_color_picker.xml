@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/list_item_spacing">
+
+        <TextView
+            android:id="@+id/fixed_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/pick_color"
+            android:textColor="?attr/colorPrimary" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_colors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            tools:listitem="@layout/item_color" />
+        <Button
+            android:id="@+id/bt_submit_color"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/apply"/>
+    </LinearLayout>
+</layout>

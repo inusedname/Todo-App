@@ -15,7 +15,7 @@
             android:gravity="start"
             android:paddingVertical="8dp"
             android:text="@string/workspaces"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

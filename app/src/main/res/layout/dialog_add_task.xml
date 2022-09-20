@@ -16,17 +16,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:gravity="center"
+            android:gravity="start"
             android:paddingHorizontal="8dp"
             android:text="@string/create_task"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/et_title"
-            style="@style/TextAppearance.Material3.BodyLarge"
+            style="@style/TextAppearance.MdcTypographyStyles.Body1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -54,23 +54,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_title">
 
-            <ImageButton
+            <com.google.android.material.chip.Chip
                 android:id="@+id/bt_set_due_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
                 android:contentDescription="@string/set_due_date"
-                android:padding="8dp"
-                android:src="@drawable/ic_baseline_access_time_24" />
+                android:text="@string/set_due_date"
+                app:chipIcon="@drawable/ic_baseline_access_time_24" />
 
-            <ImageButton
+            <com.google.android.material.chip.Chip
                 android:id="@+id/bt_set_workspace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?android:attr/selectableItemBackground"
+                android:text="@string/workspaces"
                 android:contentDescription="@string/choose_workspace"
-                android:padding="8dp"
-                android:src="@drawable/ic_baseline_folder_open_24" />
+                app:chipIcon="@drawable/ic_baseline_folder_open_24" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton

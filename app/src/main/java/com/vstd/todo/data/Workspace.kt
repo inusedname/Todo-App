@@ -8,4 +8,5 @@ data class Workspace(
 
     @PrimaryKey(autoGenerate = false)
     val workspaceName: String,
+    val workspaceColor: Int,
 )

@@ -34,3 +34,7 @@ fun MainActivity.showBottomAppBar() {
 fun MainActivity.showTopAppBar() {
     this.findViewById<MaterialToolbar>(R.id.topAppBar).visibility = View.VISIBLE
 }
+
+fun MainActivity.getTopAppBar() : MaterialToolbar {
+    return this.findViewById<MaterialToolbar>(R.id.topAppBar)
+}

@@ -1,8 +1,10 @@
 package com.vstd.todo.data.repository
 
+import com.vstd.todo.data.Tag
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.database.TodoDao
+import com.vstd.todo.data.relation.TaskWithTags
 import com.vstd.todo.data.relation.WorkspaceWithTasks
 
 class TodoRepo(private val todoDao: TodoDao) {
@@ -15,24 +17,51 @@ class TodoRepo(private val todoDao: TodoDao) {
         return todoDao.getWorkspaceWithTasks(workspaceName)
     }
 
-    suspend fun insertTask(task: Task) {
-        todoDao.insertTask(task)
-    }
-
-    suspend fun deleteTask(task: Task) {
-        todoDao.deleteTask(task)
+    suspend fun insertTask(task: Task): Long {
+        return todoDao.insertTask(task)
     }
 
     suspend fun insertWorkspace(workspace: Workspace) {
         todoDao.insertWorkspace(workspace)
     }
 
-    suspend fun insertWorkspace(workspaceName: String, workspaceColor: Int) {
-        todoDao.insertWorkspace(Workspace(workspaceName, workspaceColor))
+    suspend fun insertTagToTask(task: Task, tag: Tag) {
+        todoDao.insertTagToTask(task, tag)
     }
 
-    fun deleteWorkspace(workspace: Workspace) {
-        // TODO: Not implemented yet
+    suspend fun removeTagFromTask(task: Task, tag: Tag) {
+        todoDao.removeTagFromTask(task, tag)
+    }
+
+    suspend fun deleteTask(task: Task) {
+        todoDao.removeTagsWithTask(task)
+        todoDao.deleteTask(task)
+    }
+
+    suspend fun deleteWorkspace(workspace: Workspace) {
+        todoDao.removeTasksWithWorkspace(workspace)
+        todoDao.deleteWorkspace(workspace)
+    }
+
+    suspend fun deleteTag(tag: Tag) {
+        todoDao.removeTagFromTasks(tag)
+        todoDao.deleteTag(tag)
+    }
+
+    suspend fun updateTag(tag: Tag) {
+        todoDao.updateTag(tag)
+    }
+
+    suspend fun updateWorkspace(workspace: Workspace) {
+        todoDao.updateWorkspace(workspace)
+    }
+
+    suspend fun updateTask(task: Task) {
+        todoDao.updateTask(task)
+    }
+
+    suspend fun getTaskWithTags(taskId: Long): TaskWithTags? {
+        return todoDao.getTaskWithTags(taskId)
     }
 
     companion object {

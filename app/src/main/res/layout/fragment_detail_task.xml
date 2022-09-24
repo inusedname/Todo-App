@@ -1,14 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.task.DetailTaskFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <data>
+
+        <variable
+            name="title"
+            type="String" />
+
+        <variable
+            name="description"
+            type="String" />
+
+        <variable
+            name="createDate"
+            type="String" />
+
+        <variable
+            name="lastModifiedDate"
+            type="String" />
+
+        <variable
+            name="workspace"
+            type="String" />
+
+        <variable
+            name="dueDate"
+            type="String" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp"
-        tools:context=".ui.task.DetailTaskFragment">
+        android:paddingHorizontal="16dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="16dp">
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chip_workspace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{workspace}"
+            app:chipIcon="@drawable/ic_baseline_folder_open_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="default" />
 
         <EditText
             android:id="@+id/et_title"
@@ -18,161 +58,145 @@
             android:hint="@string/example_action"
             android:importantForAutofill="no"
             android:inputType="textCapSentences"
+            android:maxLines="1"
             android:paddingBottom="16dp"
-            android:text="@string/hello_blank_fragment"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            android:text="@{title}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chip_workspace"
             tools:text="Đi mua sữa" />
 
-
-        <ImageView
-            android:id="@+id/fixed_iv_description"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_description"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_baseline_notes_24"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/et_title"
-            app:layout_constraintTop_toBottomOf="@id/et_title"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toBottomOf="@id/et_title">
 
-        <EditText
-            android:id="@+id/et_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:background="@android:color/transparent"
-            android:hint="@string/some_description"
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            app:layout_constraintStart_toEndOf="@id/fixed_iv_description"
-            app:layout_constraintTop_toTopOf="@id/fixed_iv_description"
-            tools:text="Tại Ngô Chí Thanh\nLúc 12:30h" />
-
-        <ImageView
-            android:id="@+id/fixed_iv_alert"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_alert"
-            app:layout_constraintStart_toStartOf="@id/et_title"
-            app:layout_constraintTop_toBottomOf="@id/et_description"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_due_date_time"
-            android:text="@string/set_due_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintStart_toEndOf="@id/fixed_iv_alert"
-            app:layout_constraintTop_toTopOf="@id/fixed_iv_alert"
-            tools:text="20:10 12/12/2020" />
-
-        <ImageView
-            android:id="@+id/fixed_iv_workspace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_baseline_dashboard_24"
-            app:layout_constraintStart_toStartOf="@id/et_title"
-            app:layout_constraintTop_toBottomOf="@id/chip_due_date_time"
-            tools:ignore="ContentDescription" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chip_workspace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintStart_toEndOf="@id/fixed_iv_alert"
-            app:layout_constraintTop_toTopOf="@id/fixed_iv_workspace"
-            tools:text="Default" />
-
-        <ImageView
-            android:id="@+id/fixed_iv_tag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_tag"
-            app:layout_constraintStart_toStartOf="@id/et_title"
-            app:layout_constraintTop_toBottomOf="@id/chip_workspace"
-            tools:ignore="ContentDescription" />
-
-
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/fixed_tag_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/fixed_iv_tag"
-            app:layout_constraintTop_toBottomOf="@id/chip_workspace">
-
-            <com.google.android.material.chip.Chip
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Important" />
+                android:padding="4dp"
+                android:src="@drawable/ic_baseline_notes_24"
+                tools:ignore="ContentDescription" />
 
-            <com.google.android.material.chip.Chip
+            <EditText
+                android:id="@+id/et_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Tag 1" />
+                android:layout_marginHorizontal="16dp"
+                android:background="@android:color/transparent"
+                android:hint="@string/some_description"
+                android:importantForAutofill="no"
+                android:inputType="textMultiLine"
+                android:text="@{description}" />
+        </LinearLayout>
 
-            <com.google.android.material.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Tag 2" />
-        </com.google.android.material.chip.ChipGroup>
-
-        <ImageView
-            android:id="@+id/fixed_iv_sublist"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/layout_date_time"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:src="@drawable/ic_sublist"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="@id/et_title"
-            app:layout_constraintTop_toBottomOf="@id/fixed_tag_group"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toBottomOf="@id/layout_description">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_subtasks"
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:src="@drawable/ic_alert"
+                tools:ignore="ContentDescription" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_due_date_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:text="@{dueDate}"
+                tools:text="20:10 12/12/2020" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/et_title"
+            app:layout_constraintTop_toBottomOf="@id/layout_date_time">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:src="@drawable/ic_tag"
+                tools:ignore="ContentDescription" />
+
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Important" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Tag 1" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:text="Tag 2" />
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_subtasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toStartOf="@id/et_title"
+            app:layout_constraintTop_toBottomOf="@+id/layout_tags">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:src="@drawable/ic_sublist"
+                tools:ignore="ContentDescription" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_subtasks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_subtask" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_created_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/fixed_iv_sublist"
-            app:layout_constraintTop_toTopOf="@id/fixed_iv_sublist"
-            tools:itemCount="3"
-            tools:listitem="@layout/item_subtask" />
+            android:text="@{createDate}"
+            app:layout_constraintStart_toStartOf="@id/et_title"
+            app:layout_constraintTop_toBottomOf="@id/layout_subtasks"
+            tools:text="Last Modified: 12/12/2020" />
 
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:id="@+id/bt_save"
+        <TextView
+            android:id="@+id/tv_modified_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/save"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:text="@{lastModifiedDate}"
+            app:layout_constraintStart_toStartOf="@id/et_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_created_date"
+            tools:text="Last Modified: 12/12/2020" />
 
-        <ImageButton
-            android:id="@+id/bt_archive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:contentDescription="@string/archive"
-            android:src="@drawable/ic_baseline_archive_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:tint="?attr/colorPrimary" />
-
-        <ImageButton
-            android:id="@+id/bt_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/transparent"
-            android:contentDescription="@string/delete_task"
-            android:src="@drawable/ic_baseline_delete_24"
-            app:layout_constraintBottom_toBottomOf="@id/bt_archive"
-            app:layout_constraintStart_toEndOf="@id/bt_archive"
-            app:tint="?attr/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,11 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.vstd.todo.data.Workspace
 import com.vstd.todo.databinding.DialogEditWorkspaceBinding
 import com.vstd.todo.ui.color.ColorPickerDialog
+import com.vstd.todo.utilities.Constants
 
-class EditWorkspaceDialog : BottomSheetDialogFragment() {
+class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
+    BottomSheetDialogFragment() {
+
     private lateinit var binding: DialogEditWorkspaceBinding
+    private var colorPickerColor: Int
+        get() = binding.bgBtChooseColor.color.cardBackgroundColor.defaultColor
+        set(value) {
+            binding.bgBtChooseColor.color.setCardBackgroundColor(value)
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,14 +30,25 @@ class EditWorkspaceDialog : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        loadArgs()
         setOnClickListeners()
+    }
+
+    private fun loadArgs() {
+        arguments?.let { bundle ->
+            val workspace = bundle.getSerializable(Constants.WORKSPACE_OBJ) as Workspace?
+            workspace?.let {
+                binding.etWorkspaceName.setText(it.workspaceName)
+                colorPickerColor = it.workspaceColor
+            }
+        }
     }
 
     private fun setOnClickListeners() {
         binding.apply {
             btBack.setOnClickListener { backClicked() }
             btSave.setOnClickListener { saveClicked() }
-            fixedChooseColorLayout.setOnClickListener { selectColorClicked() }
+            btChooseColor.setOnClickListener { selectColorClicked() }
         }
     }
 
@@ -38,15 +58,20 @@ class EditWorkspaceDialog : BottomSheetDialogFragment() {
     }
 
     private fun saveClicked() {
-        // TODO: Not yet implemented
+        val newWorkspace = Workspace(
+            binding.etWorkspaceName.text.toString(),
+            colorPickerColor
+        )
+        onWorkspaceSubmit(newWorkspace)
+        dismiss()
     }
 
     private fun backClicked() {
-        // TODO: Not yet implemented
+        dismiss()
     }
 
     private val onColorSubmit = { colorCode: Int ->
-        // TODO: Not yet implemented
+        colorPickerColor = colorCode
     }
 
     companion object {

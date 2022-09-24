@@ -8,6 +8,7 @@ import android.widget.TimePicker
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.vstd.todo.R
 import com.vstd.todo.databinding.DialogDateTimePickerBinding
 import com.vstd.todo.utilities.*
 import java.time.LocalDateTime
@@ -17,6 +18,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
     DialogFragment() {
 
     private lateinit var binding: DialogDateTimePickerBinding
+    // TODO: What if the user doesn't select a time?
     private var dateTime = DateTimeUtils.now()
     private var isTimeNull = true
 
@@ -27,7 +29,6 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
         Constants.NEXT_WEEK to DateTimeUtils.nextWeek,
     )
 
-    //TODO: Fix hardcode strings
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
 
         binding = DialogDateTimePickerBinding.inflate(layoutInflater)
@@ -39,9 +40,9 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
 
         return AlertDialog.Builder(requireContext())
             .setView(binding.root)
-            .setTitle("Pick a date and time")
-            .setPositiveButton("SET", onPositiveButtonClicked)
-            .setNegativeButton("CANCEL", null)
+            .setTitle(getString(R.string.pick_a_date_and_time))
+            .setPositiveButton(getString(R.string.set), onPositiveButtonClicked)
+            .setNegativeButton(getString(R.string.cancel), null)
             .create()
     }
 

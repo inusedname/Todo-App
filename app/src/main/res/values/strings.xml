@@ -29,4 +29,21 @@
     <string name="created_date_descending">Created Date (Descending)</string>
     <string name="last_modified_date_ascending">Last Modified Date (Ascending)</string>
     <string name="last_modified_date_descending">Last Modified Date (Descending)</string>
+    <string name="created">Created: %1$s</string>
+    <string name="last_modified">Last Modified: %1$s</string>
+    <string name="pick_a_date_and_time">Pick a date and time</string>
+    <string name="set">SET</string>
+    <string name="cancel">Cancel</string>
+    <string name="view_archived">View Archived</string>
+    <string name="make_task_done">Make task done</string>
+    <string name="archive_task">Archive task</string>
+    <string name="save_changes">Save changes</string>
+    <string name="do_you_want_to_save_changes">Do you want to save changes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="add_a_subtask">Add a subtask</string>
+    <string name="edit_workspace">Edit Workspace</string>
+    <string name="workspace_name">Workspace Name</string>
+    <string name="default_workspace">Default Workspace</string>
+    <string name="select_color_for_workspace">Select Color for Workspace</string>
 </resources>

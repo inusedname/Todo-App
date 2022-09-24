@@ -1,5 +1,6 @@
 package com.vstd.todo.adapter
 //
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,7 +17,7 @@ class ChooseWorkspaceAdapter(
     ) {
 
     fun updateList(workspaces: List<Workspace>) {
-        submitList(workspaces)
+        submitList(workspaces.toList())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseWorkspaceViewHolder {
@@ -33,6 +34,8 @@ class ChooseWorkspaceAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(workspace: Workspace) {
+            binding.tvWorkspaceName.backgroundTintList =
+                ColorStateList.valueOf(workspace.workspaceColor)
             binding.tvWorkspaceName.text = workspace.workspaceName
             binding.root.setOnClickListener {
                 onWorkspaceClickListener.invoke(workspace.workspaceName)

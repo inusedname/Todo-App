@@ -10,7 +10,11 @@
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:paddingStart="0dp"
+        android:paddingEnd="16dp"
+        android:inputType="textCapSentences"
+        android:hint="@string/add_a_subtask"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@android:color/transparent"
         android:importantForAutofill="no"

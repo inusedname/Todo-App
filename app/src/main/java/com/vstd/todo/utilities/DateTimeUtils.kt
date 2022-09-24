@@ -16,6 +16,11 @@ fun LocalDateTime.toFriendlyString(): String {
     return this.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm"))
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
+fun String.toFriendlyDateTimeString(): String {
+    return this.toLocalDateTime().toFriendlyString()
+}
+
 fun LocalDateTime.toLong(): Long {
     return this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
 }

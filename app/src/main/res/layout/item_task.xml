@@ -4,21 +4,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="16dp"
         android:paddingTop="16dp">
 
-        <ImageButton
-            android:id="@+id/bt_complete"
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkbox_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="4dp"
-            android:paddingEnd="16dp"
-            android:src="@drawable/ic_baseline_cirle_outline_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text=""
             tools:ignore="ContentDescription" />
 
         <TextView
@@ -27,9 +25,9 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/noto_sans_jp"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline5"
-            app:layout_constraintBottom_toBottomOf="@id/bt_complete"
-            app:layout_constraintStart_toEndOf="@id/bt_complete"
-            app:layout_constraintTop_toTopOf="@id/bt_complete"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_done"
+            app:layout_constraintStart_toEndOf="@id/checkbox_done"
+            app:layout_constraintTop_toTopOf="@id/checkbox_done"
             tools:text="Vạn sự tuỳ duyên" />
 
         <TextView
@@ -45,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:background="@color/black"
+            android:background="@android:color/darker_gray"
             app:layout_constraintTop_toBottomOf="@id/tv_description" />
 
         <ImageButton
@@ -56,8 +54,8 @@
             android:contentDescription="@string/delete_task"
             android:padding="8dp"
             android:src="@drawable/ic_baseline_delete_24"
-            app:layout_constraintBottom_toBottomOf="@id/bt_complete"
+            app:layout_constraintBottom_toBottomOf="@id/checkbox_done"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/bt_complete" />
+            app:layout_constraintTop_toTopOf="@id/checkbox_done" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

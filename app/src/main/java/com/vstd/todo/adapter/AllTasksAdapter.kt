@@ -1,12 +1,15 @@
 package com.vstd.todo.adapter
 
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.vstd.todo.R
 import com.vstd.todo.data.Task
 import com.vstd.todo.databinding.ItemTaskBinding
+import com.vstd.todo.utilities.getColor
 
 class AllTasksAdapter(
     private val onItemClicked: (Task) -> Unit,
@@ -35,12 +38,23 @@ class AllTasksAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(task: Task) {
+            val colorByDone =
+                if (task.isDone)
+                    getColor(itemView.context, R.color.light_gray)
+                else
+                    getColor(itemView.context, R.color.black)
+
             binding.apply {
                 tvTitle.text = task.title
                 tvDescription.text = task.description
-                btComplete.setOnClickListener { onDoneClicked(task) }
+                checkboxDone.isChecked = task.isDone
+                checkboxDone.setOnClickListener { onDoneClicked(task) }
                 btDeleteTask.setOnClickListener { onDeleteClicked(task) }
                 itemView.setOnClickListener { onItemClicked(task) }
+
+                tvTitle.setTextColor(colorByDone)
+                tvDescription.setTextColor(colorByDone)
+                btDeleteTask.imageTintList = ColorStateList.valueOf(colorByDone)
             }
         }
     }
@@ -52,7 +66,7 @@ class AllTasksAdapter(
             }
 
             override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean {
-                return oldItem.taskId == newItem.taskId
+                return oldItem.isDone == newItem.isDone
                         && oldItem.description == newItem.description
                         && oldItem.title == newItem.title
             }

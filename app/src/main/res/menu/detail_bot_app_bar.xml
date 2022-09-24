@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/make_done"
+        android:icon="@drawable/ic_baseline_check_box_24"
+        android:contentDescription="@string/make_task_done"
+        android:title="@string/make_task_done"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/make_archive"
+        android:icon="@drawable/ic_baseline_archive_24"
+        android:contentDescription="@string/archive_task"
+        android:title="@string/archive_task"
+        app:showAsAction="ifRoom"/>
+
+</menu>

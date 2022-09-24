@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vstd.todo.adapter.ChooseWorkspaceAdapter
+import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogWorkspacePickerBinding
 import com.vstd.todo.viewmodels.WorkspaceViewModel
@@ -63,7 +64,7 @@ class WorkspacePickerDialog(
     }
 
     private fun addClicked() {
-        val editWorkspaceDialog = EditWorkspaceDialog()
+        val editWorkspaceDialog = EditWorkspaceDialog(onAddWorkspaceSubmit)
         editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
     }
 
@@ -85,5 +86,9 @@ class WorkspacePickerDialog(
     private val onWorkspaceSelected = { workspace: String ->
         onChooseWorkspaceSubmit(workspace)
         dismiss()
+    }
+
+    private val onAddWorkspaceSubmit = { workspace: Workspace ->
+        viewModel.addWorkspace(workspace)
     }
 }

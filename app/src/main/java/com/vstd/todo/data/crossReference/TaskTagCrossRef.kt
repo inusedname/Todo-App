@@ -8,5 +8,5 @@ data class TaskTagCrossRef(
     val tagName: String,
 
     @ColumnInfo(index = true)
-    val taskId: Int,
+    val taskId: Long,
 )

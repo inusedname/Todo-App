@@ -3,112 +3,116 @@ package com.vstd.todo
 import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.vstd.todo.data.Task
+import androidx.navigation.fragment.NavHostFragment
 import com.vstd.todo.data.database.TodoDatabase
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.ActivityMainBinding
-import com.vstd.todo.ui.task.AddTaskDialog
-import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.Constants
+import com.vstd.todo.interfaces.HasBotAppBar
+import com.vstd.todo.interfaces.HasFab
+import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
+
+const val TAG = "MainActivityLogcat"
 
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var repo: TodoRepo
     private lateinit var binding: ActivityMainBinding
-    private lateinit var taskViewModel: TaskViewModel
+    private val containerChildManager by lazy {
+        (supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment).childFragmentManager
+    }
+
+    private fun currentFragment(): Fragment {
+        return containerChildManager.fragments.last()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupViewModel()
+        setUpDataBinding()
         setOnClickListeners()
+        setOnFragmentChangeListeners()
     }
 
-    private fun setupViewModel() {
-        val dao = TodoDatabase.getInstance(this).todoDAO
-        repo = TodoRepo.getInstance(dao)
+    private fun setUpDataBinding() {
+        val repo = TodoRepo.getInstance(TodoDatabase.getInstance(this).todoDAO)
+        binding.viewModel =
+            ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
+        binding.lifecycleOwner = this
+    }
 
-        taskViewModel = ViewModelProvider(
-            this,
-            TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java]
+    private fun setOnFragmentChangeListeners() {
+        setUpActivityComponentAppearance()
+        containerChildManager.addOnBackStackChangedListener {
+            setUpActivityComponentAppearance()
+        }
+    }
 
+    private fun setUpActivityComponentAppearance() {
+        val fragment = currentFragment()
+        if (fragment is HasTopAppBar) {
+            binding.topAppBar.visibility = View.VISIBLE
+            (fragment as HasTopAppBar).setUpTopAppBarAppearance(binding.topAppBar)
+        } else binding.topAppBar.visibility = View.GONE
+
+        if (fragment is HasBotAppBar) {
+            binding.bottomAppBar.visibility = View.VISIBLE
+            (fragment as HasBotAppBar).setUpBotAppBarAppearance(binding.bottomAppBar)
+        } else binding.bottomAppBar.visibility = View.GONE
+
+        if (fragment is HasFab) {
+            binding.fab.visibility = View.VISIBLE
+            (fragment as HasFab).setUpFabAppearance(binding.fab)
+        } else binding.fab.visibility = View.GONE
     }
 
     private fun setOnClickListeners() {
 
-        binding.fab.setOnClickListener { fabClicked() }
-        binding.bottomAppBar.setNavigationOnClickListener { onChooseWorkspaceClicked() }
+        binding.fab.setOnClickListener { onFabClicked() }
+        binding.bottomAppBar.setNavigationOnClickListener { onBotBarNavClicked() }
         binding.bottomAppBar.setOnMenuItemClickListener { onItemBotBarClicked(it) }
         binding.topAppBar.setOnMenuItemClickListener { onItemTopBarClicked(it) }
+        binding.topAppBar.setNavigationOnClickListener { onTopBarNavClicked() }
     }
 
 
-    private fun fabClicked() {
-        val addTaskDialog = AddTaskDialog(repo, onAddTaskSubmit)
-        addTaskDialog.arguments = Bundle().apply {
-            putString(Constants.WORKSPACE_NAME_STRING, taskViewModel.workspaceName)
-        }
-        addTaskDialog.show(supportFragmentManager, AddTaskDialog.TAG)
-    }
-
-    private val onAddTaskSubmit = { task: Task ->
-        taskViewModel.addTask(task)
-    }
-
-    private val onChooseWorkspaceClicked = {
-        val workspacePickerDialog = WorkspacePickerDialog(repo, onChooseWorkspaceSubmit)
-        workspacePickerDialog.show(
-            supportFragmentManager,
-            WorkspacePickerDialog.TAG
-        )
-    }
-
-    private val onChooseWorkspaceSubmit = { workspaceName: String ->
-        taskViewModel.changeWorkspace(workspaceName)
-    }
-
-    private val onItemBotBarClicked = { menuItem: MenuItem ->
-        // TODO: Not yet implemented
-        when (menuItem.itemId) {
-            R.id.search -> true
-            R.id.more -> true
-            else -> false
+    private fun onFabClicked() {
+        if (currentFragment() is HasFab) {
+            (currentFragment() as HasFab).onFabClicked()
         }
     }
 
-    private val onItemTopBarClicked = { menuItem: MenuItem ->
-        // TODO: Not yet implemented
-        when (menuItem.itemId) {
-            R.id.sort -> {
-                showSortPopup()
-                true
-            }
-            else -> false
+    private fun onBotBarNavClicked() {
+        if (currentFragment() is HasBotAppBar) {
+            (currentFragment() as HasBotAppBar).onBotAppBarNavigationClick()
         }
     }
 
-    private fun showSortPopup() {
-        PopupMenu(this, binding.topAppBar.getChildAt(0)).apply {
-            setOnMenuItemClickListener { onSortSubmit(it) }
-            inflate(R.menu.sort_tasks_popup_menu)
-            show()
-        }
+    private fun onItemBotBarClicked(menuItem: MenuItem): Boolean {
+        return if (currentFragment() is HasBotAppBar) {
+            (currentFragment() as HasBotAppBar).onBotAppBarMenuClick(menuItem)
+        } else false
     }
 
-    private val onSortSubmit = { menuItem: MenuItem ->
-        when (menuItem.itemId) {
-            R.id.due_date_inc -> true
-            else -> false
-        }
+    private fun onTopBarNavClicked() {
+        if (currentFragment() is HasTopAppBar)
+            (currentFragment() as HasTopAppBar).onTopAppBarNavigationClick()
     }
+
+    private fun onItemTopBarClicked(menuItem: MenuItem): Boolean {
+        return if (currentFragment() is HasTopAppBar) {
+            (currentFragment() as HasTopAppBar).onTopAppBarMenuClick(menuItem)
+        } else false
+    }
+
+
 }

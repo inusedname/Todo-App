@@ -5,12 +5,10 @@
         android:id="@+id/search"
         android:contentDescription="@string/do_search"
         android:icon="@drawable/ic_baseline_search_24"
-        app:iconTint="?attr/colorOnPrimary"
         android:title="@string/search"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/more"
-        android:contentDescription="@string/more_options"
-        android:title="@string/more"
+        android:id="@+id/show_archived"
+        android:title="@string/view_archived"
         app:showAsAction="never" />
 </menu>

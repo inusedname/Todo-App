@@ -9,7 +9,9 @@ object Constants {
     const val TONIGHT = "TONIGHT"
     const val TOMORROW = "TOMORROW"
     const val NEXT_WEEK = "NEXT_WEEK"
-    val COLORS = mapOf<String, Int>(
+    const val WORKSPACE_OBJ = "WORKSPACE_OBJ"
+
+    val COLORS = mapOf(
         "red" to Color.parseColor("#FF7878"),
         "green" to Color.parseColor("#064420"),
         "blue" to Color.parseColor("#748DA6"),

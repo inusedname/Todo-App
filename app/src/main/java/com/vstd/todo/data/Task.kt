@@ -12,15 +12,15 @@ import java.io.Serializable
 data class Task(
 
     @PrimaryKey(autoGenerate = true)
-    val taskId: Int = 0,
+    val taskId: Long = 0,
 
     val title: String,
 
     val description: String = "",
 
-    val completedSubtasks: List<String> = listOf(),
+    val doneSubtasks: List<String> = listOf(),
 
-    val uncompletedSubtasks: List<String> = listOf(),
+    val notDoneSubtasks: List<String> = listOf(),
 
     val createdDateTime: String = DateTimeUtils.now().toString(),
 
@@ -31,4 +31,6 @@ data class Task(
     val workspaceName: String,
 
     val isArchived: Boolean = false,
+
+    val isDone: Boolean = false,
 ) : Serializable

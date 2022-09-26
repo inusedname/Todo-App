@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<layout>
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <EditText
-        android:paddingStart="0dp"
-        android:paddingEnd="16dp"
-        android:inputType="textCapSentences"
-        android:hint="@string/add_a_subtask"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:importantForAutofill="no"
-        tools:text="Dắt xe máy khỏi cổng" />
-</LinearLayout>
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/cb_subtask_done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="?attr/colorOnPrimary" />
+
+        <EditText
+            android:id="@+id/et_subtask_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="@string/add_a_subtask"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp"
+            tools:text="Dắt xe máy khỏi cổng" />
+    </LinearLayout>
+</layout>

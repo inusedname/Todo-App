@@ -1,10 +1,8 @@
 package com.vstd.todo.ui.task
 
-import android.os.Build
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +27,6 @@ import com.vstd.todo.utilities.helper.getTopAppBar
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
-@RequiresApi(Build.VERSION_CODES.O)
 class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotAppBar, HasTopAppBar {
 
     private lateinit var repo: TodoRepo
@@ -50,19 +47,11 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         viewModel = ViewModelProvider(
             requireActivity(), TaskViewModelFactory(repo)
         )[TaskViewModel::class.java]
-
-
     }
 
     private fun setUpAdapter() {
         adapter = AllTasksAdapter(onTaskClicked, onDoneTaskClicked, onDeleteTaskClicked)
         binding.rvTasks.adapter = adapter
-    }
-
-    private fun observing() {
-        viewModel.taskLiveData.observe(viewLifecycleOwner) { tasks: List<Task> ->
-            adapter.setData(tasks)
-        }
     }
 
     private val onTaskClicked = { task: Task ->
@@ -80,34 +69,10 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         viewModel.deleteTask(task)
     }
 
-    private val onAddTaskSubmit = { task: Task ->
-        viewModel.addTask(task)
-    }
-
-    private val onChooseWorkspaceSubmit = { workspaceName: String ->
-        viewModel.changeWorkspace(workspaceName)
-    }
-
-    private fun showSortPopup(itemId: Int) {
-        PopupMenu(requireContext(), requireActivity().findViewById(itemId)).apply {
-            setOnMenuItemClickListener { onSortSubmit(it) }
-            inflate(R.menu.sort_tasks_popup_menu)
-            show()
+    private fun observing() {
+        viewModel.taskLiveData.observe(viewLifecycleOwner) { tasks: List<Task> ->
+            adapter.setData(tasks)
         }
-    }
-
-    private fun onSortSubmit(menuItem: MenuItem): Boolean {
-        val sortOptions = mapOf(
-            R.id.due_date_inc to Sorting.DUE_DATE_ASC,
-            R.id.due_date_dec to Sorting.DUE_DATE_DESC,
-            R.id.created_date_inc to Sorting.CREATE_DATE_ASC,
-            R.id.created_date_dec to Sorting.CREATE_DATE_DESC,
-            R.id.last_modified_date_dec to Sorting.LAST_MODIFIED_ASC,
-            R.id.last_modified_date_inc to Sorting.LAST_MODIFIED_DESC,
-        )
-        val myOptionId = menuItem.itemId
-        viewModel.sortTasks(sortOptions[myOptionId]!!)
-        return true
     }
 
     override fun setUpFabAppearance(fab: FloatingActionButton) {
@@ -147,7 +112,7 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         }
     }
 
-    override fun onFabClicked() {
+    override fun onFabClicked(fab: View) {
         val addTaskDialog = AddTaskDialog(repo, onAddTaskSubmit)
         addTaskDialog.arguments = Bundle().apply {
             putString(Constants.WORKSPACE_NAME_STRING, viewModel.workspaceNameLiveData.value)
@@ -169,4 +134,36 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         (requireActivity() as MainActivity).getTopAppBar().title =
             viewModel.workspaceNameLiveData.value
     }
+
+    private val onAddTaskSubmit = { task: Task ->
+        viewModel.addTask(task)
+    }
+
+    private val onChooseWorkspaceSubmit = { workspaceName: String ->
+        viewModel.changeWorkspace(workspaceName)
+    }
+
+    private fun showSortPopup(itemId: Int) {
+        PopupMenu(requireContext(), requireActivity().findViewById(itemId)).apply {
+            setOnMenuItemClickListener { onSortSubmit(it) }
+            inflate(R.menu.sort_tasks_popup_menu)
+            show()
+        }
+    }
+
+    private fun onSortSubmit(menuItem: MenuItem): Boolean {
+        val sortOptions = mapOf(
+            R.id.due_date_inc to Sorting.DUE_DATE_ASC,
+            R.id.due_date_dec to Sorting.DUE_DATE_DESC,
+            R.id.created_date_inc to Sorting.CREATE_DATE_ASC,
+            R.id.created_date_dec to Sorting.CREATE_DATE_DESC,
+            R.id.last_modified_date_inc to Sorting.LAST_MODIFIED_ASC,
+            R.id.last_modified_date_dec to Sorting.LAST_MODIFIED_DESC,
+        )
+        val myOptionId = menuItem.itemId
+        viewModel.sortTasks(sortOptions[myOptionId]!!)
+        return true
+    }
+
+
 }

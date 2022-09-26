@@ -1,9 +1,8 @@
 package com.vstd.todo.viewmodels
 
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
+import com.vstd.todo.data.Subtask
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
@@ -11,11 +10,11 @@ import com.vstd.todo.utilities.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-const val TAG = "TVMLog"
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
+    val TAG = "TVMLog"
     private lateinit var tasks: MutableList<Task>
     private var workspaceName = "default"
     private val _workspaceNameLiveData = MutableLiveData(workspaceName)
@@ -37,7 +36,12 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
                 Task(
                     title = "Đi mua sữa",
                     description = "Tại công viên thống nhất\n19:30",
-                    workspaceName = "default"
+                    workspaceName = "default",
+                    subtasks = listOf(
+                        Subtask("Mua sữa tươi"),
+                        Subtask("Mua sữa đặc"),
+                        Subtask("Trả lại tiền thừa", true)
+                    )
                 )
             )
         }
@@ -63,9 +67,9 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
     fun deleteTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteTask(task)
+            Log.d(TAG, "deleteTask: Delete Task: ${task.taskId}")
             tasks.remove(task)
             updateTaskLiveData()
-
         }
     }
 
@@ -73,6 +77,7 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val newId = repo.insertTask(task)
             tasks.add(task.copy(taskId = newId))
+            Log.d(TAG, "addTask: ${task.title}")
             updateTaskLiveData()
         }
     }
@@ -110,7 +115,6 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 }
 
 @Suppress("UNCHECKED_CAST")
-@RequiresApi(Build.VERSION_CODES.O)
 class TaskViewModelFactory(private val repo: TodoRepo) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

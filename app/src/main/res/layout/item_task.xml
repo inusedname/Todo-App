@@ -16,14 +16,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text=""
             tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/noto_sans_jp"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline5"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_done"
             app:layout_constraintStart_toEndOf="@id/checkbox_done"

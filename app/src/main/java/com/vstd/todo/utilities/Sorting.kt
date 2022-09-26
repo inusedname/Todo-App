@@ -12,7 +12,7 @@ object Sorting {
 }
 
 fun List<Task>.sortedByDueDate(): List<Task> {
-    return this.sortedBy { it.dueDateTime }
+    return this.sortedBy { it.dueDate }.sortedBy { it.dueTime }
 }
 
 fun List<Task>.sortedByCreatedDate(): List<Task> {

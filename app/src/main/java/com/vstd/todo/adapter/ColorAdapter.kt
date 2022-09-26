@@ -1,11 +1,11 @@
 package com.vstd.todo.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.vstd.todo.databinding.ItemColorBinding
+
 
 class ColorAdapter(
     private val colors: List<Int>,
@@ -13,7 +13,8 @@ class ColorAdapter(
 ) :
     RecyclerView.Adapter<ColorAdapter.ItemViewHolder>() {
 
-    private var lastSelected: ItemColorBinding? = null
+    val TAG = "ColorAdapter"
+    private var nowSelected = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
@@ -24,17 +25,19 @@ class ColorAdapter(
     }
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
-        holder.bind(colors[position])
+        holder.bind(position)
     }
 
     inner class ItemViewHolder(private val binding: ItemColorBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(colorCode: Int) {
+        fun bind(position: Int) {
             binding.apply {
-                color.setCardBackgroundColor(colorCode)
+                signalSelected.visibility =
+                    if (position == nowSelected) View.VISIBLE else View.GONE
+                color.setCardBackgroundColor(colors[position])
                 root.setOnClickListener {
-                    colorButtonStateUpdate(this, colorCode)
+                    colorButtonStateUpdate(position, colors[position])
                 }
             }
         }
@@ -44,13 +47,12 @@ class ColorAdapter(
         return colors.size
     }
 
-    private val colorButtonStateUpdate = { binding: ItemColorBinding, colorCode: Int ->
-        binding.signalSelected.visibility = View.VISIBLE
-        lastSelected?.signalSelected?.visibility = View.GONE
-        lastSelected = binding
-        notifyDataSetChanged()
-        // TODO: Chỗ này lỗi chưa set hiển thị được màu
-        Log.i("TAG", "Mike: Color clicked")
+    private val colorButtonStateUpdate = { position: Int, colorCode: Int ->
+        val oldSelected = nowSelected
+        nowSelected = position
+        if (oldSelected != -1)
+            notifyItemChanged(oldSelected)
+        notifyItemChanged(position)
         onColorClicked(colorCode)
     }
 }

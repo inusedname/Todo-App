@@ -3,12 +3,10 @@ package com.vstd.todo.utilities
 import android.graphics.Color
 
 object Constants {
-    const val DATE_TIME_STRING = "DATE_TIME_STRING"
+    const val DATE_STRING = "DATE_STRING"
+    const val TIME_STRING = "TIME_STRING"
     const val WORKSPACE_NAME_STRING = "WORKSPACE_NAME"
     const val TASK = "TASK"
-    const val TONIGHT = "TONIGHT"
-    const val TOMORROW = "TOMORROW"
-    const val NEXT_WEEK = "NEXT_WEEK"
     const val WORKSPACE_OBJ = "WORKSPACE_OBJ"
 
     val COLORS = mapOf(

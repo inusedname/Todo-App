@@ -1,55 +1,74 @@
 package com.vstd.todo.utilities
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 /* Convert DateTime to pattern "yyyy-mm-ddTHH:mm:ss" */
-@RequiresApi(Build.VERSION_CODES.O)
-fun String.toLocalDateTime(): LocalDateTime {
-    return LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
+
+fun String.toLocalDate(): LocalDate? {
+    return try {
+        LocalDate.parse(this, DateTimeFormatter.ISO_DATE)
+    } catch (e: Exception) {
+        null
+    }
+
 }
 
-fun LocalDateTime.toFriendlyString(): String {
-    return this.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm"))
+fun String.toLocalTime(): LocalTime? {
+    return try {
+        LocalTime.parse(this, DateTimeFormatter.ISO_TIME)
+    } catch (e: Exception) {
+        null
+    }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun String.toFriendlyDateTimeString(): String {
-    return this.toLocalDateTime().toFriendlyString()
+fun String.toFriendlyDateTimeString(): String? {
+    return try {
+        LocalDateTime.parse(this, DateTimeFormatter.ISO_DATE_TIME)
+            .format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm"))
+    } catch (e: Exception) {
+        null
+    }
 }
 
-fun LocalDateTime.toLong(): Long {
-    return this.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+fun LocalDate.toFriendlyString(): String {
+    return this.format(DateTimeFormatter.ofPattern("dd MMM yyyy"))
 }
 
-fun LocalDateTime.toTimeString(): String {
+fun LocalTime.toFriendlyString(): String {
     return this.format(DateTimeFormatter.ofPattern("HH:mm"))
 }
 
-fun LocalDateTime.setTime(hour: Int, minute: Int): LocalDateTime {
-    return this.withHour(hour).withMinute(minute)
+fun LocalDate.toMilliSecEpoch(): Long {
+    return this
+        .atTime(9, 0)
+        .atZone(ZoneId.systemDefault())
+        .toEpochSecond() * 1000
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 class DateTimeUtils {
     companion object {
-        fun now(): LocalDateTime {
-            return LocalDateTime.now()
+
+        fun tomorrow(): LocalDate {
+            return LocalDate.now().plusDays(1)
         }
 
-        val tomorrow = { date: LocalDateTime ->
-            LocalDateTime.now().setTime(date.hour, date.minute).plusDays(1)
+        fun nextWeek(): LocalDate {
+            return LocalDate.now().plusWeeks(1)
         }
 
-        val nextWeek = { date: LocalDateTime ->
-            LocalDateTime.now().setTime(date.hour, date.minute).plusWeeks(1)
+        fun tonight(): LocalTime {
+            return LocalTime.of(23, 59, 59)
         }
 
-        val tonight = { _: LocalDateTime ->
-            LocalDateTime.now().withHour(23).withMinute(59).withSecond(59)
+        fun format(date: LocalDate, time: LocalTime?): String {
+            var res = date.toFriendlyString()
+            if (time != null)
+                res += " " + time.toFriendlyString()
+            return res
         }
     }
 }

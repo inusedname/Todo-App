@@ -8,4 +8,6 @@ data class Tag(
 
     @PrimaryKey(autoGenerate = false)
     val tagName: String,
+
+    val color: Int
 )

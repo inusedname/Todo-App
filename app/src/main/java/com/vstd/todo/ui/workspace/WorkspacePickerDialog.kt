@@ -19,10 +19,6 @@ class WorkspacePickerDialog(
 ) :
     BottomSheetDialogFragment() {
 
-    enum class STATE {
-        VIEW, EDIT
-    }
-
     private lateinit var binding: DialogWorkspacePickerBinding
     private lateinit var viewModel: WorkspaceViewModel
     private lateinit var adapter: ChooseWorkspaceAdapter

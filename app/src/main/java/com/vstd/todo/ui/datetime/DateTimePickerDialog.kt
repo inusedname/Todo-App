@@ -1,33 +1,30 @@
 package com.vstd.todo.ui.datetime
 
+import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import android.widget.TimePicker
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.vstd.todo.R
 import com.vstd.todo.databinding.DialogDateTimePickerBinding
 import com.vstd.todo.utilities.*
-import java.time.LocalDateTime
+import java.time.LocalDate
+import java.time.LocalTime
 
-@RequiresApi(Build.VERSION_CODES.O)
-class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit) :
+const val NEXT_WEEK = "NEXT_WEEK"
+const val TONIGHT = "TONIGHT"
+const val TOMORROW = "TOMORROW"
+const val CUSTOM = "CUSTOM"
+
+class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDate, LocalTime?) -> Unit) :
     DialogFragment() {
 
     private lateinit var binding: DialogDateTimePickerBinding
-    // TODO: What if the user doesn't select a time?
-    private var dateTime = DateTimeUtils.now()
-    private var isTimeNull = true
 
-    // There must be a LocalDateTime param in order to remember the time user have set in case they click on Quick Option after set the date
-    private val quickOptions: Map<String, (LocalDateTime) -> LocalDateTime> = mapOf(
-        Constants.TONIGHT to DateTimeUtils.tonight,
-        Constants.TOMORROW to DateTimeUtils.tomorrow,
-        Constants.NEXT_WEEK to DateTimeUtils.nextWeek,
-    )
+    private var date = LocalDate.now()
+    private var time: LocalTime? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
 
@@ -38,36 +35,42 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
         updateTime()
         setOnClickListeners()
 
-        return AlertDialog.Builder(requireContext())
-            .setView(binding.root)
+        return AlertDialog.Builder(requireContext()).setView(binding.root)
             .setTitle(getString(R.string.pick_a_date_and_time))
             .setPositiveButton(getString(R.string.set), onPositiveButtonClicked)
-            .setNegativeButton(getString(R.string.cancel), null)
-            .create()
+            .setNegativeButton(getString(R.string.cancel), null).create()
     }
 
 
     private fun loadArgs() {
-        val oldDateTimeString = arguments?.getString(Constants.DATE_TIME_STRING)
-        if (oldDateTimeString != null && oldDateTimeString != "") {
-            dateTime = oldDateTimeString.toLocalDateTime()
-            isTimeNull = false
+        val oldDate = arguments?.getString(Constants.DATE_STRING)
+        if (oldDate != null && oldDate != "null") {
+            date = oldDate.toLocalDate()
+        }
+
+        val oldTime = arguments?.getString(Constants.TIME_STRING)
+        if (oldTime != null && oldTime != "null") {
+            time = oldTime.toLocalTime()
         }
     }
 
     private fun updateCalendar() {
-        binding.calendarView.date = dateTime.toLong()
+        binding.calendarView.date = date.toMilliSecEpoch()
     }
 
     private fun updateTime() {
-        binding.btSetDueTime.text = if (!isTimeNull) dateTime.toTimeString() else "Set due time"
+        val timeForTimePicker = if (time == null) getString(R.string.set_time)
+        else time!!.toFriendlyString()
+
+        binding.btSetDueTime.text = timeForTimePicker
     }
 
     private fun setOnClickListeners() {
         binding.apply {
-            btQuickTomorrow.setOnClickListener { onQuickDateClicked(Constants.TOMORROW) }
-            btQuickNextWeek.setOnClickListener { onQuickDateClicked(Constants.NEXT_WEEK) }
-            btQuickTonight.setOnClickListener { onQuickDateClicked(Constants.TONIGHT) }
+            btQuickTomorrow.setOnClickListener { onQuickDateClicked(TOMORROW) }
+            btQuickNextWeek.setOnClickListener { onQuickDateClicked(NEXT_WEEK) }
+            btQuickTonight.setOnClickListener { onQuickDateClicked(TONIGHT) }
+            btCustomDate.setOnClickListener { onQuickDateClicked(CUSTOM) }
             calendarView.setOnDateChangeListener { _, y, m, d -> onCalendarDateChanged(y, m, d) }
             btSetDueTime.setOnClickListener { onSetDueTimeClicked() }
             btSetRepeat.setOnClickListener { onSetRepeatClicked() }
@@ -78,15 +81,14 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
         TimePickerDialog(
             requireContext(),
             onTimeSet,
-            dateTime.hour,
-            dateTime.minute,
+            time?.hour ?: LocalTime.now().hour,
+            time?.minute ?: LocalTime.now().minute,
             true
         ).show()
     }
 
     private val onTimeSet = { _: TimePicker, hour: Int, minute: Int ->
-        dateTime = dateTime.setTime(hour, minute)
-        isTimeNull = false
+        time = LocalTime.of(hour, minute)
         updateTime()
     }
     private val onSetRepeatClicked = {
@@ -94,23 +96,38 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDateTime) -> Unit
     }
 
     private val onCalendarDateChanged = { year: Int, month: Int, day: Int ->
-        dateTime = dateTime.withYear(year).withMonth(month + 1).withDayOfMonth(day)
+        date = LocalDate.of(year, month + 1, day)
     }
 
     private val onQuickDateClicked = { option: String ->
-        if (option == Constants.TONIGHT)
-            isTimeNull = false
-        val newDateTime = quickOptions[option]?.invoke(dateTime)
-        if (newDateTime != null) {
-            dateTime = newDateTime
-            updateCalendar()
-            updateTime()
+        when (option) {
+            NEXT_WEEK -> date = DateTimeUtils.nextWeek()
+            TOMORROW -> date = DateTimeUtils.tomorrow()
+            TONIGHT -> {
+                date = LocalDate.now()
+                time = DateTimeUtils.tonight()
+            }
+            CUSTOM -> showDatePicker()
         }
-
+        updateCalendar()
+        updateTime()
     }
 
     private val onPositiveButtonClicked = DialogInterface.OnClickListener { _, _ ->
-        onDateTimeSubmit(dateTime)
+        onDateTimeSubmit(date, time)
+    }
+
+    private fun showDatePicker() {
+        DatePickerDialog(
+            requireActivity(),
+            { _, year, month, day ->
+                date = LocalDate.of(year, month, day)
+                updateCalendar()
+            },
+            date.year,
+            date.monthValue,
+            date.dayOfMonth
+        ).show()
     }
 
     companion object {

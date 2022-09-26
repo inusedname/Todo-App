@@ -77,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setOnClickListeners() {
 
-        binding.fab.setOnClickListener { onFabClicked() }
+        binding.fab.setOnClickListener { onFabClicked(it) }
         binding.bottomAppBar.setNavigationOnClickListener { onBotBarNavClicked() }
         binding.bottomAppBar.setOnMenuItemClickListener { onItemBotBarClicked(it) }
         binding.topAppBar.setOnMenuItemClickListener { onItemTopBarClicked(it) }
@@ -85,9 +85,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun onFabClicked() {
+    private fun onFabClicked(fab: View) {
         if (currentFragment() is HasFab) {
-            (currentFragment() as HasFab).onFabClicked()
+            (currentFragment() as HasFab).onFabClicked(fab)
         }
     }
 

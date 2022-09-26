@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vstd.todo.adapter.ColorAdapter
@@ -48,7 +49,12 @@ class ColorPickerDialog(private val chooseColorCompleted: (Int) -> Unit) :
         adapter = ColorAdapter(colors, onColorClicked)
         binding.rvColors.adapter = adapter
         binding.rvColors.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            GridLayoutManager(
+                requireContext(),
+                colors.size / 2,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
 
     }
 

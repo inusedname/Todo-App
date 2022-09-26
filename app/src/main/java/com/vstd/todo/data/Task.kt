@@ -1,14 +1,11 @@
 package com.vstd.todo.data
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.vstd.todo.utilities.DateTimeUtils
 import java.io.Serializable
+import java.time.LocalDateTime
 
 @Entity(tableName = "task_table")
-@RequiresApi(Build.VERSION_CODES.O)
 data class Task(
 
     @PrimaryKey(autoGenerate = true)
@@ -18,15 +15,15 @@ data class Task(
 
     val description: String = "",
 
-    val doneSubtasks: List<String> = listOf(),
+    val subtasks: List<Subtask> = emptyList(),
 
-    val notDoneSubtasks: List<String> = listOf(),
+    val createdDateTime: String = LocalDateTime.now().toString(),
 
-    val createdDateTime: String = DateTimeUtils.now().toString(),
+    val lastModifiedDateTime: String = LocalDateTime.now().toString(),
 
-    val lastModifiedDateTime: String = DateTimeUtils.now().toString(),
+    val dueDate: String = "null",
 
-    val dueDateTime: String? = null,
+    val dueTime: String = "null",
 
     val workspaceName: String,
 

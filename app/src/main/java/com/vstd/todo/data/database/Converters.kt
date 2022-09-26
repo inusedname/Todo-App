@@ -3,14 +3,15 @@ package com.vstd.todo.data.database
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.vstd.todo.data.Subtask
 
 class Converters {
     @TypeConverter
-    fun fromJson(jsonString: String): List<String> {
-        val listType = object : TypeToken<List<String>>() {}.type
+    fun fromJson(jsonString: String): List<Subtask> {
+        val listType = object : TypeToken<List<Subtask>>() {}.type
         return Gson().fromJson(jsonString, listType)
     }
 
     @TypeConverter
-    fun fromStringList(list: List<String>): String = Gson().toJson(list)
+    fun fromStringList(list: List<Subtask>): String = Gson().toJson(list)
 }

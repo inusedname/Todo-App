@@ -15,6 +15,8 @@
             android:id="@+id/fixed_quick_pick_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_filled_card"
+            android:backgroundTint="?attr/colorPrimary"
             android:divider="@drawable/divider_icons"
             android:orientation="horizontal"
             android:showDividers="middle|beginning|end"
@@ -28,10 +30,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tomorrow"
                 android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_tomorrow"
                 app:iconGravity="top"
                 app:iconPadding="8dp"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                android:layout_weight="1"
+                app:iconSize="@dimen/quick_date_icon_size"
+                app:iconTint="?attr/colorOnPrimary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_quick_next_week"
@@ -40,10 +45,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/next_week"
                 android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_nextweek"
                 app:iconGravity="top"
+                android:layout_weight="1"
                 app:iconPadding="8dp"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                app:iconSize="@dimen/quick_date_icon_size"
+                app:iconTint="?attr/colorOnPrimary" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/bt_quick_tonight"
@@ -52,10 +60,28 @@
                 android:layout_height="wrap_content"
                 android:text="@string/tonight"
                 android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                android:textColor="?attr/colorOnPrimary"
+                app:icon="@drawable/ic_tonight"
+                app:iconGravity="top"
+                android:layout_weight="1"
+                app:iconPadding="8dp"
+                app:iconSize="@dimen/quick_date_icon_size"
+                app:iconTint="?attr/colorOnPrimary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bt_custom_date"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/custom"
+                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_tonight"
                 app:iconGravity="top"
                 app:iconPadding="8dp"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                app:iconSize="@dimen/quick_date_icon_size"
+                app:iconTint="?attr/colorOnPrimary" />
 
         </LinearLayout>
 
@@ -72,15 +98,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/bg_filled_card"
             android:drawablePadding="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
             app:drawableStartCompat="@drawable/ic_alarm"
-            app:drawableTint="?attr/colorPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
             app:layout_constraintTop_toBottomOf="@id/calendar_view"
             tools:text="Due time" />
@@ -90,15 +117,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:background="@drawable/bg_filled_card"
             android:drawablePadding="10dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:paddingHorizontal="16dp"
             android:paddingVertical="16dp"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Subtitle1"
-            android:textColor="?attr/colorPrimary"
+            android:textColor="?attr/colorOnPrimary"
             app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"
             app:drawableStartCompat="@drawable/ic_baseline_repeat_24"
-            app:drawableTint="?attr/colorPrimary"
+            app:drawableTint="?attr/colorOnPrimary"
             app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
             app:layout_constraintTop_toBottomOf="@id/bt_set_due_time"
             tools:text="Repeat" />

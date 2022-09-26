@@ -60,28 +60,28 @@ interface TodoDao {
     @Delete
     suspend fun unbindTaskAndTag(taskTagCrossRef: TaskTagCrossRef)
 
-    suspend fun insertTagToTask(task: Task, tag: Tag) {
+    suspend fun insertTagToTask(taskId: Long, tag: Tag) {
         insertTag(tag)
-        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, task.taskId)
+        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, taskId)
         bindTaskAndTag(taskTagCrossRef)
     }
 
-    suspend fun removeTagFromTask(task: Task, tag: Tag) {
-        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, task.taskId)
+    suspend fun removeTagFromTask(taskId: Long, tag: Tag) {
+        val taskTagCrossRef = TaskTagCrossRef(tag.tagName, taskId)
         unbindTaskAndTag(taskTagCrossRef)
     }
 
-    suspend fun removeTagsWithTask(task: Task) {
-        val taskWithTags = getTaskWithTags(task.taskId)
+    suspend fun removeTagsWithTask(taskId: Long) {
+        val taskWithTags = getTaskWithTags(taskId)
         taskWithTags?.tags?.forEach { tag ->
-            removeTagFromTask(task, tag)
+            removeTagFromTask(taskId, tag)
         }
     }
 
     suspend fun removeTasksWithWorkspace(workspace: Workspace) {
         val workspaceWithTasks = getWorkspaceWithTasks(workspace.workspaceName)
         workspaceWithTasks.tasks.forEach { task ->
-            removeTagsWithTask(task)
+            removeTagsWithTask(task.taskId)
             deleteTask(task)
         }
     }
@@ -89,7 +89,7 @@ interface TodoDao {
     suspend fun removeTagFromTasks(tag: Tag) {
         val tagWithTasks = getTagWithTasks(tag.tagName)
         tagWithTasks.tasks.forEach { task ->
-            removeTagFromTask(task, tag)
+            removeTagFromTask(task.taskId, tag)
         }
     }
 

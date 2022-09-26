@@ -1,15 +1,15 @@
 package com.vstd.todo.data.database
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.room.*
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.vstd.todo.data.Tag
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.crossReference.TaskTagCrossRef
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Database(
     entities = [
         Tag::class,

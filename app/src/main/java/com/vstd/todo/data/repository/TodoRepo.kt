@@ -25,16 +25,16 @@ class TodoRepo(private val todoDao: TodoDao) {
         todoDao.insertWorkspace(workspace)
     }
 
-    suspend fun insertTagToTask(task: Task, tag: Tag) {
-        todoDao.insertTagToTask(task, tag)
+    suspend fun insertTagToTask(taskId: Long, tag: Tag) {
+        todoDao.insertTagToTask(taskId, tag)
     }
 
-    suspend fun removeTagFromTask(task: Task, tag: Tag) {
-        todoDao.removeTagFromTask(task, tag)
+    suspend fun removeTagFromTask(taskId: Long, tag: Tag) {
+        todoDao.removeTagFromTask(taskId, tag)
     }
 
     suspend fun deleteTask(task: Task) {
-        todoDao.removeTagsWithTask(task)
+        todoDao.removeTagsWithTask(task.taskId)
         todoDao.deleteTask(task)
     }
 

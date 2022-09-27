@@ -8,6 +8,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
+import com.vstd.todo.R
 
 fun Activity.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
@@ -15,6 +16,12 @@ fun Activity.toast(message: String) {
 
 fun Activity.snack(view: View, message: String, anchorView: View? = null) {
     Snackbar.make(this, view, message, Snackbar.LENGTH_SHORT)
+        .setAnchorView(anchorView)
+        .show()
+}
+
+fun Activity.snackNotAvaiable(view: View, anchorView: View? = null) {
+    Snackbar.make(this, view, getString(R.string.feature_not_available), Snackbar.LENGTH_SHORT)
         .setAnchorView(anchorView)
         .show()
 }

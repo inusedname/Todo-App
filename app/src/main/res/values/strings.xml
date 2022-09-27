@@ -50,4 +50,8 @@
     <string name="subtasks">Subtasks</string>
     <string name="add_a_tag">Add a tag</string>
     <string name="custom">Custom</string>
+    <string name="set_notification">Set Notification</string>
+    <string name="choose_color">Choose color</string>
+    <string name="edit_tags">Edit tags</string>
+    <string name="feature_not_available">Sorry 😭, this feature is not available</string>
 </resources>

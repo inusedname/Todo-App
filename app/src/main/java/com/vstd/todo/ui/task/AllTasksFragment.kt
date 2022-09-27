@@ -84,7 +84,7 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         botAppBar.setFabAlignmentModeAndReplaceMenu(
             BottomAppBar.FAB_ALIGNMENT_MODE_CENTER, R.menu.home_bot_app_bar
         )
-        botAppBar.setNavigationIcon(R.drawable.ic_baseline_dashboard_24)
+        botAppBar.setNavigationIcon(R.drawable.ic_baseline_menu_24)
         botAppBar.setNavigationContentDescription(R.string.choose_workspace)
     }
 
@@ -164,6 +164,4 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
         viewModel.sortTasks(sortOptions[myOptionId]!!)
         return true
     }
-
-
 }

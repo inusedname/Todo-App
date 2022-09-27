@@ -2,7 +2,7 @@ package com.vstd.todo.viewmodels
 
 import android.util.Log
 import androidx.lifecycle.*
-import com.vstd.todo.data.Subtask
+import com.vstd.todo.TAG
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
@@ -11,10 +11,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-
 class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
-    val TAG = "TVMLog"
     private lateinit var tasks: MutableList<Task>
     private var workspaceName = "default"
     private val _workspaceNameLiveData = MutableLiveData(workspaceName)
@@ -32,18 +30,18 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
     private fun dummyData() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertWorkspace(Workspace("default", Constants.COLORS["red"]!!))
-            addTask(
-                Task(
-                    title = "Đi mua sữa",
-                    description = "Tại công viên thống nhất\n19:30",
-                    workspaceName = "default",
-                    subtasks = listOf(
-                        Subtask("Mua sữa tươi"),
-                        Subtask("Mua sữa đặc"),
-                        Subtask("Trả lại tiền thừa", true)
-                    )
-                )
-            )
+//            addTask(
+//                Task(
+//                    title = "Đi mua sữa",
+//                    description = "Tại công viên thống nhất\n19:30",
+//                    workspaceName = "default",
+//                    subtasks = listOf(
+//                        Subtask("Mua sữa tươi"),
+//                        Subtask("Mua sữa đặc"),
+//                        Subtask("Trả lại tiền thừa", true)
+//                    )
+//                )
+//            )
         }
     }
 
@@ -52,8 +50,15 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         _workspaceNameLiveData.value = workspaceName
 
         viewModelScope.launch(Dispatchers.IO) {
-            tasks = repo.getWorkspaceWithTask(workspaceName).tasks.toMutableList()
-            Log.d(TAG, "changeWorkspace: $tasks")
+            tasks = repo.getWorkspaceWithTask(workspaceName).tasks
+                .filter { !it.isArchived }.toMutableList()
+            updateTaskLiveData()
+        }
+    }
+
+    fun changeToArchived() {
+        viewModelScope.launch(Dispatchers.IO) {
+            tasks = repo.getAllArchivedTasks().toMutableList()
             updateTaskLiveData()
         }
     }

@@ -51,7 +51,7 @@
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/delete_task"
             android:padding="8dp"
-            android:src="@drawable/ic_baseline_delete_24"
+            android:src="@drawable/ic_baseline_delete_outline_24"
             app:layout_constraintBottom_toBottomOf="@id/checkbox_done"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/checkbox_done" />

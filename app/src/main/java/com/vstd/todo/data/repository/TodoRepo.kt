@@ -64,6 +64,10 @@ class TodoRepo(private val todoDao: TodoDao) {
         return todoDao.getTaskWithTags(taskId)
     }
 
+    suspend fun getAllArchivedTasks(): List<Task> {
+        return todoDao.getAllArchivedTasks()
+    }
+
     companion object {
         @Volatile
         private var INSTANCE: TodoRepo? = null

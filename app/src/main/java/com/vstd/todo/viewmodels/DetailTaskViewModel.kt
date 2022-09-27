@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.data.Task
 import com.vstd.todo.utilities.TextUtils
+import com.vstd.todo.utilities.log
 import com.vstd.todo.utilities.toLocalDate
 import com.vstd.todo.utilities.toLocalTime
 import java.time.LocalDate
@@ -17,22 +18,52 @@ const val PASSED_ALL_VALIDATION = "PASSED_ALL_VALIDATION"
 
 class DetailTaskViewModel(val task: Task) : ViewModel() {
 
-    var needToSave = true
     var dueDate: LocalDate? = null
     var dueTime: LocalTime? = null
     private var subtasks: MutableList<Subtask>
 
+    lateinit var workspaceName: String
+    var isDone: Boolean
+    var isArchived: Boolean = false
     lateinit var taskTitle: String
     lateinit var taskDescription: String
 
     private val _subtasksLiveData = MutableLiveData<List<Subtask>>()
     val subtasksLiveData = _subtasksLiveData
 
-
     init {
         dueDate = task.dueDate.toLocalDate()
         dueTime = task.dueTime.toLocalTime()
         subtasks = task.subtasks.toMutableList()
+        isDone = task.isDone
+        updateLiveData()
+    }
+
+    fun needToSave(): Boolean {
+        var flag = taskTitle == task.title &&
+                taskDescription == task.description &&
+                dueDate.toString() == task.dueDate &&
+                dueTime.toString() == task.dueTime &&
+                workspaceName == task.workspaceName &&
+                isDone == task.isDone &&
+                isArchived == task.isArchived &&
+                subtasks.size - 1 == task.subtasks.size
+        if (flag)
+            for (i in task.subtasks.indices)
+                if (subtasks[i] != task.subtasks[i])
+                    flag = false
+        return !flag
+    }
+
+
+    // Create a new subtask to be the add option for user
+    private fun addADummySubtask() {
+        subtasks.add(Subtask(""))
+    }
+
+    private fun updateLiveData() {
+        if (subtasks.isEmpty() || subtasks.last().title.isNotEmpty())
+            addADummySubtask()
         _subtasksLiveData.value = subtasks
     }
 
@@ -40,8 +71,11 @@ class DetailTaskViewModel(val task: Task) : ViewModel() {
         taskTitle.apply { trim() }
         taskDescription.apply { trim() }
 
-        for (i in subtasks.indices)
+        for (i in subtasks.indices) {
             subtasks[i].title.apply { trim() }
+            if (subtasks[i].title.isEmpty())
+                subtasks.removeAt(i)
+        }
     }
 
     fun getValidateStatus(): String {
@@ -61,29 +95,31 @@ class DetailTaskViewModel(val task: Task) : ViewModel() {
             dueDate = dueDate.toString(),
             lastModifiedDateTime = LocalDateTime.now().toString(),
             subtasks = subtasks,
+            isDone = isDone,
+            isArchived = isArchived,
+            workspaceName = workspaceName
         )
     }
 
-    fun deleteSubtask(subtask: Subtask) {
-        subtasks.remove(subtask)
-        _subtasksLiveData.value = subtasks
+    fun deleteSubtask(i: Int) {
+        subtasks.removeAt(i)
+        updateLiveData()
     }
 
-    fun makeSubtaskDone(subtask: Subtask) {
-        val i = subtasks.indexOf(subtask)
+    fun makeSubtaskDone(i: Int) {
         subtasks[i] = subtasks[i].copy(isDone = !subtasks[i].isDone)
-        _subtasksLiveData.value = subtasks
+        updateLiveData()
     }
 
-    fun addSubtask(subtask: Subtask) {
-        subtasks.add(subtask)
-        _subtasksLiveData.value = subtasks
+    fun updateSubtaskName(i: Int, newName: String) {
+        subtasks[i] = subtasks[i].copy(title = newName)
+        updateLiveData()
+        log("updateSubtaskName: $subtasks")
     }
 }
 
 @Suppress("UNCHECKED_CAST")
-class DetailTaskViewModelFactory(val task: Task) :
-    ViewModelProvider.Factory {
+class DetailTaskViewModelFactory(val task: Task) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(DetailTaskViewModel::class.java)) {

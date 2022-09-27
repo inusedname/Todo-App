@@ -42,6 +42,9 @@ interface TodoDao {
     @Update
     suspend fun updateTag(tag: Tag)
 
+    @Query("SELECT * FROM task_table WHERE isArchived = 1")
+    suspend fun getAllArchivedTasks(): List<Task>
+
     @Transaction
     @Query("SELECT * FROM workspace_table WHERE workspaceName = :workspaceName")
     suspend fun getWorkspaceWithTasks(workspaceName: String): WorkspaceWithTasks

@@ -5,6 +5,7 @@
         android:id="@+id/search"
         android:contentDescription="@string/do_search"
         android:icon="@drawable/ic_baseline_search_24"
+        app:iconTint="?attr/colorOnPrimary"
         android:title="@string/search"
         app:showAsAction="ifRoom" />
     <item

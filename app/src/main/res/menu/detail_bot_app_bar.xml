@@ -6,12 +6,27 @@
         android:icon="@drawable/ic_baseline_check_box_24"
         android:contentDescription="@string/make_task_done"
         android:title="@string/make_task_done"
-        app:showAsAction="ifRoom"/>
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/make_archive"
+        android:id="@+id/choose_color"
         android:icon="@drawable/ic_baseline_archive_24"
-        android:contentDescription="@string/archive_task"
-        android:title="@string/archive_task"
-        app:showAsAction="ifRoom"/>
-
+        android:contentDescription="@string/choose_color"
+        android:title="@string/choose_color"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/choose_workspace"
+        android:icon="@drawable/ic_baseline_folder_open_24"
+        android:contentDescription="@string/choose_workspace"
+        android:title="@string/choose_workspace"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/edit_tags"
+        android:icon="@drawable/ic_baseline_new_label_24"
+        android:contentDescription="@string/edit_tags"
+        android:title="@string/edit_tags"
+        app:iconTint="?attr/colorOnPrimary"
+        app:showAsAction="ifRoom" />
 </menu>

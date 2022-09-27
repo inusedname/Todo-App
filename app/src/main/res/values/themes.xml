@@ -23,15 +23,6 @@
         </item>
     </style>
 
-    <style name="ToolbarTheme" parent="">
-        <item name="colorControlNormal">?attr/colorOnPrimary</item>
-    </style>
-
-    <style name="BotAppBarItemColor">
-        <item name="tint">@color/white</item>
-    </style>
-    <!--    ThemeOverlay.MaterialComponents.BottomSheetDialog-->
-    <!--    Theme.Design.Light.BottomSheetDialog-->
     <style name="BotSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BotSheetTheme</item>
         <!--        TODO: Find a way to change navbar color-->
@@ -54,81 +45,11 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="TextAppearance.MdcTypographyStyles.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">113sp</item>
+    <style name="TopAppBarTheme" parent="">
+
     </style>
 
-    <style name="TextAppearance.MdcTypographyStyles.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">71sp</item>
-    </style>
+    <style name="BotAppBarTheme" parent="Widget.MaterialComponents.BottomAppBar.Colored">
 
-    <style name="TextAppearance.MdcTypographyStyles.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">57sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">40sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">28sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">24sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">19sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Body2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <style name="TextAppearance.MdcTypographyStyles.Overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">@font/noto_sans_jp</item>
-        <item name="android:fontFamily">@font/noto_sans_jp</item>
-        <item name="android:textSize">10sp</item>
     </style>
 </resources>

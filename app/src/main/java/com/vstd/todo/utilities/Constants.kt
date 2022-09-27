@@ -1,7 +1,9 @@
 package com.vstd.todo.utilities
 
 import android.graphics.Color
+import android.util.Log
 
+const val TODODBRR = "TODODBRR"
 object Constants {
     const val DATE_STRING = "DATE_STRING"
     const val TIME_STRING = "TIME_STRING"
@@ -23,4 +25,8 @@ object Constants {
         "white" to Color.parseColor("#FDFAF6"),
         "teal" to Color.parseColor("#A7D2CB"),
     )
+}
+
+fun log(msg: String) {
+    Log.d(TODODBRR, msg)
 }

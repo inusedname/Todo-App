@@ -13,6 +13,7 @@ import com.vstd.todo.data.database.TodoDatabase
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.ActivityMainBinding
 import com.vstd.todo.interfaces.HasBotAppBar
+import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasFab
 import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.viewmodels.TaskViewModel
@@ -114,5 +115,10 @@ class MainActivity : AppCompatActivity() {
         } else false
     }
 
-
+    override fun onBackPressed() {
+        if (currentFragment() is HasCustomBackPress)
+            (currentFragment() as HasCustomBackPress).onBackPressed()
+        else
+            super.onBackPressed()
+    }
 }

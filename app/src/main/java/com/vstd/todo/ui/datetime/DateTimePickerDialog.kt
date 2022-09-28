@@ -91,9 +91,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDate, LocalTime?)
         time = LocalTime.of(hour, minute)
         updateTime()
     }
-    private val onSetRepeatClicked = {
-        // TODO: Not yet implemented
-    }
+    private val onSetRepeatClicked = { }
 
     private val onCalendarDateChanged = { year: Int, month: Int, day: Int ->
         date = LocalDate.of(year, month + 1, day)

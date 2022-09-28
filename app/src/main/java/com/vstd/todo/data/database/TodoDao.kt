@@ -12,7 +12,7 @@ import com.vstd.todo.data.relation.WorkspaceWithTasks
 @Dao
 interface TodoDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkspace(workspace: Workspace): Long
 
     @Delete
@@ -33,7 +33,7 @@ interface TodoDao {
     @Update
     suspend fun updateTask(task: Task)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTag(tag: Tag): Long
 
     @Delete

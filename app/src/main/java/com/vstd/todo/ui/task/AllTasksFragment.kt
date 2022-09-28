@@ -145,6 +145,7 @@ class AllTaskFragment : Fragment(R.layout.fragment_all_tasks), HasFab, HasBotApp
 
     private fun showSortPopup(itemId: Int) {
         PopupMenu(requireContext(), requireActivity().findViewById(itemId)).apply {
+            setForceShowIcon(true)
             setOnMenuItemClickListener { onSortSubmit(it) }
             inflate(R.menu.sort_tasks_popup_menu)
             show()

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.databinding.ItemCardWorkspaceBinding
+import com.vstd.todo.utilities.getContrastColor
 
 class ChooseWorkspaceAdapter(
     private val onWorkspaceClickListener: (String) -> Unit
@@ -37,6 +38,7 @@ class ChooseWorkspaceAdapter(
             binding.tvWorkspaceName.backgroundTintList =
                 ColorStateList.valueOf(workspace.workspaceColor)
             binding.tvWorkspaceName.text = workspace.workspaceName
+            binding.tvWorkspaceName.setTextColor(getContrastColor(workspace.workspaceColor))
             binding.root.setOnClickListener {
                 onWorkspaceClickListener.invoke(workspace.workspaceName)
             }

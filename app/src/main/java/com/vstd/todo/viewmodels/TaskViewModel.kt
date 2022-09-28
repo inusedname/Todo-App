@@ -1,8 +1,6 @@
 package com.vstd.todo.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
-import com.vstd.todo.TAG
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
@@ -72,7 +70,6 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
     fun deleteTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteTask(task)
-            Log.d(TAG, "deleteTask: Delete Task: ${task.taskId}")
             tasks.remove(task)
             updateTaskLiveData()
         }
@@ -82,7 +79,6 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val newId = repo.insertTask(task)
             tasks.add(task.copy(taskId = newId))
-            Log.d(TAG, "addTask: ${task.title}")
             updateTaskLiveData()
         }
     }
@@ -90,15 +86,34 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
     fun updateTask(task: Task) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.updateTask(task)
-            Log.d(TAG, "updateTask: ${task.taskId}")
-            for (i in 0 until tasks.size) {
-                if (tasks[i].taskId == task.taskId) {
-                    tasks[i] = task
-                    break
+            if (needToUpdateTasks(task)) {
+                for (i in tasks.indices) {
+                    if (tasks[i].taskId == task.taskId) {
+                        tasks[i] = task
+                        break
+                    }
+                }
+                updateTaskLiveData()
+            }
+        }
+    }
+
+    private fun needToUpdateTasks(task: Task): Boolean {
+        val willBeRemoved = !(
+                task.workspaceName == workspaceName &&
+                        !task.isArchived
+                )
+        if (willBeRemoved) {
+            tasks.remove(task)
+            tasks.forEach {
+                if (it.taskId == task.taskId) {
+                    tasks.remove(it)
+                    return@forEach
                 }
             }
             updateTaskLiveData()
         }
+        return !willBeRemoved
     }
 
     val taskLiveData: LiveData<List<Task>> = _taskLiveData

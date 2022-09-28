@@ -3,6 +3,7 @@ package com.vstd.todo.utilities
 import android.app.Activity
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -44,12 +45,17 @@ fun Activity.snackAlert(view: View, message: String, anchorView: View? = null) {
         .show()
 }
 
-fun Activity.hideSoftKeyboard() {
+fun Activity.hideSoftKeyboard(view: View) {
     val inputMethodManager = this.getSystemService(INPUT_METHOD_SERVICE) as
             InputMethodManager
-    inputMethodManager.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
 fun getColor(context: Context, resId: Int): Int {
     return ContextCompat.getColor(context, resId)
+}
+
+fun getContrastColor(color: Int): Int {
+    val y = (299 * Color.red(color) + 587 * Color.green(color) + 114 * Color.blue(color)) / 1000
+    return if (y >= 128) Color.BLACK else Color.WHITE
 }

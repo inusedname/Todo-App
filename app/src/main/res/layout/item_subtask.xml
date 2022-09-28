@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <!--        TODO: Can not fill parent-->
+
         <com.google.android.material.checkbox.MaterialCheckBox
             android:id="@+id/cb_subtask_done"
             android:layout_width="wrap_content"
@@ -19,7 +19,8 @@
             android:background="@android:color/transparent"
             android:hint="@string/add_a_subtask"
             android:importantForAutofill="no"
-            android:inputType="textShortMessage"
+            android:inputType="textCapSentences|textShortMessage|textNoSuggestions"
+            android:maxLines="1"
             tools:text="Why are we" />
 
         <ImageButton

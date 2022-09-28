@@ -39,7 +39,12 @@ class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
     fun addWorkspace(workspace: Workspace) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertWorkspace(workspace)
-            workspaces.add(workspace)
+            for (i in workspaces.indices) {
+                if (workspaces[i].workspaceName == workspace.workspaceName) {
+                    workspaces[i] = workspace
+                    break
+                }
+            }
             updateWorkspace()
         }
     }

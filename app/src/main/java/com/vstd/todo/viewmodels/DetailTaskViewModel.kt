@@ -112,9 +112,11 @@ class DetailTaskViewModel(val task: Task) : ViewModel() {
     }
 
     fun updateSubtaskName(i: Int, newName: String) {
-        subtasks[i] = subtasks[i].copy(title = newName)
-        updateLiveData()
-        log("updateSubtaskName: $subtasks")
+        if (subtasks[i].title != newName) {
+            subtasks[i] = subtasks[i].copy(title = newName)
+            updateLiveData()
+            log("updateSubtaskName: $subtasks")
+        }
     }
 }
 

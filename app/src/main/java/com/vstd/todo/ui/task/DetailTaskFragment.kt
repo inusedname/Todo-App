@@ -76,6 +76,7 @@ class DetailTaskFragment :
     }
 
     private val onUpdateSubtask = { i: Int, newName: String ->
+        requireActivity().hideSoftKeyboard(binding.root)
         detailTaskViewModel.updateSubtaskName(i, newName)
     }
 

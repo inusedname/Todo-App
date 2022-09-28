@@ -75,25 +75,22 @@ class SubtaskAdapter(
                         false
                 }
                 etSubtaskTitle.setOnFocusChangeListener { _, isFocused: Boolean ->
-                    if (!isFocused)
-                        updateNewName(subtask, etSubtaskTitle, adapterPosition)
+                    if (!isFocused) {
+                        updateNewName(etSubtaskTitle, adapterPosition)
+                    }
                 }
             }
         }
 
         fun updateNewName(
-            subtask: Subtask,
             et: EditText,
             adapterPosition: Int
         ) {
-            if (subtask.title != et.text.toString()) {
-                log("bind: FocusUpdated $adapterPosition")
-                onUpdateItemName(adapterPosition, et.text.toString())
+            onUpdateItemName(adapterPosition, et.text.toString())
 
-                // ERROR: Without this the adapter become shit, no idea why the final item isn't refreshed
-                if (adapterPosition == currentList.size - 1)
-                    et.setText("")
-            }
+            // ERROR: Without this the adapter become shit, no idea why the final item isn't refreshed
+            if (adapterPosition == currentList.size - 1)
+                et.setText("")
         }
     }
 

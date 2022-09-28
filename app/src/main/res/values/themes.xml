@@ -25,8 +25,6 @@
 
     <style name="BotSheetDialogTheme" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BotSheetTheme</item>
-        <!--        TODO: Find a way to change navbar color-->
-        <!--        TODO: Find a way to keep the corner radius when swipe up-->
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>

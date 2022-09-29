@@ -10,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.vstd.todo.R
 import com.vstd.todo.databinding.DialogDateTimePickerBinding
 import com.vstd.todo.utilities.*
+import com.vstd.todo.utilities.helper.snackNotAvaiable
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -18,7 +19,7 @@ const val TONIGHT = "TONIGHT"
 const val TOMORROW = "TOMORROW"
 const val CUSTOM = "CUSTOM"
 
-class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDate, LocalTime?) -> Unit) :
+class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Unit) :
     DialogFragment() {
 
     private lateinit var binding: DialogDateTimePickerBinding
@@ -44,13 +45,13 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDate, LocalTime?)
 
     private fun loadArgs() {
         val oldDate = arguments?.getString(Constants.DATE_STRING)
-        if (oldDate != null && oldDate != "null") {
-            date = oldDate.toLocalDate()
+        if (oldDate != "null") {
+            date = oldDate?.toLocalDate()
         }
 
         val oldTime = arguments?.getString(Constants.TIME_STRING)
-        if (oldTime != null && oldTime != "null") {
-            time = oldTime.toLocalTime()
+        if (oldTime != "null") {
+            time = oldTime?.toLocalTime()
         }
     }
 
@@ -114,7 +115,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (LocalDate, LocalTime?)
     }
 
     private val onPositiveButtonClicked = DialogInterface.OnClickListener { _, _ ->
-        onDateTimeSubmit(date, time)
+        onDateTimeSubmit(date.toString(), time?.toString() ?: "null")
     }
 
     private fun showDatePicker() {

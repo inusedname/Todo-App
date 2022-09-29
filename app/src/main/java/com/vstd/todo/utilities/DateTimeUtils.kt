@@ -64,10 +64,14 @@ class DateTimeUtils {
             return LocalTime.of(23, 59, 59)
         }
 
-        fun format(date: LocalDate, time: LocalTime?): String {
-            var res = date.toFriendlyString()
-            if (time != null)
-                res += " " + time.toFriendlyString()
+        fun format(date: String, time: String): String? {
+            val localDate = date.toLocalDate()
+            val localTime = time.toLocalTime()
+            if (localDate == null)
+                return null
+            var res = localDate.toFriendlyString()
+            if (localTime != null)
+                res += " " + localTime.toFriendlyString()
             return res
         }
     }

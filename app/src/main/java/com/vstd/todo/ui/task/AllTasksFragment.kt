@@ -1,11 +1,8 @@
 package com.vstd.todo.ui.task
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -24,8 +21,8 @@ import com.vstd.todo.interfaces.HasFab
 import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
 import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.Sorting
 import com.vstd.todo.utilities.helper.getTopAppBar
+import com.vstd.todo.utilities.helper.showSortPopup
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
@@ -39,15 +36,6 @@ class AllTaskFragment :
     private lateinit var adapter: AllTasksAdapter
     private lateinit var viewModel: TaskViewModel
     private lateinit var binding: FragmentAllTasksBinding
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentAllTasksBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
@@ -66,17 +54,6 @@ class AllTaskFragment :
     private fun setUpAdapter() {
         adapter = AllTasksAdapter(onTaskClicked, onDoneTaskClicked)
         binding.rvTasks.adapter = adapter
-    }
-
-    private val onTaskClicked = { task: Task ->
-        findNavController().navigate(R.id.action_allTaskFragment_to_detailTaskFragment,
-            Bundle().apply {
-                putSerializable(Constants.TASK, task)
-            })
-    }
-
-    private val onDoneTaskClicked = { task: Task ->
-        viewModel.updateTask(task.copy(isDone = !task.isDone))
     }
 
     private fun observing() {
@@ -107,7 +84,7 @@ class AllTaskFragment :
     override fun onTopAppBarMenuClick(item: MenuItem): Boolean {
         return when (val itemId = item.itemId) {
             R.id.sort -> {
-                showSortPopup(itemId)
+                showSortPopup(itemId, onSortSubmit)
                 true
             }
             else -> false
@@ -124,10 +101,6 @@ class AllTaskFragment :
             }
             else -> false
         }
-    }
-
-    private fun navigateToArchivedTasks() {
-        findNavController().navigate(R.id.action_allTaskFragment_to_archivedTasksFragment)
     }
 
     override fun onFabClicked(fab: View) {
@@ -153,6 +126,14 @@ class AllTaskFragment :
             viewModel.workspaceNameLiveData.value
     }
 
+    private val onTaskClicked = { task: Task ->
+        navigateToDetail(task)
+    }
+
+    private val onDoneTaskClicked = { task: Task ->
+        viewModel.updateTask(task.copy(isDone = !task.isDone))
+    }
+
     private val onAddTaskSubmit = { task: Task ->
         viewModel.addTask(task)
     }
@@ -161,26 +142,18 @@ class AllTaskFragment :
         viewModel.changeWorkspace(workspaceName)
     }
 
-    private fun showSortPopup(itemId: Int) {
-        PopupMenu(requireContext(), requireActivity().findViewById(itemId)).apply {
-            setForceShowIcon(true)
-            setOnMenuItemClickListener { onSortSubmit(it) }
-            inflate(R.menu.sort_tasks_popup_menu)
-            show()
-        }
+    private val onSortSubmit = { sortOption: String ->
+        viewModel.sortTasks(sortOption)
     }
 
-    private fun onSortSubmit(menuItem: MenuItem): Boolean {
-        val sortOptions = mapOf(
-            R.id.due_date_inc to Sorting.DUE_DATE_ASC,
-            R.id.due_date_dec to Sorting.DUE_DATE_DESC,
-            R.id.created_date_inc to Sorting.CREATE_DATE_ASC,
-            R.id.created_date_dec to Sorting.CREATE_DATE_DESC,
-            R.id.last_modified_date_inc to Sorting.LAST_MODIFIED_ASC,
-            R.id.last_modified_date_dec to Sorting.LAST_MODIFIED_DESC,
-        )
-        val myOptionId = menuItem.itemId
-        viewModel.sortTasks(sortOptions[myOptionId]!!)
-        return true
+    private fun navigateToArchivedTasks() {
+        findNavController().navigate(R.id.action_allTaskFragment_to_archivedTasksFragment)
+    }
+
+    private fun navigateToDetail(task: Task) {
+        findNavController().navigate(R.id.action_allTaskFragment_to_detailTaskFragment,
+            Bundle().apply {
+                putSerializable(Constants.TASK, task)
+            })
     }
 }

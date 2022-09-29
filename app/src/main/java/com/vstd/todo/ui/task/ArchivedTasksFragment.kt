@@ -5,13 +5,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.vstd.todo.MainActivity
 import com.vstd.todo.R
 import com.vstd.todo.adapter.AllTasksAdapter
 import com.vstd.todo.data.Task
@@ -21,8 +19,7 @@ import com.vstd.todo.databinding.FragmentAllTasksBinding
 import com.vstd.todo.interfaces.HasBotAppBar
 import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasTopAppBar
-import com.vstd.todo.utilities.Sorting
-import com.vstd.todo.utilities.helper.getTopAppBar
+import com.vstd.todo.utilities.helper.showSortPopup
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
@@ -66,13 +63,6 @@ class ArchivedTasksFragment :
         viewModel.fetchArchived()
     }
 
-    private val onTaskClicked = { task: Task ->
-    }
-
-    private val onUnarchivedTaskClicked = { _: Task ->
-        // TODO: Not yet implemented
-    }
-
     private fun observing() {
         viewModel.taskLiveData.observe(viewLifecycleOwner) { tasks: List<Task> ->
             adapter.setData(tasks)
@@ -80,7 +70,7 @@ class ArchivedTasksFragment :
     }
 
     override fun onBotAppBarNavigationClick() {
-        viewModel.deleteAllTasks()
+        viewModel.clearArchived()
         navigateBackToAllTask()
     }
 
@@ -103,7 +93,7 @@ class ArchivedTasksFragment :
     override fun onTopAppBarMenuClick(item: MenuItem): Boolean {
         return when (val itemId = item.itemId) {
             R.id.sort -> {
-                showSortPopup(itemId)
+                showSortPopup(itemId, onSortSubmit)
                 true
             }
             else -> false
@@ -121,27 +111,15 @@ class ArchivedTasksFragment :
         topAppBar.inflateMenu(R.menu.home_top_app_bar)
     }
 
-    private fun showSortPopup(itemId: Int) {
-        PopupMenu(requireContext(), requireActivity().findViewById(itemId)).apply {
-            setForceShowIcon(true)
-            setOnMenuItemClickListener { onSortSubmit(it) }
-            inflate(R.menu.sort_tasks_popup_menu)
-            show()
-        }
+    private val onTaskClicked = { task: Task ->
     }
 
-    private fun onSortSubmit(menuItem: MenuItem): Boolean {
-        val sortOptions = mapOf(
-            R.id.due_date_inc to Sorting.DUE_DATE_ASC,
-            R.id.due_date_dec to Sorting.DUE_DATE_DESC,
-            R.id.created_date_inc to Sorting.CREATE_DATE_ASC,
-            R.id.created_date_dec to Sorting.CREATE_DATE_DESC,
-            R.id.last_modified_date_inc to Sorting.LAST_MODIFIED_ASC,
-            R.id.last_modified_date_dec to Sorting.LAST_MODIFIED_DESC,
-        )
-        val myOptionId = menuItem.itemId
-        viewModel.sortTasks(sortOptions[myOptionId]!!)
-        return true
+    private val onUnarchivedTaskClicked = { _: Task ->
+        // TODO: Not yet implemented
+    }
+
+    private val onSortSubmit = { sortOption: String ->
+        viewModel.sortTasks(sortOption)
     }
 
     private fun navigateBackToAllTask() {
@@ -151,11 +129,5 @@ class ArchivedTasksFragment :
     override fun onBackPressed() {
         viewModel.changeWorkspace()
         navigateBackToAllTask()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        (requireActivity() as MainActivity).getTopAppBar().title =
-            viewModel.workspaceNameLiveData.value
     }
 }

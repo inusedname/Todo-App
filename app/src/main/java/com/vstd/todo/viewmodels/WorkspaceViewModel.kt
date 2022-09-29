@@ -6,16 +6,24 @@ import com.vstd.todo.data.repository.TodoRepo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+fun MutableList<Workspace>.updateWorkspace(workspace: Workspace): Boolean {
+    val index = this.indexOfFirst { it.workspaceName == workspace.workspaceName }
+    if (index != -1) {
+        this[index] = workspace
+    }
+    return index != -1
+}
+
 class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
     private lateinit var workspaces: MutableList<Workspace>
 
     private val _workspaceLivedata by lazy {
         MutableLiveData<List<Workspace>>().also {
-            loadWorkspace()
+            loadWorkspaces()
         }
     }
 
-    private fun loadWorkspace() {
+    private fun loadWorkspaces() {
         viewModelScope.launch(Dispatchers.IO) {
             workspaces = repo.getWorkspaces().toMutableList()
             updateLiveData()
@@ -36,18 +44,19 @@ class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
+    fun editWorkspace(workspace: Workspace) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repo.updateWorkspace(workspace)
+            workspaces.updateWorkspace(workspace)
+            updateLiveData()
+        }
+    }
+
     fun addWorkspace(workspace: Workspace) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertWorkspace(workspace)
-            var found = false
-            for (i in workspaces.indices) {
-                if (workspaces[i].workspaceName == workspace.workspaceName) {
-                    workspaces[i] = workspace
-                    found = true
-                    break
-                }
-            }
-            if (!found) workspaces.add(workspace)
+            val updated = workspaces.updateWorkspace(workspace)
+            if (!updated) workspaces.add(workspace)
             updateLiveData()
         }
     }

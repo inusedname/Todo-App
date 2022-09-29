@@ -7,7 +7,6 @@ import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.crossReference.TaskTagCrossRef
 import com.vstd.todo.data.relation.TagWithTasks
 import com.vstd.todo.data.relation.TaskWithTags
-import com.vstd.todo.data.relation.WorkspaceWithTasks
 
 @Dao
 interface TodoDao {
@@ -46,8 +45,11 @@ interface TodoDao {
     suspend fun getAllArchivedTasks(): List<Task>
 
     @Transaction
-    @Query("SELECT * FROM workspace_table WHERE workspaceName = :workspaceName")
-    suspend fun getWorkspaceWithTasks(workspaceName: String): WorkspaceWithTasks
+    @Query("SELECT * FROM task_table WHERE workspaceName = :workspaceName AND isArchived = 0")
+    suspend fun getTasks(workspaceName: String): List<Task>
+
+    @Query("DELETE FROM task_table WHERE isArchived = 1")
+    suspend fun clearArchived()
 
     @Transaction
     @Query("SELECT * FROM task_table WHERE taskId = :taskId")
@@ -82,8 +84,8 @@ interface TodoDao {
     }
 
     suspend fun removeTasksWithWorkspace(workspace: Workspace) {
-        val workspaceWithTasks = getWorkspaceWithTasks(workspace.workspaceName)
-        workspaceWithTasks.tasks.forEach { task ->
+        val workspaceWithTasks = getTasks(workspace.workspaceName)
+        workspaceWithTasks.forEach { task ->
             removeTagsWithTask(task.taskId)
             deleteTask(task)
         }

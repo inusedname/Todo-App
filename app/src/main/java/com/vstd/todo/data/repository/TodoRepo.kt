@@ -5,7 +5,6 @@ import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.database.TodoDao
 import com.vstd.todo.data.relation.TaskWithTags
-import com.vstd.todo.data.relation.WorkspaceWithTasks
 
 class TodoRepo(private val todoDao: TodoDao) {
 
@@ -13,8 +12,12 @@ class TodoRepo(private val todoDao: TodoDao) {
         return todoDao.getWorkspaces()
     }
 
-    suspend fun getWorkspaceWithTask(workspaceName: String): WorkspaceWithTasks {
-        return todoDao.getWorkspaceWithTasks(workspaceName)
+    suspend fun clearArchived() {
+        todoDao.clearArchived()
+    }
+
+    suspend fun getTask(workspaceName: String): List<Task> {
+        return todoDao.getTasks(workspaceName)
     }
 
     suspend fun insertTask(task: Task): Long {

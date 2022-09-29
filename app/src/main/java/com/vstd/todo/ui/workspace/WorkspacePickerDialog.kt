@@ -55,19 +55,6 @@ class WorkspacePickerDialog(
         }
     }
 
-    private fun editClicked() {
-        // TODO: Not yet implemented
-    }
-
-    private fun addClicked() {
-        val editWorkspaceDialog = EditWorkspaceDialog(onAddWorkspaceSubmit)
-        editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
-    }
-
-    companion object {
-        const val TAG = "DialogWorkspacePicker"
-    }
-
     private fun setupRecyclerView() {
         adapter = ChooseWorkspaceAdapter(onWorkspaceSelected)
         binding.rvWorkspace.adapter = adapter
@@ -79,6 +66,15 @@ class WorkspacePickerDialog(
         }
     }
 
+    private fun editClicked() {
+        // TODO: Not yet implemented
+    }
+
+    private fun addClicked() {
+        val editWorkspaceDialog = EditWorkspaceDialog(onAddWorkspaceSubmit)
+        editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
+    }
+
     private val onWorkspaceSelected = { workspace: String ->
         onChooseWorkspaceSubmit(workspace)
         dismiss()
@@ -86,5 +82,9 @@ class WorkspacePickerDialog(
 
     private val onAddWorkspaceSubmit = { workspace: Workspace ->
         viewModel.addWorkspace(workspace)
+    }
+
+    companion object {
+        const val TAG = "DialogWorkspacePicker"
     }
 }

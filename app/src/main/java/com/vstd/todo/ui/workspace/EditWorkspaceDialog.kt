@@ -50,18 +50,18 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
 
     private fun setOnClickListeners() {
         binding.apply {
-            btBack.setOnClickListener { backClicked() }
-            btSave.setOnClickListener { saveClicked() }
-            btChooseColor.setOnClickListener { selectColorClicked() }
+            btBack.setOnClickListener { onBackClicked() }
+            btSave.setOnClickListener { onSaveClicked() }
+            btChooseColor.setOnClickListener { onSelectColorSubmit() }
         }
     }
 
-    private fun selectColorClicked() {
+    private fun onSelectColorSubmit() {
         val colorPickerDialog = ColorPickerDialog(onColorSubmit)
         colorPickerDialog.show(childFragmentManager, ColorPickerDialog.TAG)
     }
 
-    private fun saveClicked() {
+    private fun onSaveClicked() {
         val newWorkspace = Workspace(
             binding.etWorkspaceName.text.toString(),
             colorPickerColor
@@ -70,7 +70,7 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
         dismiss()
     }
 
-    private fun backClicked() {
+    private fun onBackClicked() {
         dismiss()
     }
 

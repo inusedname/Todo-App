@@ -12,8 +12,6 @@ import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
 import com.vstd.todo.utilities.Constants
 import com.vstd.todo.utilities.DateTimeUtils
-import java.time.LocalDate
-import java.time.LocalTime
 
 class AddTaskDialog(
     private val repo: TodoRepo,
@@ -21,8 +19,8 @@ class AddTaskDialog(
 ) : BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogAddTaskBinding
-    private var date: LocalDate? = null
-    private var time: LocalTime? = null
+    private var date = "null"
+    private var time = "null"
     private lateinit var workspace: String
 
     override fun onCreateView(
@@ -60,8 +58,8 @@ class AddTaskDialog(
         val newTask = Task(
             title = binding.etTitle.text.toString(),
             workspaceName = workspace,
-            dueDate = if (date == null) "" else date!!.toString(),
-            dueTime = if (time == null) "" else time!!.toString()
+            dueDate = date,
+            dueTime = time,
         )
         onSubmit(newTask)
         dismiss()
@@ -71,7 +69,7 @@ class AddTaskDialog(
         datePickerFragment.show(childFragmentManager, DateTimePickerDialog.TAG)
     }
 
-    private val onDueDateSubmit = { date: LocalDate, time: LocalTime? ->
+    private val onDueDateSubmit = { date: String, time: String ->
         this.date = date
         this.time = time
         binding.btSetDueDate.text = DateTimeUtils.format(date, time)

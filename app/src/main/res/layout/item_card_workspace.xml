@@ -6,10 +6,9 @@
         android:id="@+id/tv_workspace_name"
         android:layout_width="match_parent"
         android:layout_height="96dp"
-        android:layout_margin="@dimen/list_item_spacing"
+        android:layout_margin="8dp"
         android:background="@drawable/bg_filled_card"
         android:gravity="center"
-        android:paddingTop="8dp"
         android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Button"
         android:textColor="?attr/colorOnPrimary"
         tools:text="Default" />

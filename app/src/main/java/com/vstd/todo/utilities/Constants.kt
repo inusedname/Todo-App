@@ -5,6 +5,8 @@ import android.util.Log
 
 const val TODODBRR = "TODODBRR"
 object Constants {
+    const val DEFAULT_COLOR = 1
+    const val DEFAULT_WORKSPACE_NAME = "default"
     const val DATE_STRING = "DATE_STRING"
     const val TIME_STRING = "TIME_STRING"
     const val WORKSPACE_NAME_STRING = "WORKSPACE_NAME"

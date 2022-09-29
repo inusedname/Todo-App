@@ -1,5 +1,6 @@
 package com.vstd.todo.ui.workspace
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,15 +10,18 @@ import com.vstd.todo.data.Workspace
 import com.vstd.todo.databinding.DialogEditWorkspaceBinding
 import com.vstd.todo.ui.color.ColorPickerDialog
 import com.vstd.todo.utilities.Constants
+import com.vstd.todo.utilities.getContrastColor
 
 class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
     BottomSheetDialogFragment() {
 
     private lateinit var binding: DialogEditWorkspaceBinding
     private var colorPickerColor: Int
-        get() = binding.bgBtChooseColor.color.cardBackgroundColor.defaultColor
+        get() = binding.btChooseColor.backgroundTintList?.defaultColor ?: Constants.DEFAULT_COLOR
         set(value) {
-            binding.bgBtChooseColor.color.setCardBackgroundColor(value)
+            binding.btChooseColor.setTextColor(getContrastColor(value))
+            binding.btChooseColor.iconTint = ColorStateList.valueOf(getContrastColor(value))
+            binding.btChooseColor.backgroundTintList = ColorStateList.valueOf(value)
         }
 
     override fun onCreateView(

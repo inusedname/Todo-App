@@ -9,17 +9,29 @@
         android:id="@+id/allTaskFragment"
         android:name="com.vstd.todo.ui.task.AllTaskFragment"
         android:label="AllTaskFragment"
-        tools:layout="@layout/fragment_all_tasks" >
+        tools:layout="@layout/fragment_all_tasks">
         <action
             android:id="@+id/action_allTaskFragment_to_detailTaskFragment"
             app:destination="@id/detailTaskFragment" />
+        <action
+            android:id="@+id/action_allTaskFragment_to_archivedTasksFragment"
+            app:destination="@id/archivedTasksFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailTaskFragment"
         android:name="com.vstd.todo.ui.task.DetailTaskFragment"
-        android:label="DetailTaskFragment" >
+        android:label="DetailTaskFragment">
         <action
             android:id="@+id/action_detailTaskFragment_to_allTaskFragment"
             app:destination="@id/allTaskFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/archivedTasksFragment"
+        android:name="com.vstd.todo.ui.task.ArchivedTasksFragment"
+        android:label="ArchivedTasksFragment">
+        <action
+            android:id="@+id/action_archivedTasksFragment_to_allTaskFragment"
+            app:destination="@id/allTaskFragment" />
+    </fragment>
+
 </navigation>

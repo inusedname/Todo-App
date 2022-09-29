@@ -18,11 +18,11 @@ class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
     private fun loadWorkspace() {
         viewModelScope.launch(Dispatchers.IO) {
             workspaces = repo.getWorkspaces().toMutableList()
-            updateWorkspace()
+            updateLiveData()
         }
     }
 
-    private fun updateWorkspace() {
+    private fun updateLiveData() {
         viewModelScope.launch {
             _workspaceLivedata.value = workspaces
         }
@@ -32,20 +32,23 @@ class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             repo.deleteWorkspace(workspace)
             workspaces.remove(workspace)
-            updateWorkspace()
+            updateLiveData()
         }
     }
 
     fun addWorkspace(workspace: Workspace) {
         viewModelScope.launch(Dispatchers.IO) {
             repo.insertWorkspace(workspace)
+            var found = false
             for (i in workspaces.indices) {
                 if (workspaces[i].workspaceName == workspace.workspaceName) {
                     workspaces[i] = workspace
+                    found = true
                     break
                 }
             }
-            updateWorkspace()
+            if (!found) workspaces.add(workspace)
+            updateLiveData()
         }
     }
 

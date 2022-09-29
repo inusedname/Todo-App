@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.vstd.todo.MainActivity
 import com.vstd.todo.R
 import com.vstd.todo.adapter.AllTasksAdapter
@@ -20,20 +19,18 @@ import com.vstd.todo.data.database.TodoDatabase
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.FragmentAllTasksBinding
 import com.vstd.todo.interfaces.HasBotAppBar
-import com.vstd.todo.interfaces.HasFab
+import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasTopAppBar
-import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.Constants
 import com.vstd.todo.utilities.Sorting
 import com.vstd.todo.utilities.helper.getTopAppBar
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
-class AllTaskFragment :
+class ArchivedTasksFragment :
     Fragment(R.layout.fragment_all_tasks),
-    HasFab,
+    HasTopAppBar,
     HasBotAppBar,
-    HasTopAppBar {
+    HasCustomBackPress {
 
     private lateinit var repo: TodoRepo
     private lateinit var adapter: AllTasksAdapter
@@ -64,19 +61,16 @@ class AllTaskFragment :
     }
 
     private fun setUpAdapter() {
-        adapter = AllTasksAdapter(onTaskClicked, onDoneTaskClicked)
+        adapter = AllTasksAdapter(onTaskClicked, onUnarchivedTaskClicked)
         binding.rvTasks.adapter = adapter
+        viewModel.fetchArchived()
     }
 
     private val onTaskClicked = { task: Task ->
-        findNavController().navigate(R.id.action_allTaskFragment_to_detailTaskFragment,
-            Bundle().apply {
-                putSerializable(Constants.TASK, task)
-            })
     }
 
-    private val onDoneTaskClicked = { task: Task ->
-        viewModel.updateTask(task.copy(isDone = !task.isDone))
+    private val onUnarchivedTaskClicked = { _: Task ->
+        // TODO: Not yet implemented
     }
 
     private fun observing() {
@@ -85,23 +79,25 @@ class AllTaskFragment :
         }
     }
 
-    override fun setUpFabAppearance(fab: FloatingActionButton) {
-        fab.setImageResource(R.drawable.ic_baseline_add_24)
-        fab.contentDescription = getString(R.string.add_a_task)
+    override fun onBotAppBarNavigationClick() {
+        viewModel.deleteAllTasks()
+        navigateBackToAllTask()
+    }
+
+    override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
+        // TODO: Not yet implemented
+        return when (item.itemId) {
+            R.id.search -> true
+            else -> false
+        }
     }
 
     override fun setUpBotAppBarAppearance(botAppBar: BottomAppBar) {
         botAppBar.menu.clear()
-        botAppBar.inflateMenu(R.menu.home_bot_app_bar)
+        botAppBar.inflateMenu(R.menu.archived_bot_app_bar)
         botAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
-        botAppBar.setNavigationIcon(R.drawable.ic_baseline_menu_24)
-        botAppBar.setNavigationContentDescription(R.string.choose_workspace)
-    }
-
-    override fun setUpTopAppBarAppearance(topAppBar: MaterialToolbar) {
-        topAppBar.navigationIcon = null
-        topAppBar.menu.clear()
-        topAppBar.inflateMenu(R.menu.home_top_app_bar)
+        botAppBar.setNavigationIcon(R.drawable.ic_baseline_clear_all_24)
+        botAppBar.setNavigationContentDescription(R.string.delete_all)
     }
 
     override fun onTopAppBarMenuClick(item: MenuItem): Boolean {
@@ -114,51 +110,15 @@ class AllTaskFragment :
         }
     }
 
-    override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
-        // TODO: Not yet implemented
-        return when (item.itemId) {
-            R.id.search -> true
-            R.id.show_archived -> {
-                navigateToArchivedTasks()
-                true
-            }
-            else -> false
-        }
+    override fun onTopAppBarNavigationClick() {
+        navigateBackToAllTask()
     }
 
-    private fun navigateToArchivedTasks() {
-        findNavController().navigate(R.id.action_allTaskFragment_to_archivedTasksFragment)
-    }
-
-    override fun onFabClicked(fab: View) {
-        val addTaskDialog = AddTaskDialog(repo, onAddTaskSubmit)
-        addTaskDialog.arguments = Bundle().apply {
-            putString(Constants.WORKSPACE_NAME_STRING, viewModel.workspaceNameLiveData.value)
-        }
-        addTaskDialog.show(childFragmentManager, AddTaskDialog.TAG)
-    }
-
-    override fun onBotAppBarNavigationClick() {
-        val workspacePickerDialog = WorkspacePickerDialog(repo, onChooseWorkspaceSubmit)
-        workspacePickerDialog.show(
-            childFragmentManager, WorkspacePickerDialog.TAG
-        )
-    }
-
-    override fun onTopAppBarNavigationClick() {}
-
-    override fun onStart() {
-        super.onStart()
-        (requireActivity() as MainActivity).getTopAppBar().title =
-            viewModel.workspaceNameLiveData.value
-    }
-
-    private val onAddTaskSubmit = { task: Task ->
-        viewModel.addTask(task)
-    }
-
-    private val onChooseWorkspaceSubmit = { workspaceName: String ->
-        viewModel.changeWorkspace(workspaceName)
+    override fun setUpTopAppBarAppearance(topAppBar: MaterialToolbar) {
+        topAppBar.setNavigationIcon(R.drawable.ic_baseline_keyboard_arrow_left_24)
+        topAppBar.title = "Archived Tasks"
+        topAppBar.menu.clear()
+        topAppBar.inflateMenu(R.menu.home_top_app_bar)
     }
 
     private fun showSortPopup(itemId: Int) {
@@ -182,5 +142,20 @@ class AllTaskFragment :
         val myOptionId = menuItem.itemId
         viewModel.sortTasks(sortOptions[myOptionId]!!)
         return true
+    }
+
+    private fun navigateBackToAllTask() {
+        findNavController().popBackStack()
+    }
+
+    override fun onBackPressed() {
+        viewModel.changeWorkspace()
+        navigateBackToAllTask()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (requireActivity() as MainActivity).getTopAppBar().title =
+            viewModel.workspaceNameLiveData.value
     }
 }

@@ -179,19 +179,9 @@ class DetailTaskFragment :
         // TODO: Not yet implemented
         return when (item.itemId) {
             R.id.make_done -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
                 true
             }
             R.id.archive -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
-                true
-            }
-            R.id.chip_workspace -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
-                true
-            }
-            R.id.edit_tags -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
                 true
             }
             else -> false
@@ -219,11 +209,9 @@ class DetailTaskFragment :
         // TODO: Not yet implemented
         return when (item.itemId) {
             R.id.archive -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
                 true
             }
             R.id.notify -> {
-                requireActivity().snackNotAvaiable(binding.root, fab)
                 true
             }
             else -> false

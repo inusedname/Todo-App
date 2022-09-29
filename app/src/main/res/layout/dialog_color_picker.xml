@@ -6,30 +6,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/list_item_spacing">
+        android:paddingTop="16dp">
 
         <TextView
             android:id="@+id/fixed_label"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="8dp"
+            android:gravity="start"
+            android:paddingVertical="8dp"
+            android:paddingStart="24dp"
+            android:paddingEnd="0dp"
             android:text="@string/pick_color"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
             android:textColor="?attr/colorPrimary" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_colors"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp"
-            tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:paddingVertical="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
+            android:clipToPadding="false"
             tools:itemCount="3"
+            tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_color" />
+
         <Button
             android:id="@+id/bt_submit_color"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="@string/apply"/>
+            android:text="@string/apply" />
     </LinearLayout>
 </layout>

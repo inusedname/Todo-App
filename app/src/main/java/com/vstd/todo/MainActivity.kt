@@ -19,8 +19,6 @@ import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
-const val TAG = "MainActivityLogcat"
-
 @RequiresApi(Build.VERSION_CODES.O)
 class MainActivity : AppCompatActivity() {
 
@@ -71,9 +69,9 @@ class MainActivity : AppCompatActivity() {
         } else binding.bottomAppBar.visibility = View.GONE
 
         if (fragment is HasFab) {
-            binding.fab.visibility = View.VISIBLE
+            binding.fab.show()
             (fragment as HasFab).setUpFabAppearance(binding.fab)
-        } else binding.fab.visibility = View.GONE
+        } else binding.fab.hide()
     }
 
     private fun setOnClickListeners() {

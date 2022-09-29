@@ -12,8 +12,9 @@
             android:id="@+id/fixed_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
             android:paddingVertical="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
             android:text="@string/workspaces"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
             android:textColor="?attr/colorPrimary"
@@ -47,6 +48,7 @@
             app:tint="?attr/colorPrimary" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="8dp"
             android:id="@+id/rv_workspace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

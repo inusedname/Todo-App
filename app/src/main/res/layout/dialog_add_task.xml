@@ -12,15 +12,16 @@
 
 
         <TextView
-            android:id="@+id/tv_feature_text"
-            android:layout_width="match_parent"
+            android:id="@+id/fixed_create_task"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
             android:gravity="start"
-            android:paddingHorizontal="8dp"
+            android:paddingTop="8dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
             android:text="@string/create_task"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,18 +35,19 @@
             android:hint="@string/example_action"
             android:inputType="textCapSentences"
             android:maxLines="1"
+            android:paddingVertical="16dp"
             android:paddingHorizontal="8dp"
-            android:paddingVertical="20dp"
             android:textColorHint="#4E4E4E"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_feature_text"
+            app:layout_constraintTop_toBottomOf="@id/fixed_create_task"
             tools:ignore="Autofill">
 
         </EditText>
 
         <LinearLayout
             android:id="@+id/linear_bt"
+            android:paddingStart="8dp"
+            android:paddingEnd="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:divider="@drawable/divider_icons"
@@ -66,14 +68,14 @@
                 android:id="@+id/bt_set_workspace"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/workspaces"
                 android:contentDescription="@string/choose_workspace"
+                android:text="@string/workspaces"
                 app:chipIcon="@drawable/ic_baseline_folder_open_24" />
         </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_add_task"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"

@@ -1,6 +1,5 @@
 package com.vstd.todo.adapter
 
-import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -14,7 +13,6 @@ import com.vstd.todo.utilities.getColor
 class AllTasksAdapter(
     private val onItemClicked: (Task) -> Unit,
     private val onDoneClicked: (Task) -> Unit,
-    private val onDeleteClicked: (Task) -> Unit
 ) :
     ListAdapter<Task, AllTasksAdapter.ItemViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
@@ -49,12 +47,10 @@ class AllTasksAdapter(
                 tvDescription.text = task.description
                 checkboxDone.isChecked = task.isDone
                 checkboxDone.setOnClickListener { onDoneClicked(task) }
-                btDeleteTask.setOnClickListener { onDeleteClicked(task) }
                 itemView.setOnClickListener { onItemClicked(task) }
 
                 tvTitle.setTextColor(colorByDone)
                 tvDescription.setTextColor(colorByDone)
-                btDeleteTask.imageTintList = ColorStateList.valueOf(colorByDone)
             }
         }
     }

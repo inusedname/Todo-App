@@ -11,8 +11,7 @@ import kotlinx.coroutines.launch
 
 class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
-    private lateinit var tasks: MutableList<Task>
-    private var workspaceName = "default"
+    private lateinit var tasks: MutableList<Task> private var workspaceName = Constants.DEFAULT_WORKSPACE_NAME
     private val _workspaceNameLiveData = MutableLiveData(workspaceName)
 
     init {
@@ -27,23 +26,11 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
     private fun dummyData() {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertWorkspace(Workspace("default", Constants.COLORS["red"]!!))
-//            addTask(
-//                Task(
-//                    title = "Đi mua sữa",
-//                    description = "Tại công viên thống nhất\n19:30",
-//                    workspaceName = "default",
-//                    subtasks = listOf(
-//                        Subtask("Mua sữa tươi"),
-//                        Subtask("Mua sữa đặc"),
-//                        Subtask("Trả lại tiền thừa", true)
-//                    )
-//                )
-//            )
+            repo.insertWorkspace(Workspace(workspaceName, Constants.COLORS["red"]!!))
         }
     }
 
-    fun changeWorkspace(workspaceName: String) {
+    fun changeWorkspace(workspaceName: String = this.workspaceName) {
         this.workspaceName = workspaceName
         _workspaceNameLiveData.value = workspaceName
 
@@ -54,7 +41,7 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
-    fun changeToArchived() {
+    fun fetchArchived() {
         viewModelScope.launch(Dispatchers.IO) {
             tasks = repo.getAllArchivedTasks().toMutableList()
             updateTaskLiveData()
@@ -72,6 +59,15 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
             repo.deleteTask(task)
             tasks.remove(task)
             updateTaskLiveData()
+        }
+    }
+
+    fun deleteAllTasks() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val later = tasks.toList()
+            tasks.clear()
+            updateTaskLiveData()
+            later.forEach { repo.deleteTask(it) }
         }
     }
 

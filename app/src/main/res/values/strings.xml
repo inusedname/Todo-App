@@ -7,7 +7,7 @@
     <string name="more">More</string>
     <string name="more_options">More options</string>
     <string name="choose_workspace">Choose Workspace</string>
-    <string name="create_task">CREATE TASK</string>
+    <string name="create_task">Create task</string>
     <string name="example_action">Book a call, make an appointment…</string>
     <string name="set_due_date">Due date</string>
     <string name="save">Save</string>
@@ -54,4 +54,7 @@
     <string name="choose_color">Choose color</string>
     <string name="edit_tags">Edit tags</string>
     <string name="feature_not_available">Sorry 😭, this feature is not available</string>
+    <string name="color">color</string>
+    <string name="set_repeat">Set repeat</string>
+    <string name="delete_all">Delete All</string>
 </resources>

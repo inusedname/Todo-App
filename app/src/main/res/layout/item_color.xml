@@ -8,23 +8,24 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/color"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="54dp"
+            android:layout_height="54dp"
             android:layout_margin="8dp"
             android:layout_gravity="center"
             android:elevation="0dp"
-            app:cardBackgroundColor="?attr/colorPrimaryVariant"
-            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="54dp"
             app:strokeWidth="0dp" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/signal_selected"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_gravity="center"
             android:elevation="0dp"
+            android:visibility="gone"
             app:cardBackgroundColor="?attr/colorOnPrimary"
-            app:cardCornerRadius="8dp"
+            app:cardCornerRadius="24dp"
             app:strokeWidth="0dp" />
     </FrameLayout>
 </layout>

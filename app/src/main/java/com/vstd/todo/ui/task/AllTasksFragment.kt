@@ -38,6 +38,7 @@ class AllTaskFragment :
     private lateinit var binding: FragmentAllTasksBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentAllTasksBinding.bind(view)
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
 
         setUpViewModel()
@@ -122,6 +123,8 @@ class AllTaskFragment :
 
     override fun onStart() {
         super.onStart()
+        if (viewModel.archiveMode)
+            viewModel.changeWorkspace()
         (requireActivity() as MainActivity).getTopAppBar().title =
             viewModel.workspaceNameLiveData.value
     }

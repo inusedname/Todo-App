@@ -14,7 +14,7 @@
             android:layout_gravity="center"
             android:elevation="0dp"
             app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardCornerRadius="54dp"
+            app:cardCornerRadius="28dp"
             app:strokeWidth="0dp" />
 
         <com.google.android.material.card.MaterialCardView
@@ -25,7 +25,7 @@
             android:elevation="0dp"
             android:visibility="gone"
             app:cardBackgroundColor="?attr/colorOnPrimary"
-            app:cardCornerRadius="24dp"
+            app:cardCornerRadius="20dp"
             app:strokeWidth="0dp" />
     </FrameLayout>
 </layout>

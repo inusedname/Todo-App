@@ -45,13 +45,13 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
 
     private fun loadArgs() {
         val oldDate = arguments?.getString(Constants.DATE_STRING)
-        if (oldDate != "null") {
-            date = oldDate?.toLocalDate()
+        if (oldDate != null && oldDate != "null") {
+            date = oldDate.toLocalDate()
         }
 
         val oldTime = arguments?.getString(Constants.TIME_STRING)
-        if (oldTime != "null") {
-            time = oldTime?.toLocalTime()
+        if (oldTime != null && oldTime != "null") {
+            time = oldTime.toLocalTime()
         }
     }
 

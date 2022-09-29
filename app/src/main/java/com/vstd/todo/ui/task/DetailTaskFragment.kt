@@ -2,8 +2,10 @@ package com.vstd.todo.ui.task
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -44,6 +46,15 @@ class DetailTaskFragment :
     private lateinit var subtasksAdapter: SubtaskAdapter
     private lateinit var binding: FragmentDetailTaskBinding
     private lateinit var fab: View
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentDetailTaskBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
@@ -184,8 +195,10 @@ class DetailTaskFragment :
     }
 
     private fun doSave() {
-        if (!detailTaskViewModel.needToSave())
+        if (!detailTaskViewModel.needToSave()) {
+            navigateBackToAllTask()
             return
+        }
         if (detailTaskViewModel.getValidateStatus() != PASSED_ALL_VALIDATION) {
             requireActivity().snackAlert(binding.root, detailTaskViewModel.getValidateStatus(), fab)
             return
@@ -193,8 +206,9 @@ class DetailTaskFragment :
         val repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
         ViewModelProvider(
             requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java].updateTask(detailTaskViewModel.task)
+        )[TaskViewModel::class.java].updateTask(detailTaskViewModel.getTask())
         requireActivity().snack(binding.root, "Updated 😊", fab)
+        navigateBackToAllTask()
     }
 
     private fun navigateBackToAllTask() {
@@ -213,10 +227,7 @@ class DetailTaskFragment :
                 .setTitle(getString(R.string.save_changes))
                 .setMessage(getString(R.string.do_you_want_to_save_changes))
                 .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                    run {
-                        doSave()
-                        navigateBackToAllTask()
-                    }
+                    doSave()
                 }
                 .setNegativeButton(getString(R.string.no)) { _, _ -> navigateBackToAllTask() }
                 .show()

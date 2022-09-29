@@ -13,24 +13,19 @@ const val PASSED_ALL_VALIDATION = "PASSED_ALL_VALIDATION"
 
 class DetailTaskViewModel(private val _task: Task) : ViewModel() {
 
-    var dueDate = "null"
-    var dueTime = "null"
-    private var subtasks: MutableList<Subtask>
-
-    lateinit var workspaceName: String
-    private var isDone: Boolean
-    lateinit var taskTitle: String
-    lateinit var taskDescription: String
+    var dueDate = _task.dueDate
+    var dueTime = _task.dueTime
+    private var subtasks = _task.subtasks.toMutableList()
+    var workspaceName = _task.workspaceName
+    var taskTitle = _task.title
+    var taskDescription = _task.description
+    private var isDone = _task.isDone
 
     private val _subtasksLiveData = MutableLiveData<List<Subtask>>()
     val subtasksLiveData = _subtasksLiveData
 
     init {
-        dueDate = _task.dueDate
-        dueTime = _task.dueTime
-        subtasks = _task.subtasks.toMutableList()
-        isDone = _task.isDone
-        updateLiveData()
+        updateSubtaskLiveData()
     }
 
     fun needToSave(): Boolean {
@@ -54,19 +49,19 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
 
     fun deleteSubtask(i: Int) {
         subtasks.removeAt(i)
-        updateLiveData()
+        updateSubtaskLiveData()
     }
 
     fun renameSubtask(i: Int, newName: String) {
         if (subtasks[i].title != newName) {
             subtasks[i] = subtasks[i].copy(title = newName)
-            updateLiveData()
+            updateSubtaskLiveData()
         }
     }
 
     fun updateSubtaskDone(i: Int) {
         subtasks[i] = subtasks[i].copy(isDone = !subtasks[i].isDone)
-        updateLiveData()
+        updateSubtaskLiveData()
     }
 
     private fun cleanBeforeValidate() {
@@ -89,7 +84,7 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
         }
     }
 
-    val task =
+    fun getTask() =
         _task.copy(
             title = taskTitle,
             description = taskDescription,
@@ -101,7 +96,7 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
             workspaceName = workspaceName
         )
 
-    private fun updateLiveData() {
+    private fun updateSubtaskLiveData() {
         if (subtasks.isEmpty() || subtasks.last().title.isNotEmpty())
             addADummySubtask()
         _subtasksLiveData.value = subtasks

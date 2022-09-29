@@ -71,7 +71,6 @@ class ArchivedTasksFragment :
 
     override fun onBotAppBarNavigationClick() {
         viewModel.clearArchived()
-        navigateBackToAllTask()
     }
 
     override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
@@ -127,7 +126,6 @@ class ArchivedTasksFragment :
     }
 
     override fun onBackPressed() {
-        viewModel.changeWorkspace()
         navigateBackToAllTask()
     }
 }

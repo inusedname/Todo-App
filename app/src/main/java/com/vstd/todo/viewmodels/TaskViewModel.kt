@@ -28,7 +28,8 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
-    private var archiveMode = false
+    var archiveMode = false
+        private set
     private lateinit var tasks: MutableList<Task>
     private var workspaceName = Constants.DEFAULT_WORKSPACE_NAME
     private val _workspaceNameLiveData = MutableLiveData(workspaceName)

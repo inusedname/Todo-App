@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vstd.todo.adapter.ChooseWorkspaceAdapter
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogWorkspacePickerBinding
+import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.viewmodels.WorkspaceViewModel
 import com.vstd.todo.viewmodels.WorkspaceViewModelFactory
 
@@ -17,7 +17,7 @@ class WorkspacePickerDialog(
     private val repo: TodoRepo,
     private val onChooseWorkspaceSubmit: (String) -> Unit
 ) :
-    BottomSheetDialogFragment() {
+    BaseBottomDialogFragment() {
 
     private lateinit var binding: DialogWorkspacePickerBinding
     private lateinit var viewModel: WorkspaceViewModel
@@ -34,6 +34,7 @@ class WorkspacePickerDialog(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
         setupClickListeners()

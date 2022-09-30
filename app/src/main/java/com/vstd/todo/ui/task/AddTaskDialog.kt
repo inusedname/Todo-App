@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogAddTaskBinding
+import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
 import com.vstd.todo.utilities.Constants
@@ -16,7 +16,7 @@ import com.vstd.todo.utilities.DateTimeUtils
 class AddTaskDialog(
     private val repo: TodoRepo,
     private val onSubmit: (Task) -> Unit
-) : BottomSheetDialogFragment() {
+) : BaseBottomDialogFragment() {
 
     private lateinit var binding: DialogAddTaskBinding
     private var date = "null"
@@ -33,6 +33,7 @@ class AddTaskDialog(
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         loadArgs()
         setClickListeners()
     }

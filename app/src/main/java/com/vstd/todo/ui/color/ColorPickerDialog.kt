@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.vstd.todo.adapter.ColorAdapter
 import com.vstd.todo.databinding.DialogColorPickerBinding
+import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.utilities.Constants
 
 class ColorPickerDialog(private val chooseColorCompleted: (Int) -> Unit) :
-    BottomSheetDialogFragment() {
+    BaseBottomDialogFragment() {
 
     private lateinit var binding: DialogColorPickerBinding
     private lateinit var adapter: ColorAdapter
@@ -28,6 +28,7 @@ class ColorPickerDialog(private val chooseColorCompleted: (Int) -> Unit) :
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         setupClickListeners()
     }

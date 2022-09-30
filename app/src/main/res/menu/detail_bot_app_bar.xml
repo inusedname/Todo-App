@@ -8,11 +8,4 @@
         android:title="@string/make_task_done"
         app:iconTint="?attr/colorOnPrimary"
         app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/choose_color"
-        android:icon="@drawable/ic_baseline_archive_24"
-        android:contentDescription="@string/choose_color"
-        android:title="@string/choose_color"
-        app:iconTint="?attr/colorOnPrimary"
-        app:showAsAction="ifRoom" />
 </menu>

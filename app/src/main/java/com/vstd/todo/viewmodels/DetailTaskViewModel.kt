@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.data.Task
 import com.vstd.todo.utilities.TextUtils
+import com.vstd.todo.utilities.log
 import java.time.LocalDateTime
-
-const val NOT_EMPTY_TITLE_MSG = "ERROR 😭: Title can't be empty"
-const val PASSED_ALL_VALIDATION = "PASSED_ALL_VALIDATION"
 
 class DetailTaskViewModel(private val _task: Task) : ViewModel() {
 
+    val oldTask = _task
     var dueDate = _task.dueDate
     var dueTime = _task.dueTime
     private var subtasks = _task.subtasks.toMutableList()
@@ -20,6 +19,7 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     var taskTitle = _task.title
     var taskDescription = _task.description
     private var isDone = _task.isDone
+    private var isArchived = false
 
     private val _subtasksLiveData = MutableLiveData<List<Subtask>>()
     val subtasksLiveData = _subtasksLiveData
@@ -35,11 +35,13 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
                 dueTime == _task.dueTime &&
                 workspaceName == _task.workspaceName &&
                 isDone == _task.isDone &&
-                subtasks.size - 1 == _task.subtasks.size
+                subtasks.size == _task.subtasks.size
+        // log("${taskTitle == _task.title} ${taskDescription == _task.description} ${dueDate == _task.dueDate} ${dueTime == _task.dueTime} ${workspaceName == _task.workspaceName} ${isDone == _task.isDone} ${subtasks.size == _task.subtasks.size}")
         if (flag)
             for (i in _task.subtasks.indices)
                 if (subtasks[i] != _task.subtasks[i])
                     flag = false
+        // log("flag = $flag")
         return !flag
     }
 
@@ -53,7 +55,8 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     }
 
     fun renameSubtask(i: Int, newName: String) {
-        if (subtasks[i].title != newName) {
+        log("renameSubtask $i ${subtasks.size} ${subtasks[i].title} $newName")
+        if (i < subtasks.size && subtasks[i].title != newName) {
             subtasks[i] = subtasks[i].copy(title = newName)
             updateSubtaskLiveData()
         }
@@ -64,11 +67,19 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
         updateSubtaskLiveData()
     }
 
+    fun updateTaskDone() {
+        isDone = !isDone
+    }
+
+    fun updateTaskArchived() {
+        isArchived = true
+    }
+
     private fun cleanBeforeValidate() {
         taskTitle.apply { trim() }
         taskDescription.apply { trim() }
 
-        for (i in subtasks.indices) {
+        for (i in subtasks.size - 1 downTo 0) {
             subtasks[i].title.apply { trim() }
             if (subtasks[i].title.isEmpty())
                 subtasks.removeAt(i)
@@ -78,13 +89,13 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     fun getValidateStatus(): String {
         cleanBeforeValidate()
         return if (!TextUtils.isValidTitle(taskTitle)) {
-            NOT_EMPTY_TITLE_MSG
+            TextUtils.NOT_VALID_TITLE
         } else {
-            PASSED_ALL_VALIDATION
+            TextUtils.PASSED_ALL_VALIDATION
         }
     }
 
-    fun getTask() =
+    fun getNewTask() =
         _task.copy(
             title = taskTitle,
             description = taskDescription,
@@ -93,6 +104,7 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
             lastModifiedDateTime = LocalDateTime.now().toString(),
             subtasks = subtasks,
             isDone = isDone,
+            isArchived = isArchived,
             workspaceName = workspaceName
         )
 
@@ -101,6 +113,8 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
             addADummySubtask()
         _subtasksLiveData.value = subtasks
     }
+
+
 }
 
 @Suppress("UNCHECKED_CAST")

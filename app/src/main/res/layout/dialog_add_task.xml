@@ -10,18 +10,12 @@
         android:padding="16dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-
-        <TextView
-            android:id="@+id/fixed_create_task"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="start"
-            android:paddingTop="8dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="0dp"
-            android:text="@string/create_task"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
-            android:textColor="?attr/colorPrimary"
+        <View
+            android:id="@+id/fixed_handle"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:background="@drawable/bg_drag_handle"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,53 +29,59 @@
             android:hint="@string/example_action"
             android:inputType="textCapSentences"
             android:maxLines="1"
-            android:paddingVertical="16dp"
             android:paddingHorizontal="8dp"
+            android:paddingVertical="16dp"
             android:textColorHint="#4E4E4E"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fixed_create_task"
+            app:layout_constraintTop_toBottomOf="@id/fixed_handle"
             tools:ignore="Autofill">
 
         </EditText>
 
-        <LinearLayout
+        <HorizontalScrollView
             android:id="@+id/linear_bt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
             android:paddingStart="8dp"
             android:paddingEnd="0dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/divider_icons"
-            android:orientation="horizontal"
-            android:showDividers="middle"
+            android:layout_marginEnd="96dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_title">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt_set_due_date"
+            <com.google.android.material.chip.ChipGroup
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/set_due_date"
-                android:text="@string/set_due_date"
-                app:chipIcon="@drawable/ic_baseline_access_time_24" />
+                android:layout_height="wrap_content">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt_set_workspace"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/choose_workspace"
-                android:text="@string/workspaces"
-                app:chipIcon="@drawable/ic_baseline_folder_open_24" />
-        </LinearLayout>
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_set_due_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/set_due_date"
+                    android:text="@string/set_due_date"
+                    app:chipIcon="@drawable/ic_baseline_access_time_24" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_set_workspace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/choose_workspace"
+                    android:text="@string/workspaces"
+                    app:chipIcon="@drawable/ic_baseline_folder_open_24" />
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/bt_add_task"
-            style="@style/Widget.MaterialComponents.Button"
+            android:layout_marginTop="8dp"
+            android:id="@+id/bt_submit"
+            android:insetTop="0dp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
-            app:layout_constraintBottom_toBottomOf="@id/linear_bt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/linear_bt" />
+            app:layout_constraintTop_toTopOf="@id/linear_bt"
+            app:layout_constraintBottom_toBottomOf="@id/linear_bt" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

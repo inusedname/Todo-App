@@ -8,6 +8,15 @@
         android:layout_height="match_parent"
         android:padding="@dimen/list_item_spacing">
 
+        <View
+            android:id="@+id/fixed_handle"
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:background="@drawable/bg_drag_handle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/fixed_title"
             android:layout_width="wrap_content"
@@ -19,7 +28,7 @@
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
             android:textColor="?attr/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/fixed_handle" />
 
         <ImageButton
             android:id="@+id/bt_add"

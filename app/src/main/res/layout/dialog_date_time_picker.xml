@@ -81,6 +81,7 @@
             android:layout_height="wrap_content"
             android:divider="@drawable/divider_icons"
             android:orientation="horizontal"
+            android:layout_marginTop="16dp"
             android:showDividers="middle"
             app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
             app:layout_constraintTop_toBottomOf="@id/calendar_view">

@@ -13,7 +13,6 @@ class ColorAdapter(
 ) :
     RecyclerView.Adapter<ColorAdapter.ItemViewHolder>() {
 
-    val TAG = "ColorAdapter"
     private var nowSelected = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {

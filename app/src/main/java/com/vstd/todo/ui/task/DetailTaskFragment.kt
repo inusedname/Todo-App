@@ -25,13 +25,12 @@ import com.vstd.todo.interfaces.HasFab
 import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.DateTimeUtils
+import com.vstd.todo.utilities.*
 import com.vstd.todo.utilities.helper.hideSoftKeyboard
-import com.vstd.todo.utilities.helper.snack
-import com.vstd.todo.utilities.helper.snackAlert
-import com.vstd.todo.utilities.toFriendlyDateTimeString
-import com.vstd.todo.viewmodels.*
+import com.vstd.todo.viewmodels.DetailTaskViewModel
+import com.vstd.todo.viewmodels.DetailTaskViewModelFactory
+import com.vstd.todo.viewmodels.TaskViewModel
+import com.vstd.todo.viewmodels.TaskViewModelFactory
 
 class DetailTaskFragment :
     Fragment(R.layout.fragment_detail_task),
@@ -42,7 +41,6 @@ class DetailTaskFragment :
 
     private lateinit var repo: TodoRepo
     private lateinit var detailTaskViewModel: DetailTaskViewModel
-    private lateinit var tagsViewModel: TagViewModel
     private lateinit var subtasksAdapter: SubtaskAdapter
     private lateinit var binding: FragmentDetailTaskBinding
     private lateinit var fab: View
@@ -87,12 +85,10 @@ class DetailTaskFragment :
         detailTaskViewModel.subtasksLiveData.observe(viewLifecycleOwner) { subtasks: List<Subtask> ->
             subtasksAdapter.setData(subtasks)
         }
-        tagsViewModel.tagsLiveData.observe(viewLifecycleOwner) {
-            // TODO: Not yet implemented
-        }
     }
 
     private fun refreshViewModelData() {
+        binding.rvSubtasks.clearFocus()
         detailTaskViewModel.apply {
             taskTitle = binding.etTitle.text.toString()
             taskDescription = binding.etDescription.text.toString()
@@ -129,24 +125,14 @@ class DetailTaskFragment :
         detailTaskViewModel = ViewModelProvider(
             this, DetailTaskViewModelFactory(task)
         )[DetailTaskViewModel::class.java]
-
-        tagsViewModel = ViewModelProvider(
-            this, TagViewModelFactory(
-                task.taskId,
-                repo
-            )
-        )[TagViewModel::class.java]
     }
 
     override fun onBotAppBarNavigationClick() {}
 
     override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
-        // TODO: Not yet implemented
         return when (item.itemId) {
             R.id.make_done -> {
-                true
-            }
-            R.id.archive -> {
+                updateTaskDone()
                 true
             }
             else -> false
@@ -162,7 +148,7 @@ class DetailTaskFragment :
 
     override fun onFabClicked(fab: View) {
         refreshViewModelData()
-        doSave()
+        doSaveAndNavigateIfCan()
     }
 
     override fun setUpFabAppearance(fab: FloatingActionButton) {
@@ -171,12 +157,13 @@ class DetailTaskFragment :
     }
 
     override fun onTopAppBarMenuClick(item: MenuItem): Boolean {
-        // TODO: Not yet implemented
         return when (item.itemId) {
-            R.id.archive -> {
+            R.id.delete -> {
+                confirmAndDelete()
                 true
             }
-            R.id.notify -> {
+            R.id.archive -> {
+                updateTaskArchive()
                 true
             }
             else -> false
@@ -191,48 +178,125 @@ class DetailTaskFragment :
     }
 
     override fun onTopAppBarNavigationClick() {
-        backWithoutSave()
+        backWithoutSave(
+            onAccept = { doSaveAndNavigateIfCan() },
+            onDecline = { navigateBackToAllTask() },
+            ifNoNeedToSave = { navigateBackToAllTask() }
+        )
     }
 
-    private fun doSave() {
-        if (!detailTaskViewModel.needToSave()) {
-            navigateBackToAllTask()
-            return
-        }
-        if (detailTaskViewModel.getValidateStatus() != PASSED_ALL_VALIDATION) {
-            requireActivity().snackAlert(binding.root, detailTaskViewModel.getValidateStatus(), fab)
-            return
-        }
+    override fun onBackPressed() {
+        backWithoutSave(
+            onAccept = { doSaveAndNavigateIfCan() },
+            onDecline = { navigateBackToAllTask() },
+            ifNoNeedToSave = { navigateBackToAllTask() }
+        )
+    }
+
+    private fun confirmAndDelete() {
+        AlertDialog.Builder(requireContext())
+            .setIcon(R.drawable.ic_baseline_warning_24)
+            .setTitle("Delete task")
+            .setMessage("Do you want to delete?")
+            .setPositiveButton(R.string.yes) { _, _ ->
+                deleteTask()
+            }
+            .setNegativeButton(R.string.no) { _, _ -> }
+            .show()
+    }
+
+    private fun deleteTask() {
         val repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
         ViewModelProvider(
             requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java].updateTask(detailTaskViewModel.getTask())
-        requireActivity().snack(binding.root, "Updated 😊", fab)
+        )[TaskViewModel::class.java].deleteTask(detailTaskViewModel.oldTask)
+        requireActivity().snack(binding.root, getString(R.string.task_deleted), fab)
         navigateBackToAllTask()
+    }
+
+    private fun updateTaskDone() {
+        backWithoutSave(
+            onAccept = {
+                detailTaskViewModel.updateTaskDone()
+                doSaveAndNavigateIfCan()
+            },
+            onDecline = {
+                val oldTask = detailTaskViewModel.oldTask
+                updateTask(oldTask.copy(isDone = !oldTask.isDone))
+                navigateBackToAllTask()
+            },
+            ifNoNeedToSave = {
+                val oldTask = detailTaskViewModel.oldTask
+                updateTask(oldTask.copy(isDone = !oldTask.isDone))
+                navigateBackToAllTask()
+            }
+        )
+    }
+
+    private fun updateTaskArchive() {
+        backWithoutSave(
+            onAccept = {
+                detailTaskViewModel.updateTaskArchived()
+                doSaveAndNavigateIfCan()
+                requireActivity().snackArchived(binding.root, fab)
+            },
+            onDecline = {
+                val oldTask = detailTaskViewModel.oldTask
+                updateTask(oldTask.copy(isArchived = true))
+                navigateBackToAllTask()
+                requireActivity().snackArchived(binding.root, fab)
+            },
+            ifNoNeedToSave = {
+                val oldTask = detailTaskViewModel.oldTask
+                updateTask(oldTask.copy(isArchived = true))
+                navigateBackToAllTask()
+                requireActivity().snackArchived(binding.root, fab)
+            }
+        )
+    }
+
+    private fun doSaveAndNavigateIfCan(navigateEnabled: Boolean = true) {
+        if (detailTaskViewModel.getValidateStatus() != TextUtils.PASSED_ALL_VALIDATION) {
+            requireActivity().snackAlert(binding.root, detailTaskViewModel.getValidateStatus(), fab)
+            return
+        }
+        if (detailTaskViewModel.needToSave()) {
+            updateTask(detailTaskViewModel.getNewTask())
+            requireActivity().snack(binding.root, "Updated 😊", fab)
+        }
+        if (navigateEnabled) navigateBackToAllTask()
+    }
+
+    private fun updateTask(task: Task) {
+        val repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
+        ViewModelProvider(
+            requireActivity(), TaskViewModelFactory(repo)
+        )[TaskViewModel::class.java].updateTask(task)
     }
 
     private fun navigateBackToAllTask() {
         findNavController().popBackStack()
     }
 
-    override fun onBackPressed() {
-        backWithoutSave()
-    }
-
-    private fun backWithoutSave() {
+    private fun backWithoutSave(
+        onAccept: () -> Unit,
+        onDecline: () -> Unit = {},
+        ifNoNeedToSave: () -> Unit = {}
+    ) {
         refreshViewModelData()
+        detailTaskViewModel.getValidateStatus()
         if (detailTaskViewModel.needToSave()) {
             AlertDialog.Builder(requireContext())
                 .setIcon(R.drawable.ic_baseline_save_24)
                 .setTitle(getString(R.string.save_changes))
                 .setMessage(getString(R.string.do_you_want_to_save_changes))
                 .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                    doSave()
+                    onAccept()
                 }
-                .setNegativeButton(getString(R.string.no)) { _, _ -> navigateBackToAllTask() }
+                .setNegativeButton(getString(R.string.no)) { _, _ -> onDecline() }
                 .show()
         } else
-            navigateBackToAllTask()
+            ifNoNeedToSave()
     }
 
     private val onDoneSubtask = { i: Int ->

@@ -65,7 +65,6 @@ class SubtaskAdapter(
                 ivRemoveSubtask.setOnClickListener {
                     etSubtaskTitle.clearFocus()
                     onDeleteClicked(adapterPosition)
-                    log("bind: Deleted $adapterPosition")
                 }
                 etSubtaskTitle.setOnEditorActionListener { _, type, _ ->
                     return@setOnEditorActionListener if (type == EditorInfo.IME_ACTION_DONE) {
@@ -77,16 +76,17 @@ class SubtaskAdapter(
                 etSubtaskTitle.setOnFocusChangeListener { _, isFocused: Boolean ->
                     if (!isFocused) {
                         updateNewName(etSubtaskTitle, adapterPosition)
+                        log("bind: Updated $adapterPosition")
                     }
                 }
             }
         }
 
-        fun updateNewName(
+        private fun updateNewName(
             et: EditText,
-            adapterPosition: Int
+            pos: Int
         ) {
-            onUpdateItemName(adapterPosition, et.text.toString())
+            onUpdateItemName(pos, et.text.toString())
 
             // ERROR: Without this the adapter become shit, no idea why the final item isn't refreshed
             if (adapterPosition == currentList.size - 1)

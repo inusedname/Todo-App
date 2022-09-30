@@ -14,6 +14,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <item name="android:navigationBarColor">?attr/colorPrimary</item>
         <item name="bottomSheetDialogTheme">@style/BotSheetDialogTheme</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowButton</item>
+
+
         <item name="textAppearanceButton">@style/TextAppearance.MdcTypographyStyles.Button</item>
         <item name="textAppearanceTitleSmall">@style/TextAppearance.MdcTypographyStyles.Headline5
         </item>
@@ -42,6 +45,10 @@
 
     <style name="BotSheetTheme2" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="OverflowButton" parent="Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="tint">?attr/colorOnPrimary</item>
     </style>
 
     <style name="ButtonInsideGridlayout" parent="Widget.MaterialComponents.Button.OutlinedButton">

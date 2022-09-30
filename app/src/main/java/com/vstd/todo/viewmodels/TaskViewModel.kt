@@ -14,12 +14,6 @@ fun MutableList<Task>.updateById(task: Task) {
         this[index] = task
 }
 
-fun MutableList<Task>.removeById(taskId: Task) {
-    val index = this.indexOfFirst { it.taskId == taskId.taskId }
-    if (index != -1)
-        this.removeAt(index)
-}
-
 class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 
     init {
@@ -99,7 +93,11 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
                             task.isArchived == archiveMode
                     )
         }
-        tasks.forEach { if (disqualified(it)) tasks.removeById(it) }
+        for (i in tasks.size - 1 downTo 0) {
+            if (disqualified(tasks[i])) {
+                tasks.removeAt(i)
+            }
+        }
     }
 
     fun sortTasks(sortType: String) {
@@ -115,7 +113,6 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         }
         updateTaskLiveData()
     }
-
 
     private fun updateTaskLiveData() {
         viewModelScope.launch {

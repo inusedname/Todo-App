@@ -20,7 +20,7 @@
     <string name="tonight">Tonight</string>
     <string name="sort">Sort</string>
     <string name="archive">Archive</string>
-    <string name="some_description">Some description…</string>
+    <string name="some_description">type description…</string>
     <string name="pick_color">Pick color</string>
     <string name="apply">Apply</string>
     <string name="due_date_ascending">Due Date (Furthest)</string>
@@ -57,4 +57,9 @@
     <string name="color">color</string>
     <string name="set_repeat">Set repeat</string>
     <string name="delete_all">Delete All</string>
+    <string name="task_deleted">Task deleted</string>
+    <string name="unarchive">Unarchive</string>
+    <string name="delete">Delete</string>
+    <string name="restore">Restore</string>
+    <string name="task_archived_msg">Task archived</string>
 </resources>

@@ -68,10 +68,13 @@ class MainActivity : AppCompatActivity() {
             (fragment as HasBotAppBar).setUpBotAppBarAppearance(binding.bottomAppBar)
         } else binding.bottomAppBar.visibility = View.GONE
 
+        // The second condition is to enable moving animation of fab
         if (fragment is HasFab) {
-            binding.fab.show()
             (fragment as HasFab).setUpFabAppearance(binding.fab)
-        } else binding.fab.hide()
+            if (!binding.fab.isShown)
+                binding.fab.show()
+        } else
+            binding.fab.hide()
     }
 
     private fun setOnClickListeners() {

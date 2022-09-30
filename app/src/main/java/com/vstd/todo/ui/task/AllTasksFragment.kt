@@ -46,6 +46,14 @@ class AllTaskFragment :
         observing()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (viewModel.archiveMode)
+            viewModel.changeWorkspace()
+        (requireActivity() as MainActivity).getTopAppBar().title =
+            viewModel.workspaceNameLiveData.value
+    }
+
     private fun setUpViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(), TaskViewModelFactory(repo)
@@ -55,6 +63,7 @@ class AllTaskFragment :
     private fun setUpAdapter() {
         adapter = AllTasksAdapter(onTaskClicked, onDoneTaskClicked)
         binding.rvTasks.adapter = adapter
+        viewModel.changeWorkspace()
     }
 
     private fun observing() {
@@ -93,9 +102,7 @@ class AllTaskFragment :
     }
 
     override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
-        // TODO: Not yet implemented
         return when (item.itemId) {
-            R.id.search -> true
             R.id.show_archived -> {
                 navigateToArchivedTasks()
                 true
@@ -120,14 +127,6 @@ class AllTaskFragment :
     }
 
     override fun onTopAppBarNavigationClick() {}
-
-    override fun onStart() {
-        super.onStart()
-        if (viewModel.archiveMode)
-            viewModel.changeWorkspace()
-        (requireActivity() as MainActivity).getTopAppBar().title =
-            viewModel.workspaceNameLiveData.value
-    }
 
     private val onTaskClicked = { task: Task ->
         navigateToDetail(task)

@@ -10,7 +10,9 @@ import com.vstd.todo.databinding.DialogEditWorkspaceBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.ui.color.ColorPickerDialog
 import com.vstd.todo.utilities.Constants
+import com.vstd.todo.utilities.TextUtils
 import com.vstd.todo.utilities.getContrastColor
+import com.vstd.todo.utilities.toast
 
 class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
     BaseBottomDialogFragment() {
@@ -37,6 +39,7 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
         super.onViewCreated(view, savedInstanceState)
         loadArgs()
         setOnClickListeners()
+        binding.etWorkspaceName.requestFocus()
     }
 
     private fun loadArgs() {
@@ -63,6 +66,10 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
     }
 
     private fun onSaveClicked() {
+        if (getValidateStatus() != TextUtils.PASSED_ALL_VALIDATION) {
+            requireActivity().toast(getValidateStatus())
+            return
+        }
         val newWorkspace = Workspace(
             binding.etWorkspaceName.text.toString(),
             colorPickerColor
@@ -77,6 +84,12 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
 
     private val onColorSubmit = { colorCode: Int ->
         colorPickerColor = colorCode
+    }
+
+    private fun getValidateStatus(): String {
+        return if (!TextUtils.isValidTitle(binding.etWorkspaceName.text.toString())) {
+            TextUtils.NOT_VALID_TITLE
+        } else TextUtils.PASSED_ALL_VALIDATION
     }
 
     companion object {

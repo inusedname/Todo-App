@@ -7,7 +7,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_back"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -21,14 +20,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_save"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Button"
-            app:layout_constraintBottom_toBottomOf="@id/bt_back"
+            app:layout_constraintBottom_toBottomOf="@id/bt_choose_color"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/bt_back" />
+            app:layout_constraintTop_toTopOf="@id/bt_choose_color" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_layout_workspace_name"
@@ -48,8 +47,7 @@
                 android:minHeight="64dp"
                 android:paddingStart="0dp"
                 android:paddingTop="32dp"
-                android:paddingEnd="0dp"
-                android:text="@string/default_workspace" />
+                android:paddingEnd="0dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

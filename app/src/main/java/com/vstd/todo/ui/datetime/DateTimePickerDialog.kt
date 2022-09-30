@@ -10,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import com.vstd.todo.R
 import com.vstd.todo.databinding.DialogDateTimePickerBinding
 import com.vstd.todo.utilities.*
-import com.vstd.todo.utilities.helper.snackNotAvaiable
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -93,7 +92,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
         updateTime()
     }
     private val onSetRepeatClicked = {
-        requireActivity().snackNotAvaiable(binding.root)
+        requireActivity().snackNotAvailable(binding.root)
     }
 
     private val onCalendarDateChanged = { year: Int, month: Int, day: Int ->

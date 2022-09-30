@@ -34,11 +34,11 @@
                 android:hint="@string/example_action"
                 android:importantForAutofill="no"
                 android:inputType="textShortMessage"
+                android:paddingTop="8dp"
                 android:scrollHorizontally="false"
-                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline4"
+                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Headline5"
                 android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/chip_workspace"
                 tools:text="Đi mua sữa ở nhà bạn" />
 
@@ -50,17 +50,19 @@
                 android:hint="@string/some_description"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine"
-                android:paddingTop="8dp"
+                android:paddingTop="4dp"
+
                 android:paddingBottom="16dp"
+                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/et_title" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_due_date_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/et_description"
                 tools:text="20:10 12/12/2020" />
 
@@ -70,7 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/chip_due_date_time">
 
                 <com.google.android.material.chip.Chip
@@ -84,9 +87,10 @@
                 android:id="@+id/fixed_subtasks_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:paddingHorizontal="8dp"
                 android:text="@string/subtasks"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/chip_group_tags" />
 
             <View
@@ -105,7 +109,7 @@
                 android:overScrollMode="never"
                 android:paddingVertical="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/fixed_subtasks_title"
                 tools:itemCount="5"
                 tools:listitem="@layout/item_subtask" />
@@ -114,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/light_gray"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/rv_subtasks" />
 
             <TextView
@@ -122,7 +126,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/rv_subtasks"
                 tools:text="Created: 12/12/2020" />
 
@@ -130,7 +134,7 @@
                 android:id="@+id/tv_modified_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@id/et_title"
+                app:layout_constraintStart_toStartOf="@id/chip_workspace"
                 app:layout_constraintTop_toBottomOf="@id/tv_created_date"
                 tools:text="Last Modified: 12/12/2020" />
 

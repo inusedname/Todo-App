@@ -12,6 +12,8 @@ import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
 import com.vstd.todo.utilities.Constants
 import com.vstd.todo.utilities.DateTimeUtils
+import com.vstd.todo.utilities.TextUtils
+import com.vstd.todo.utilities.toast
 
 class AddTaskDialog(
     private val repo: TodoRepo,
@@ -36,6 +38,7 @@ class AddTaskDialog(
         super.onViewCreated(view, savedInstanceState)
         loadArgs()
         setClickListeners()
+        binding.etTitle.requestFocus()
     }
 
     private fun loadArgs() {
@@ -45,17 +48,17 @@ class AddTaskDialog(
 
     private fun setClickListeners() {
         binding.apply {
-            btAddTask.setOnClickListener { submitClicked() }
+            btSubmit.setOnClickListener { submitClicked() }
             btSetDueDate.setOnClickListener { setDueDateClicked() }
             btSetWorkspace.setOnClickListener { setWorkspaceClicked() }
         }
     }
 
-    companion object {
-        const val TAG = "AddTaskDialog"
-    }
-
-    val submitClicked = {
+    private fun submitClicked() {
+        if (getValidateStatus() != TextUtils.PASSED_ALL_VALIDATION) {
+            requireActivity().toast(getValidateStatus())
+            return
+        }
         val newTask = Task(
             title = binding.etTitle.text.toString(),
             workspaceName = workspace,
@@ -64,10 +67,17 @@ class AddTaskDialog(
         )
         onSubmit(newTask)
         dismiss()
+
     }
-    private val setDueDateClicked = {
+
+    private fun setDueDateClicked() {
         val datePickerFragment = DateTimePickerDialog(onDueDateSubmit)
         datePickerFragment.show(childFragmentManager, DateTimePickerDialog.TAG)
+    }
+
+    private fun setWorkspaceClicked() {
+        val workspacePickerFragment = WorkspacePickerDialog(repo, onWorkspaceSubmit)
+        workspacePickerFragment.show(childFragmentManager, WorkspacePickerDialog.TAG)
     }
 
     private val onDueDateSubmit = { date: String, time: String ->
@@ -76,13 +86,19 @@ class AddTaskDialog(
         binding.btSetDueDate.text = DateTimeUtils.format(date, time)
     }
 
-    val setWorkspaceClicked = {
-        val workspacePickerFragment = WorkspacePickerDialog(repo, onWorkspaceSubmit)
-        workspacePickerFragment.show(childFragmentManager, WorkspacePickerDialog.TAG)
-    }
-
     private val onWorkspaceSubmit = { selectedWorkspace: String ->
         binding.btSetWorkspace.text = selectedWorkspace
         this.workspace = selectedWorkspace
+    }
+
+    private fun getValidateStatus(): String {
+        return if (!TextUtils.isValidTitle(binding.etTitle.text.toString()))
+            TextUtils.NOT_VALID_TITLE
+        else
+            TextUtils.PASSED_ALL_VALIDATION
+    }
+
+    companion object {
+        const val TAG = "AddTaskDialog"
     }
 }

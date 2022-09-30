@@ -1,5 +1,6 @@
 package com.vstd.todo.ui.task
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.vstd.todo.R
-import com.vstd.todo.adapter.AllTasksAdapter
+import com.vstd.todo.adapter.ArchivedTasksAdapter
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.database.TodoDatabase
 import com.vstd.todo.data.repository.TodoRepo
-import com.vstd.todo.databinding.FragmentAllTasksBinding
+import com.vstd.todo.databinding.FragmentArchivedTasksBinding
 import com.vstd.todo.interfaces.HasBotAppBar
 import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasTopAppBar
@@ -24,22 +25,22 @@ import com.vstd.todo.viewmodels.TaskViewModel
 import com.vstd.todo.viewmodels.TaskViewModelFactory
 
 class ArchivedTasksFragment :
-    Fragment(R.layout.fragment_all_tasks),
+    Fragment(),
     HasTopAppBar,
     HasBotAppBar,
     HasCustomBackPress {
 
     private lateinit var repo: TodoRepo
-    private lateinit var adapter: AllTasksAdapter
+    private lateinit var adapter: ArchivedTasksAdapter
     private lateinit var viewModel: TaskViewModel
-    private lateinit var binding: FragmentAllTasksBinding
+    private lateinit var binding: FragmentArchivedTasksBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentAllTasksBinding.inflate(inflater, container, false)
+        binding = FragmentArchivedTasksBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -51,6 +52,13 @@ class ArchivedTasksFragment :
         observing()
     }
 
+//      No longer needed
+//    override fun onStart() {
+//        super.onStart()
+//        if (!viewModel.archiveMode)
+//            viewModel.fetchArchived()
+//    }
+
     private fun setUpViewModel() {
         viewModel = ViewModelProvider(
             requireActivity(), TaskViewModelFactory(repo)
@@ -58,7 +66,7 @@ class ArchivedTasksFragment :
     }
 
     private fun setUpAdapter() {
-        adapter = AllTasksAdapter(onTaskClicked, onUnarchivedTaskClicked)
+        adapter = ArchivedTasksAdapter(onRestoreSubmit, onDeleteSubmit)
         binding.rvTasks.adapter = adapter
         viewModel.fetchArchived()
     }
@@ -70,21 +78,24 @@ class ArchivedTasksFragment :
     }
 
     override fun onBotAppBarNavigationClick() {
-        viewModel.clearArchived()
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete All")
+            .setMessage("Are you sure to delete all archived tasks?")
+            .setPositiveButton("Yes") { _, _ ->
+                viewModel.clearArchived()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     override fun onBotAppBarMenuClick(item: MenuItem): Boolean {
-        // TODO: Not yet implemented
-        return when (item.itemId) {
-            R.id.search -> true
-            else -> false
-        }
+        return true
     }
 
     override fun setUpBotAppBarAppearance(botAppBar: BottomAppBar) {
         botAppBar.menu.clear()
-        botAppBar.inflateMenu(R.menu.archived_bot_app_bar)
-        botAppBar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
         botAppBar.setNavigationIcon(R.drawable.ic_baseline_clear_all_24)
         botAppBar.setNavigationContentDescription(R.string.delete_all)
     }
@@ -110,11 +121,12 @@ class ArchivedTasksFragment :
         topAppBar.inflateMenu(R.menu.home_top_app_bar)
     }
 
-    private val onTaskClicked = { task: Task ->
+    private val onRestoreSubmit = { task: Task ->
+        viewModel.updateTask(task.copy(isArchived = false))
     }
 
-    private val onUnarchivedTaskClicked = { _: Task ->
-        // TODO: Not yet implemented
+    private val onDeleteSubmit = { task: Task ->
+        viewModel.deleteTask(task)
     }
 
     private val onSortSubmit = { sortOption: String ->

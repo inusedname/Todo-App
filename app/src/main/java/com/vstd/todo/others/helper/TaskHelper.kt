@@ -1,8 +1,8 @@
-package com.vstd.todo.utilities
+package com.vstd.todo.others.helper
 
 import com.vstd.todo.data.Task
 
-object Sorting {
+object TaskHelper {
     const val DUE_DATE_ASC = "DUE_DATE_ASC"
     const val DUE_DATE_DESC = "DUE_DATE_DESC"
     const val CREATE_DATE_ASC = "CREATE_DATE_ASC"

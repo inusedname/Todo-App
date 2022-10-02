@@ -5,13 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vstd.todo.R
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.databinding.ItemSubtaskBinding
-import com.vstd.todo.utilities.getColor
 
 class SubtaskAdapter(
     private val onDoneClicked: (Int) -> Unit,

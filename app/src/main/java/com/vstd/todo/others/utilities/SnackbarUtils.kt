@@ -1,4 +1,4 @@
-package com.vstd.todo.utilities
+package com.vstd.todo.others.utilities
 
 import android.app.Activity
 import android.view.View
@@ -17,22 +17,22 @@ fun Activity.snack(view: View, message: String, anchorView: View? = null) {
 }
 
 fun Activity.snackNotAvailable(view: View, anchorView: View? = null) {
-    Snackbar.make(this, view, getString(R.string.feature_not_available), Snackbar.LENGTH_SHORT)
-        .setAnchorView(anchorView)
-        .show()
+    snack(view, getString(R.string.feature_not_available), anchorView)
+}
+
+fun Activity.snackArchived(view: View, anchorView: View? = null) {
+    snack(view, getString(R.string.task_archived_msg), anchorView)
 }
 
 fun Activity.snackAlert(view: View, message: String, anchorView: View? = null) {
     Snackbar.make(this, view, message, Snackbar.LENGTH_SHORT)
         .setBackgroundTint(
             getColor(
-                view.context,
                 android.R.color.holo_red_dark
             )
         )
         .setTextColor(
             getColor(
-                view.context,
                 android.R.color.white
             )
         )
@@ -40,6 +40,3 @@ fun Activity.snackAlert(view: View, message: String, anchorView: View? = null) {
         .show()
 }
 
-fun Activity.snackArchived(view: View, anchorView: View? = null) {
-    this.snack(view, getString(R.string.task_archived_msg), anchorView)
-}

@@ -72,9 +72,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (fragment is HasTopAppBar) {
-            binding.topAppBar.visibility = View.VISIBLE
-            (fragment as HasTopAppBar).setUpTopAppBarAppearance(binding.topAppBar)
-        } else binding.topAppBar.visibility = View.GONE
+            binding.toolbar.visibility = View.VISIBLE
+            (fragment as HasTopAppBar).setUpTopAppBarAppearance(binding.toolbar)
+        } else binding.toolbar.visibility = View.GONE
 
         if (fragment is HasBotAppBar) {
             binding.bottomAppBar.visibility = View.VISIBLE
@@ -89,8 +89,8 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { onFabClicked(it) }
         binding.bottomAppBar.setNavigationOnClickListener { onBotBarNavClicked() }
         binding.bottomAppBar.setOnMenuItemClickListener { onItemBotBarClicked(it) }
-        binding.topAppBar.setOnMenuItemClickListener { onItemTopBarClicked(it) }
-        binding.topAppBar.setNavigationOnClickListener { onTopBarNavClicked() }
+        binding.toolbar.setOnMenuItemClickListener { onItemTopBarClicked(it) }
+        binding.toolbar.setNavigationOnClickListener { onTopBarNavClicked() }
     }
 
 

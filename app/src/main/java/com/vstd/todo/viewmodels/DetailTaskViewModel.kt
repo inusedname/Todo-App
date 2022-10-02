@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.data.Task
-import com.vstd.todo.utilities.TextUtils
+import com.vstd.todo.others.utilities.TextUtils
 import java.time.LocalDateTime
 
 class DetailTaskViewModel(private val _task: Task) : ViewModel() {
@@ -17,8 +17,8 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     var workspaceName = _task.workspaceName
     var taskTitle = _task.title
     var taskDescription = _task.description
-    private var isDone = _task.isDone
-    private var isArchived = false
+    var isDone = _task.isDone
+    var isArchived = false
 
     private val _subtasksLiveData = MutableLiveData<List<Subtask>>()
     val subtasksLiveData = _subtasksLiveData
@@ -63,14 +63,6 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     fun updateSubtaskDone(i: Int) {
         subtasks[i] = subtasks[i].copy(isDone = !subtasks[i].isDone)
         updateSubtaskLiveData()
-    }
-
-    fun updateTaskDone() {
-        isDone = !isDone
-    }
-
-    fun updateTaskArchived() {
-        isArchived = true
     }
 
     private fun cleanBeforeValidate() {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="color_picker_colors">
+        <item>#FF7878</item>
+        <item>#064420</item>
+        <item>#748DA6</item>
+        <item>#FCFFA6</item>
+        <item>#FBC6A4</item>
+        <item>#B1B2FF</item>
+        <item>#F675A8</item>
+        <item>#5E454B</item>
+        <item>#898AA6</item>
+        <item>#354259</item>
+        <item>#FDFAF6</item>
+        <item>#A7D2CB</item>
+    </array>
+</resources>

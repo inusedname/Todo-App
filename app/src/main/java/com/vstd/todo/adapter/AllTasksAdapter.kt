@@ -2,13 +2,13 @@ package com.vstd.todo.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.vstd.todo.R
 import com.vstd.todo.data.Task
 import com.vstd.todo.databinding.ItemTaskBinding
-import com.vstd.todo.utilities.getColor
 
 class AllTasksAdapter(
     private val onItemClicked: (Task) -> Unit,

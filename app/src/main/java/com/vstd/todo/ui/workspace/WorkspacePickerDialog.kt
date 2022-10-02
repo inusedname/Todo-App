@@ -1,9 +1,7 @@
 package com.vstd.todo.ui.workspace
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.vstd.todo.R
@@ -12,8 +10,8 @@ import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogWorkspacePickerBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
-import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.toast
+import com.vstd.todo.others.constants.BundleKeys
+import com.vstd.todo.others.utilities.toast
 import com.vstd.todo.viewmodels.WorkspaceViewModel
 import com.vstd.todo.viewmodels.WorkspaceViewModelFactory
 
@@ -21,23 +19,14 @@ class WorkspacePickerDialog(
     private val repo: TodoRepo,
     private val onChooseWorkspaceSubmit: (String) -> Unit
 ) :
-    BaseBottomDialogFragment() {
+    BaseBottomDialogFragment(R.layout.dialog_workspace_picker) {
 
     private lateinit var binding: DialogWorkspacePickerBinding
     private lateinit var viewModel: WorkspaceViewModel
     private lateinit var adapter: ChooseWorkspaceAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-
-        binding =
-            DialogWorkspacePickerBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = DialogWorkspacePickerBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         setupViewModel()
         setupRecyclerView()
@@ -97,7 +86,7 @@ class WorkspacePickerDialog(
         val editWorkspaceDialog = EditWorkspaceDialog(onEditWorkspaceDialog, workspaceNames)
 
         editWorkspaceDialog.arguments = Bundle().apply {
-            putSerializable(Constants.WORKSPACE_OBJ, workspace)
+            putSerializable(BundleKeys.WORKSPACE_OBJ, workspace)
         }
         editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
     }

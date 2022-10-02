@@ -21,9 +21,9 @@ data class Task(
 
     val lastModifiedDateTime: String = LocalDateTime.now().toString(),
 
-    val dueDate: String = "null",
+    val dueDate: String = "",
 
-    val dueTime: String = "null",
+    val dueTime: String = "",
 
     val workspaceName: String,
 

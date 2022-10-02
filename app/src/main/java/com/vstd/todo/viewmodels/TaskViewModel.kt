@@ -4,7 +4,11 @@ import androidx.lifecycle.*
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
-import com.vstd.todo.utilities.*
+import com.vstd.todo.others.helper.TaskHelper
+import com.vstd.todo.others.helper.sortedByCreatedDate
+import com.vstd.todo.others.helper.sortedByDueDate
+import com.vstd.todo.others.helper.sortedByLastModified
+import com.vstd.todo.others.utilities.ColorUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -24,7 +28,7 @@ class TaskViewModel(private val repo: TodoRepo, defaultWorkspaceName: String) : 
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
-            repo.insertWorkspace(Workspace(workspaceName, Constants.COLORS["red"]!!))
+            repo.insertWorkspace(Workspace(workspaceName, ColorUtils.getRandomColor()))
         }
     }
 
@@ -58,6 +62,10 @@ class TaskViewModel(private val repo: TodoRepo, defaultWorkspaceName: String) : 
             cleanUpTasks()
             updateTaskLiveData()
         }
+    }
+
+    fun refreshWorkspaceName() {
+        _workspaceNameLiveData.value = workspaceName
     }
 
     fun changeWorkspace(workspaceName: String = this.workspaceName) {
@@ -103,13 +111,13 @@ class TaskViewModel(private val repo: TodoRepo, defaultWorkspaceName: String) : 
 
     fun sortTasks(sortType: String) {
         when (sortType) {
-            Sorting.DUE_DATE_ASC -> tasks = tasks.sortedByDueDate().toMutableList()
-            Sorting.DUE_DATE_DESC -> tasks = tasks.sortedByDueDate().reversed().toMutableList()
-            Sorting.CREATE_DATE_ASC -> tasks = tasks.sortedByCreatedDate().toMutableList()
-            Sorting.CREATE_DATE_DESC -> tasks =
+            TaskHelper.DUE_DATE_ASC -> tasks = tasks.sortedByDueDate().toMutableList()
+            TaskHelper.DUE_DATE_DESC -> tasks = tasks.sortedByDueDate().reversed().toMutableList()
+            TaskHelper.CREATE_DATE_ASC -> tasks = tasks.sortedByCreatedDate().toMutableList()
+            TaskHelper.CREATE_DATE_DESC -> tasks =
                 tasks.sortedByCreatedDate().reversed().toMutableList()
-            Sorting.LAST_MODIFIED_ASC -> tasks = tasks.sortedByLastModified().toMutableList()
-            Sorting.LAST_MODIFIED_DESC -> tasks =
+            TaskHelper.LAST_MODIFIED_ASC -> tasks = tasks.sortedByLastModified().toMutableList()
+            TaskHelper.LAST_MODIFIED_DESC -> tasks =
                 tasks.sortedByLastModified().reversed().toMutableList()
         }
         updateTaskLiveData()

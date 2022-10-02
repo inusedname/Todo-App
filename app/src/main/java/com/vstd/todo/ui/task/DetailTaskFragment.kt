@@ -22,10 +22,10 @@ import com.vstd.todo.interfaces.HasBotAppBar
 import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasFab
 import com.vstd.todo.interfaces.HasTopAppBar
+import com.vstd.todo.others.constants.BundleKeys
+import com.vstd.todo.others.utilities.*
 import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.*
-import com.vstd.todo.utilities.helper.hideSoftKeyboard
 import com.vstd.todo.viewmodels.DetailTaskViewModel
 import com.vstd.todo.viewmodels.DetailTaskViewModelFactory
 import com.vstd.todo.viewmodels.TaskViewModel
@@ -54,7 +54,7 @@ class DetailTaskFragment :
     }
 
     private fun loadArgs() {
-        val task = requireArguments().getSerializable(Constants.TASK) as Task
+        val task = requireArguments().getSerializable(BundleKeys.TASK_OBJ) as Task
         setUpViewModels(task)
         displayData(task)
     }
@@ -100,7 +100,7 @@ class DetailTaskFragment :
                 task.lastModifiedDateTime.toFriendlyDateTimeString()
             )
             chipDueDateTime.text = detailTaskViewModel.dueDate.let {
-                DateTimeUtils.format(
+                DateTimeUtils.formatFriendly(
                     it,
                     detailTaskViewModel.dueTime
                 )
@@ -205,7 +205,7 @@ class DetailTaskFragment :
     private fun updateTaskDone() {
         backWithoutSave(
             onAccept = {
-                detailTaskViewModel.updateTaskDone()
+                detailTaskViewModel.isDone = detailTaskViewModel.isDone.not()
                 doSaveAndNavigateIfCan()
             },
             onDecline = {
@@ -224,7 +224,7 @@ class DetailTaskFragment :
     private fun updateTaskArchive() {
         backWithoutSave(
             onAccept = {
-                detailTaskViewModel.updateTaskArchived()
+                detailTaskViewModel.isArchived = true
                 doSaveAndNavigateIfCan()
                 requireActivity().snackArchived(binding.root, fab)
             },
@@ -301,8 +301,8 @@ class DetailTaskFragment :
     private val onSelectDueDateTimeClicked = {
         val dialog = DateTimePickerDialog(onDateTimeSubmit)
         dialog.arguments = Bundle().apply {
-            putSerializable(Constants.DATE_STRING, detailTaskViewModel.dueDate)
-            putSerializable(Constants.TIME_STRING, detailTaskViewModel.dueTime)
+            putSerializable(BundleKeys.DATE_STRING, detailTaskViewModel.dueDate)
+            putSerializable(BundleKeys.TIME_STRING, detailTaskViewModel.dueTime)
         }
         dialog.show(childFragmentManager, DateTimePickerDialog.TAG)
     }
@@ -310,7 +310,7 @@ class DetailTaskFragment :
     private val onDateTimeSubmit = { date: String, time: String ->
         detailTaskViewModel.dueDate = date
         detailTaskViewModel.dueTime = time
-        binding.chipDueDateTime.text = DateTimeUtils.format(date, time)
+        binding.chipDueDateTime.text = DateTimeUtils.formatFriendly(date, time)
     }
 
     private val onSelectWorkspaceClicked = {

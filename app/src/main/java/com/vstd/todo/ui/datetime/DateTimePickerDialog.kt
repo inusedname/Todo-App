@@ -9,7 +9,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.vstd.todo.R
 import com.vstd.todo.databinding.DialogDateTimePickerBinding
-import com.vstd.todo.utilities.*
+import com.vstd.todo.others.constants.BundleKeys
+import com.vstd.todo.others.utilities.*
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -50,14 +51,14 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
 
 
     private fun loadArgs() {
-        val oldDate = arguments?.getString(Constants.DATE_STRING)
-        if (oldDate != null && oldDate != "null") {
+        val oldDate = arguments?.getString(BundleKeys.DATE_STRING)
+        if (oldDate != null && oldDate.isNotEmpty()) {
             dateSet = true
             date = oldDate.toLocalDate()
         }
 
-        val oldTime = arguments?.getString(Constants.TIME_STRING)
-        if (oldTime != null && oldTime != "null") {
+        val oldTime = arguments?.getString(BundleKeys.TIME_STRING)
+        if (oldTime != null && oldTime != "") {
             time = oldTime.toLocalTime()
         }
     }
@@ -133,11 +134,11 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
     }
 
     private val onPositiveButtonClicked = DialogInterface.OnClickListener { _, _ ->
-        onDateTimeSubmit(date.toString(), time?.toString() ?: "null")
+        onDateTimeSubmit(date.toString(), time?.toString() ?: "")
     }
 
     private val onNegativeButtonClicked = DialogInterface.OnClickListener { _, _ ->
-        onDateTimeSubmit("null", "null")
+        onDateTimeSubmit("", "")
     }
 
     private fun showDatePicker() {

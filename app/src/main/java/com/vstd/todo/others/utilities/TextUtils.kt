@@ -1,4 +1,4 @@
-package com.vstd.todo.utilities
+package com.vstd.todo.others.utilities
 
 object TextUtils {
 
@@ -8,9 +8,5 @@ object TextUtils {
 
     fun isValidTitle(title: String): Boolean {
         return title.trim().length in 1..20
-    }
-
-    fun isNameSet(list: List<String>, str: String): Boolean {
-        return list.contains(str)
     }
 }

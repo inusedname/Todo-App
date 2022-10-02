@@ -1,71 +1,39 @@
 package com.vstd.todo.ui.task
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.vstd.todo.R
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogAddTaskBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
+import com.vstd.todo.others.constants.BundleKeys
+import com.vstd.todo.others.utilities.DateTimeUtils
+import com.vstd.todo.others.utilities.TextUtils
+import com.vstd.todo.others.utilities.toast
 import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.*
-import com.vstd.todo.utilities.helper.hideSoftKeyboard
 
 class AddTaskDialog(
     private val repo: TodoRepo,
     private val onSubmit: (Task) -> Unit
-) : BaseBottomDialogFragment() {
+) : BaseBottomDialogFragment(R.layout.dialog_add_task) {
 
     private lateinit var binding: DialogAddTaskBinding
-    private var date = "null"
-    private var time = "null"
+    private var date = ""
+    private var time = ""
     private lateinit var workspace: String
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DialogAddTaskBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onPause() {
-        val res = requireActivity().hideSoftKeyboard()
-        log("onPause, $res")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        val res = requireActivity().hideSoftKeyboard()
-        log("onStop, $res")
-        super.onStop()
-    }
-
-    override fun onDestroyView() {
-        val res = requireActivity().hideSoftKeyboard()
-        log("onDestroyView, $res")
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        val res = requireActivity().hideSoftKeyboard()
-        log("onDestroy, $res")
-        super.onDestroy()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = DialogAddTaskBinding.bind(view)
         loadArgs()
         setClickListeners()
         binding.etTitle.requestFocus()
     }
 
     private fun loadArgs() {
-        workspace = requireArguments().getString(Constants.WORKSPACE_NAME_STRING) ?: ""
+        workspace = requireArguments().getString(BundleKeys.WORKSPACE_NAME_STRING) ?: ""
         binding.btSetWorkspace.text = workspace
     }
 
@@ -95,8 +63,8 @@ class AddTaskDialog(
     private fun setDueDateClicked() {
         val datePickerFragment = DateTimePickerDialog(onDueDateSubmit)
         datePickerFragment.arguments = Bundle().apply {
-            putString(Constants.DATE_STRING, date)
-            putString(Constants.TIME_STRING, time)
+            putString(BundleKeys.DATE_STRING, date)
+            putString(BundleKeys.TIME_STRING, time)
         }
         datePickerFragment.show(childFragmentManager, DateTimePickerDialog.TAG)
     }
@@ -110,7 +78,7 @@ class AddTaskDialog(
         this.date = date
         this.time = time
         binding.btSetDueDate.text =
-            DateTimeUtils.format(date, time) ?: getString(R.string.set_due_date)
+            DateTimeUtils.formatFriendly(date, time) ?: getString(R.string.set_due_date)
     }
 
     private val onWorkspaceSubmit = { selectedWorkspace: String ->

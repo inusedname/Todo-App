@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.vstd.todo.MainActivity
 import com.vstd.todo.R
 import com.vstd.todo.adapter.AllTasksAdapter
 import com.vstd.todo.data.Task
@@ -19,10 +18,9 @@ import com.vstd.todo.databinding.FragmentAllTasksBinding
 import com.vstd.todo.interfaces.HasBotAppBar
 import com.vstd.todo.interfaces.HasFab
 import com.vstd.todo.interfaces.HasTopAppBar
+import com.vstd.todo.others.constants.BundleKeys
+import com.vstd.todo.others.helper.showSortPopup
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.helper.getTopAppBar
-import com.vstd.todo.utilities.helper.showSortPopup
 import com.vstd.todo.viewmodels.TaskViewModel
 
 class AllTaskFragment :
@@ -45,8 +43,8 @@ class AllTaskFragment :
 
         if (viewModel.archiveMode)
             viewModel.changeWorkspace()
-        (requireActivity() as MainActivity).getTopAppBar().title =
-            viewModel.workspaceNameLiveData.value
+        else
+            viewModel.refreshWorkspaceName()
     }
 
     private fun setUpAdapter() {
@@ -106,7 +104,7 @@ class AllTaskFragment :
     override fun onFabClicked(fab: View) {
         val addTaskDialog = AddTaskDialog(repo, onAddTaskSubmit)
         addTaskDialog.arguments = Bundle().apply {
-            putString(Constants.WORKSPACE_NAME_STRING, viewModel.workspaceNameLiveData.value)
+            putString(BundleKeys.WORKSPACE_NAME_STRING, viewModel.workspaceNameLiveData.value)
         }
         addTaskDialog.show(childFragmentManager, AddTaskDialog.TAG)
     }
@@ -147,7 +145,7 @@ class AllTaskFragment :
     private fun navigateToDetail(task: Task) {
         findNavController().navigate(R.id.action_allTaskFragment_to_detailTaskFragment,
             Bundle().apply {
-                putSerializable(Constants.TASK, task)
+                putSerializable(BundleKeys.TASK_OBJ, task)
             })
     }
 }

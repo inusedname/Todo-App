@@ -11,7 +11,7 @@ import com.vstd.todo.data.relation.TaskWithTags
 @Dao
 interface TodoDao {
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertWorkspace(workspace: Workspace): Long
 
     @Delete

@@ -23,6 +23,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
 
     private lateinit var binding: DialogDateTimePickerBinding
 
+    private var dateSet = false
     private var date = LocalDate.now()
     private var time: LocalTime? = null
 
@@ -35,16 +36,23 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
         updateTime()
         setOnClickListeners()
 
-        return AlertDialog.Builder(requireContext()).setView(binding.root)
+        val dialog = AlertDialog.Builder(requireContext()).setView(binding.root)
             .setTitle(getString(R.string.pick_a_date_and_time))
             .setPositiveButton(getString(R.string.set), onPositiveButtonClicked)
-            .setNegativeButton(getString(R.string.cancel), null).create()
+            .setNegativeButton(getString(R.string.cancel), null)
+
+        if (dateSet) {
+            dialog.setNeutralButton(getString(R.string.clear), onNegativeButtonClicked)
+        }
+
+        return dialog.create()
     }
 
 
     private fun loadArgs() {
         val oldDate = arguments?.getString(Constants.DATE_STRING)
         if (oldDate != null && oldDate != "null") {
+            dateSet = true
             date = oldDate.toLocalDate()
         }
 
@@ -55,7 +63,7 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
     }
 
     private fun updateCalendar() {
-        binding.calendarView.date = date.toMilliSecEpoch()
+        binding.calendarView.date = date.toEpochMillisecond()
     }
 
     private fun updateTime() {
@@ -78,13 +86,24 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
     }
 
     private val onSetDueTimeClicked = {
-        TimePickerDialog(
+        val timepicker = TimePickerDialog(
             requireContext(),
             onTimeSet,
             time?.hour ?: LocalTime.now().hour,
             time?.minute ?: LocalTime.now().minute,
             true
-        ).show()
+        )
+        if (time != null)
+            timepicker.setButton(
+                DialogInterface.BUTTON_NEUTRAL,
+                getString(R.string.clear)
+            ) { _, which ->
+                if (which == DialogInterface.BUTTON_NEUTRAL) {
+                    time = null
+                    updateTime()
+                }
+            }
+        timepicker.show()
     }
 
     private val onTimeSet = { _: TimePicker, hour: Int, minute: Int ->
@@ -115,6 +134,10 @@ class DateTimePickerDialog(private val onDateTimeSubmit: (String, String) -> Uni
 
     private val onPositiveButtonClicked = DialogInterface.OnClickListener { _, _ ->
         onDateTimeSubmit(date.toString(), time?.toString() ?: "null")
+    }
+
+    private val onNegativeButtonClicked = DialogInterface.OnClickListener { _, _ ->
+        onDateTimeSubmit("null", "null")
     }
 
     private fun showDatePicker() {

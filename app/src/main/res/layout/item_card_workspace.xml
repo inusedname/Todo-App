@@ -4,7 +4,7 @@
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/tv_workspace_name"
-        android:layout_width="match_parent"
+        android:layout_width="184dp"
         android:layout_height="96dp"
         android:layout_margin="8dp"
         android:background="@drawable/bg_filled_card"

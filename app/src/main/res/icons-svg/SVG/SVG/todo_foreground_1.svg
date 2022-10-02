@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 81.45 62.98">
+    <defs>
+        <style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:url(#linear-gradient-2);}</style>
+        <linearGradient id="linear-gradient" x1="7.13" y1="28.08" x2="44.36" y2="49.65"
+            gradientTransform="matrix(0.71, -0.89, 0.71, 0.89, -21.1, 28.29)"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.29" stop-color="#f47d7d" />
+            <stop offset="1" stop-color="#cc3a76" />
+        </linearGradient>
+        <linearGradient id="linear-gradient-2" x1="25.37" y1="36.42" x2="84.68" y2="36.42"
+            gradientTransform="matrix(-0.71, -0.89, 0.71, -0.89, 64.27, 112.7)"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ff3600" />
+            <stop offset="0.61" stop-color="#f47d7d" />
+        </linearGradient>
+    </defs>
+    <title>todo_foreground_1</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="date">
+            <rect class="cls-1" x="-0.81" y="30.44" width="47.78" height="20" rx="2.85"
+                transform="translate(33.93 -4.84) rotate(43.19)" />
+            <rect class="cls-2" x="15.28" y="21.49" width="71.67" height="20" rx="3.57"
+                transform="translate(-6.83 47.21) rotate(-46.81)" />
+        </g>
+    </g>
+</svg>

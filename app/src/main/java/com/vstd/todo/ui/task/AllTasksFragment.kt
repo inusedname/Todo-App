@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -24,7 +24,6 @@ import com.vstd.todo.utilities.Constants
 import com.vstd.todo.utilities.helper.getTopAppBar
 import com.vstd.todo.utilities.helper.showSortPopup
 import com.vstd.todo.viewmodels.TaskViewModel
-import com.vstd.todo.viewmodels.TaskViewModelFactory
 
 class AllTaskFragment :
     Fragment(R.layout.fragment_all_tasks),
@@ -34,40 +33,33 @@ class AllTaskFragment :
 
     private lateinit var repo: TodoRepo
     private lateinit var adapter: AllTasksAdapter
-    private lateinit var viewModel: TaskViewModel
+    private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var binding: FragmentAllTasksBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentAllTasksBinding.bind(view)
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
 
-        setUpViewModel()
         setUpAdapter()
         observing()
-    }
 
-    override fun onStart() {
-        super.onStart()
         if (viewModel.archiveMode)
             viewModel.changeWorkspace()
         (requireActivity() as MainActivity).getTopAppBar().title =
             viewModel.workspaceNameLiveData.value
     }
 
-    private fun setUpViewModel() {
-        viewModel = ViewModelProvider(
-            requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java]
-    }
-
     private fun setUpAdapter() {
         adapter = AllTasksAdapter(onTaskClicked, onDoneTaskClicked)
         binding.rvTasks.adapter = adapter
-        viewModel.changeWorkspace()
     }
 
     private fun observing() {
         viewModel.taskLiveData.observe(viewLifecycleOwner) { tasks: List<Task> ->
+            if (tasks.isEmpty())
+                binding.welcomeText.visibility = View.VISIBLE
+            else
+                binding.welcomeText.visibility = View.GONE
             adapter.setData(tasks)
         }
     }

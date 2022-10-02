@@ -44,7 +44,6 @@
     <string name="add_a_subtask">Add a subtask</string>
     <string name="edit_workspace">Edit Workspace</string>
     <string name="workspace_name">Workspace Name</string>
-    <string name="default_workspace">Default Workspace</string>
     <string name="select_color_for_workspace">Select Color for Workspace</string>
     <string name="set_time">Set Time</string>
     <string name="subtasks">Subtasks</string>
@@ -62,4 +61,8 @@
     <string name="delete">Delete</string>
     <string name="restore">Restore</string>
     <string name="task_archived_msg">Task archived</string>
+    <string name="edit_workspace_helper">Do long click on item to edit</string>
+    <string name="clear">clear</string>
+    <string name="default_workspace_name">default</string>
+    <string name="welcome_text">Such a lazy hooman :v</string>
 </resources>

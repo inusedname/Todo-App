@@ -12,7 +12,6 @@ import com.vstd.todo.R
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.databinding.ItemSubtaskBinding
 import com.vstd.todo.utilities.getColor
-import com.vstd.todo.utilities.log
 
 class SubtaskAdapter(
     private val onDoneClicked: (Int) -> Unit,
@@ -76,7 +75,6 @@ class SubtaskAdapter(
                 etSubtaskTitle.setOnFocusChangeListener { _, isFocused: Boolean ->
                     if (!isFocused) {
                         updateNewName(etSubtaskTitle, adapterPosition)
-                        log("bind: Updated $adapterPosition")
                     }
                 }
             }

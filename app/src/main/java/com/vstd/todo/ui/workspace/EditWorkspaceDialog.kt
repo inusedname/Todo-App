@@ -9,14 +9,15 @@ import com.vstd.todo.data.Workspace
 import com.vstd.todo.databinding.DialogEditWorkspaceBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.ui.color.ColorPickerDialog
-import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.TextUtils
-import com.vstd.todo.utilities.getContrastColor
-import com.vstd.todo.utilities.toast
+import com.vstd.todo.utilities.*
 
-class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
+class EditWorkspaceDialog(
+    private val onWorkspaceSubmit: (Workspace, Boolean) -> Unit,
+    private val workspaceNames: List<String>
+) :
     BaseBottomDialogFragment() {
 
+    private var workspace: Workspace? = null
     private lateinit var binding: DialogEditWorkspaceBinding
     private var colorPickerColor: Int
         get() = binding.btChooseColor.backgroundTintList?.defaultColor ?: Constants.DEFAULT_COLOR
@@ -43,10 +44,17 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
     }
 
     private fun loadArgs() {
+        colorPickerColor = getRandomColor()
         arguments?.let { bundle ->
-            val workspace = bundle.getSerializable(Constants.WORKSPACE_OBJ) as Workspace?
+            binding.btDelete.visibility = View.VISIBLE
+            workspace = bundle.getSerializable(Constants.WORKSPACE_OBJ) as Workspace?
             workspace?.let {
-                binding.etWorkspaceName.setText(it.workspaceName)
+                binding.etWorkspaceName.apply {
+                    setText(it.workspaceName)
+                    isEnabled = false
+                    isFocusable = false
+                    isFocusableInTouchMode = false
+                }
                 colorPickerColor = it.workspaceColor
             }
         }
@@ -57,7 +65,13 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
             btBack.setOnClickListener { onBackClicked() }
             btSave.setOnClickListener { onSaveClicked() }
             btChooseColor.setOnClickListener { onSelectColorSubmit() }
+            btDelete.setOnClickListener { onDeleteClicked() }
         }
+    }
+
+    private fun onDeleteClicked() {
+        onWorkspaceSubmit(workspace!!, true)
+        dismiss()
     }
 
     private fun onSelectColorSubmit() {
@@ -74,7 +88,7 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
             binding.etWorkspaceName.text.toString(),
             colorPickerColor
         )
-        onWorkspaceSubmit(newWorkspace)
+        onWorkspaceSubmit(newWorkspace, false)
         dismiss()
     }
 
@@ -87,9 +101,13 @@ class EditWorkspaceDialog(private val onWorkspaceSubmit: (Workspace) -> Unit) :
     }
 
     private fun getValidateStatus(): String {
-        return if (!TextUtils.isValidTitle(binding.etWorkspaceName.text.toString())) {
+        val name = binding.etWorkspaceName.text.toString()
+        val isEnabled = binding.etWorkspaceName.isEnabled
+        return if (!TextUtils.isValidTitle(name)) {
             TextUtils.NOT_VALID_TITLE
-        } else TextUtils.PASSED_ALL_VALIDATION
+        } else if (isEnabled && TextUtils.isNameSet(workspaceNames, name))
+            TextUtils.WORKSPACE_NAME_COINCIDENCE
+        else TextUtils.PASSED_ALL_VALIDATION
     }
 
     companion object {

@@ -11,7 +11,8 @@ import com.vstd.todo.databinding.ItemCardWorkspaceBinding
 import com.vstd.todo.utilities.getContrastColor
 
 class ChooseWorkspaceAdapter(
-    private val onWorkspaceClickListener: (String) -> Unit
+    private val onWorkspaceClickListener: (String) -> Unit,
+    private val onWorkspaceLongClickListener: (Workspace) -> Unit
 ) :
     ListAdapter<Workspace, ChooseWorkspaceAdapter.ChooseWorkspaceViewHolder>(
         DIFF_CALLBACK
@@ -41,6 +42,10 @@ class ChooseWorkspaceAdapter(
             binding.tvWorkspaceName.setTextColor(getContrastColor(workspace.workspaceColor))
             binding.root.setOnClickListener {
                 onWorkspaceClickListener.invoke(workspace.workspaceName)
+            }
+            binding.root.setOnLongClickListener {
+                onWorkspaceLongClickListener.invoke(workspace)
+                true
             }
         }
     }

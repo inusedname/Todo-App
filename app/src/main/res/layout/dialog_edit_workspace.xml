@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_back"
             style="@style/Widget.MaterialComponents.Button.TextButton"
@@ -20,7 +21,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_save"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/save"
@@ -51,6 +52,17 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/bt_delete"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/delete"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/bt_save"
+            app:layout_constraintTop_toTopOf="@id/bt_save" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_choose_color"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
@@ -59,31 +71,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/color"
             app:icon="@drawable/ic_baseline_palette_24"
-            app:layout_constraintStart_toStartOf="@id/bt_back"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_layout_workspace_name" />
-        <!--        <FrameLayout-->
-        <!--            android:id="@+id/bt_choose_color"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginEnd="8dp"-->
-        <!--            app:layout_constraintBottom_toBottomOf="@id/et_layout_workspace_name"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="@id/et_layout_workspace_name">-->
-
-        <!--            <include-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:id="@+id/bg_bt_choose_color"-->
-        <!--                layout="@layout/item_color" />-->
-
-        <!--            <ImageView-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center"-->
-        <!--                android:contentDescription="@string/select_color_for_workspace"-->
-        <!--                android:src="@drawable/ic_baseline_palette_24"-->
-        <!--                app:tint="?attr/colorOnPrimary" />-->
-        <!--        </FrameLayout>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

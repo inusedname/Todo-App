@@ -2,12 +2,10 @@ package com.vstd.todo.ui.task
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -22,47 +20,24 @@ import com.vstd.todo.interfaces.HasCustomBackPress
 import com.vstd.todo.interfaces.HasTopAppBar
 import com.vstd.todo.utilities.helper.showSortPopup
 import com.vstd.todo.viewmodels.TaskViewModel
-import com.vstd.todo.viewmodels.TaskViewModelFactory
 
 class ArchivedTasksFragment :
-    Fragment(),
+    Fragment(R.layout.fragment_archived_tasks),
     HasTopAppBar,
     HasBotAppBar,
     HasCustomBackPress {
 
     private lateinit var repo: TodoRepo
     private lateinit var adapter: ArchivedTasksAdapter
-    private lateinit var viewModel: TaskViewModel
+    private val viewModel: TaskViewModel by activityViewModels()
     private lateinit var binding: FragmentArchivedTasksBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentArchivedTasksBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentArchivedTasksBinding.bind(view)
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
 
-        setUpViewModel()
         setUpAdapter()
         observing()
-    }
-
-//      No longer needed
-//    override fun onStart() {
-//        super.onStart()
-//        if (!viewModel.archiveMode)
-//            viewModel.fetchArchived()
-//    }
-
-    private fun setUpViewModel() {
-        viewModel = ViewModelProvider(
-            requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java]
     }
 
     private fun setUpAdapter() {

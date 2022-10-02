@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.63 66.08">
+    <defs>
+        <style>.cls-1{fill:url(#linear-gradient);}.cls-2{fill:url(#linear-gradient-2);}</style>
+        <linearGradient id="linear-gradient" x1="24.71" y1="7.55" x2="62" y2="29.15"
+            gradientTransform="matrix(0.71, -1.11, 0.71, 1.11, -17.49, 69.08)"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0.29" stop-color="#f47d7d" />
+            <stop offset="1" stop-color="#cc3a76" />
+        </linearGradient>
+        <linearGradient id="linear-gradient-2" x1="226.23" y1="-144.36" x2="285.58" y2="-144.36"
+            gradientTransform="matrix(-0.71, -1.11, 0.71, -1.11, 331.69, 156.82)"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ff3600" />
+            <stop offset="0.61" stop-color="#f47d7d" />
+        </linearGradient>
+    </defs>
+    <title>fg</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="date">
+            <rect class="cls-1" x="0.75" y="29.46" width="47.78" height="25" rx="3.22"
+                transform="translate(35.39 -5.5) rotate(43.19)" />
+            <rect class="cls-2" x="12.84" y="20.51" width="71.67" height="25" rx="4.04"
+                transform="translate(-8.71 45.9) rotate(-46.81)" />
+        </g>
+    </g>
+</svg>

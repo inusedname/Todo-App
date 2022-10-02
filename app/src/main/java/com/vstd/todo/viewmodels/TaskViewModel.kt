@@ -14,7 +14,13 @@ fun MutableList<Task>.updateById(task: Task) {
         this[index] = task
 }
 
-class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
+class TaskViewModel(private val repo: TodoRepo, defaultWorkspaceName: String) : ViewModel() {
+
+    var archiveMode = false
+        private set
+    private lateinit var tasks: MutableList<Task>
+    private var workspaceName = defaultWorkspaceName
+    private val _workspaceNameLiveData = MutableLiveData(workspaceName)
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
@@ -22,11 +28,6 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
-    var archiveMode = false
-        private set
-    private lateinit var tasks: MutableList<Task>
-    private var workspaceName = Constants.DEFAULT_WORKSPACE_NAME
-    private val _workspaceNameLiveData = MutableLiveData(workspaceName)
     private val _taskLiveData by lazy {
         MutableLiveData<List<Task>>().also {
             changeWorkspace()
@@ -125,11 +126,12 @@ class TaskViewModel(private val repo: TodoRepo) : ViewModel() {
 }
 
 @Suppress("UNCHECKED_CAST")
-class TaskViewModelFactory(private val repo: TodoRepo) : ViewModelProvider.Factory {
+class TaskViewModelFactory(private val repo: TodoRepo, private val defaultWorkspaceName: String) :
+    ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TaskViewModel::class.java)) {
-            return TaskViewModel(repo) as T
+            return TaskViewModel(repo, defaultWorkspaceName) as T
         }
         throw IllegalArgumentException("Unknown ViewModel Class")
     }

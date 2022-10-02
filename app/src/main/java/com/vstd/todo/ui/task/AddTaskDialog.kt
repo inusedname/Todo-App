@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.vstd.todo.R
 import com.vstd.todo.data.Task
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogAddTaskBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
 import com.vstd.todo.ui.datetime.DateTimePickerDialog
 import com.vstd.todo.ui.workspace.WorkspacePickerDialog
-import com.vstd.todo.utilities.Constants
-import com.vstd.todo.utilities.DateTimeUtils
-import com.vstd.todo.utilities.TextUtils
-import com.vstd.todo.utilities.toast
+import com.vstd.todo.utilities.*
+import com.vstd.todo.utilities.helper.hideSoftKeyboard
 
 class AddTaskDialog(
     private val repo: TodoRepo,
@@ -32,6 +31,30 @@ class AddTaskDialog(
     ): View {
         binding = DialogAddTaskBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun onPause() {
+        val res = requireActivity().hideSoftKeyboard()
+        log("onPause, $res")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        val res = requireActivity().hideSoftKeyboard()
+        log("onStop, $res")
+        super.onStop()
+    }
+
+    override fun onDestroyView() {
+        val res = requireActivity().hideSoftKeyboard()
+        log("onDestroyView, $res")
+        super.onDestroyView()
+    }
+
+    override fun onDestroy() {
+        val res = requireActivity().hideSoftKeyboard()
+        log("onDestroy, $res")
+        super.onDestroy()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,11 +90,14 @@ class AddTaskDialog(
         )
         onSubmit(newTask)
         dismiss()
-
     }
 
     private fun setDueDateClicked() {
         val datePickerFragment = DateTimePickerDialog(onDueDateSubmit)
+        datePickerFragment.arguments = Bundle().apply {
+            putString(Constants.DATE_STRING, date)
+            putString(Constants.TIME_STRING, time)
+        }
         datePickerFragment.show(childFragmentManager, DateTimePickerDialog.TAG)
     }
 
@@ -83,7 +109,8 @@ class AddTaskDialog(
     private val onDueDateSubmit = { date: String, time: String ->
         this.date = date
         this.time = time
-        binding.btSetDueDate.text = DateTimeUtils.format(date, time)
+        binding.btSetDueDate.text =
+            DateTimeUtils.format(date, time) ?: getString(R.string.set_due_date)
     }
 
     private val onWorkspaceSubmit = { selectedWorkspace: String ->
@@ -102,3 +129,10 @@ class AddTaskDialog(
         const val TAG = "AddTaskDialog"
     }
 }
+/**
+Logcat:
+onPause, false
+onStop, false
+onDestroyView, false
+onDestroy, false
+ */

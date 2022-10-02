@@ -2,11 +2,10 @@ package com.vstd.todo.ui.task
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
@@ -30,7 +29,6 @@ import com.vstd.todo.utilities.helper.hideSoftKeyboard
 import com.vstd.todo.viewmodels.DetailTaskViewModel
 import com.vstd.todo.viewmodels.DetailTaskViewModelFactory
 import com.vstd.todo.viewmodels.TaskViewModel
-import com.vstd.todo.viewmodels.TaskViewModelFactory
 
 class DetailTaskFragment :
     Fragment(R.layout.fragment_detail_task),
@@ -45,16 +43,8 @@ class DetailTaskFragment :
     private lateinit var binding: FragmentDetailTaskBinding
     private lateinit var fab: View
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = FragmentDetailTaskBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding = FragmentDetailTaskBinding.bind(view)
         repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
 
         loadArgs()
@@ -206,10 +196,8 @@ class DetailTaskFragment :
     }
 
     private fun deleteTask() {
-        val repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
-        ViewModelProvider(
-            requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java].deleteTask(detailTaskViewModel.oldTask)
+        val taskViewModel: TaskViewModel by activityViewModels()
+        taskViewModel.deleteTask(detailTaskViewModel.oldTask)
         requireActivity().snack(binding.root, getString(R.string.task_deleted), fab)
         navigateBackToAllTask()
     }
@@ -268,10 +256,8 @@ class DetailTaskFragment :
     }
 
     private fun updateTask(task: Task) {
-        val repo = TodoRepo.getInstance(TodoDatabase.getInstance(requireContext()).todoDAO)
-        ViewModelProvider(
-            requireActivity(), TaskViewModelFactory(repo)
-        )[TaskViewModel::class.java].updateTask(task)
+        val taskViewModel: TaskViewModel by activityViewModels()
+        taskViewModel.updateTask(task)
     }
 
     private fun navigateBackToAllTask() {

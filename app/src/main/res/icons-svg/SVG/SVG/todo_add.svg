@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 69 69">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke-miterlimit:10;stroke-width:8px;stroke:url(#linear-gradient);}.cls-2{fill:url(#linear-gradient-2);}.cls-3{fill:url(#linear-gradient-3);}
+        </style>
+        <linearGradient id="linear-gradient" x1="6.44" y1="14.43" x2="62.56" y2="54.57"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ff3600" />
+            <stop offset="0.61" stop-color="#f47d7d" />
+        </linearGradient>
+        <linearGradient id="linear-gradient-2" x1="26.85" y1="29.03" x2="42.15" y2="39.97"
+            xlink:href="#linear-gradient" />
+        <linearGradient id="linear-gradient-3" x1="36.48" y1="41.04" x2="52.07" y2="52.19"
+            gradientTransform="translate(-9.78 -12.11)" xlink:href="#linear-gradient" />
+    </defs>
+    <title>todo_add</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="date">
+            <circle class="cls-1" cx="34.5" cy="34.5" r="30.5" />
+            <rect class="cls-2" x="31.44" y="21" width="6.11" height="27" rx="2.37" />
+            <rect class="cls-3" x="31.17" y="21" width="6.67" height="27" rx="2.48"
+                transform="translate(69 0) rotate(90)" />
+        </g>
+    </g>
+</svg>

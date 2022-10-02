@@ -5,11 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import com.vstd.todo.R
 import com.vstd.todo.adapter.ChooseWorkspaceAdapter
 import com.vstd.todo.data.Workspace
 import com.vstd.todo.data.repository.TodoRepo
 import com.vstd.todo.databinding.DialogWorkspacePickerBinding
 import com.vstd.todo.interfaces.BaseBottomDialogFragment
+import com.vstd.todo.utilities.Constants
+import com.vstd.todo.utilities.toast
 import com.vstd.todo.viewmodels.WorkspaceViewModel
 import com.vstd.todo.viewmodels.WorkspaceViewModelFactory
 
@@ -57,32 +61,52 @@ class WorkspacePickerDialog(
     }
 
     private fun setupRecyclerView() {
-        adapter = ChooseWorkspaceAdapter(onWorkspaceSelected)
+        adapter = ChooseWorkspaceAdapter(onWorkspaceSelected, onWorkspaceLongClicked)
+        binding.rvWorkspace.layoutManager =
+            GridLayoutManager(requireContext(), 2, GridLayoutManager.HORIZONTAL, false)
         binding.rvWorkspace.adapter = adapter
     }
 
     private fun observing() {
-        viewModel.workspace.observe(viewLifecycleOwner) {
+        viewModel.workspaceLiveData.observe(viewLifecycleOwner) {
             adapter.updateList(it)
         }
     }
 
     private fun editClicked() {
-        // TODO: Not yet implemented
+        requireActivity().toast(getString(R.string.edit_workspace_helper))
     }
 
     private fun addClicked() {
-        val editWorkspaceDialog = EditWorkspaceDialog(onAddWorkspaceSubmit)
+        val workspaceNames = viewModel.workspaceLiveData.value!!.map { it.workspaceName }
+        val editWorkspaceDialog = EditWorkspaceDialog(onAddWorkspaceSubmit, workspaceNames)
         editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
     }
 
-    private val onWorkspaceSelected = { workspace: String ->
-        onChooseWorkspaceSubmit(workspace)
+    private val onWorkspaceSelected = { workspaceName: String ->
+        onChooseWorkspaceSubmit(workspaceName)
         dismiss()
     }
 
-    private val onAddWorkspaceSubmit = { workspace: Workspace ->
+    private val onAddWorkspaceSubmit = { workspace: Workspace, _: Boolean ->
         viewModel.addWorkspace(workspace)
+    }
+
+    private val onWorkspaceLongClicked = { workspace: Workspace ->
+        val workspaceNames = viewModel.workspaceLiveData.value!!.map { it.workspaceName }
+        val editWorkspaceDialog = EditWorkspaceDialog(onEditWorkspaceDialog, workspaceNames)
+
+        editWorkspaceDialog.arguments = Bundle().apply {
+            putSerializable(Constants.WORKSPACE_OBJ, workspace)
+        }
+        editWorkspaceDialog.show(childFragmentManager, EditWorkspaceDialog.TAG)
+    }
+    private val onEditWorkspaceDialog = { workspace: Workspace, isDeleted: Boolean ->
+        if (isDeleted) {
+            viewModel.deleteWorkspace(workspace)
+        } else {
+            viewModel.editWorkspace(workspace)
+        }
     }
 
     companion object {

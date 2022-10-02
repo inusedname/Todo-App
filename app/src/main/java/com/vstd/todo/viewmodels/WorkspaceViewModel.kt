@@ -61,7 +61,7 @@ class WorkspaceViewModel(private val repo: TodoRepo) : ViewModel() {
         }
     }
 
-    val workspace: LiveData<List<Workspace>> = _workspaceLivedata
+    val workspaceLiveData: LiveData<List<Workspace>> = _workspaceLivedata
 }
 
 @Suppress("UNCHECKED_CAST")

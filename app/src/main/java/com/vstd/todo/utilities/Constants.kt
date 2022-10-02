@@ -1,12 +1,11 @@
 package com.vstd.todo.utilities
 
 import android.graphics.Color
-import android.util.Log
 
-const val TODODBRR = "TODODBRR"
+const val DEBUG_KEY = "VSTDTODO"
+
 object Constants {
-    const val DEFAULT_COLOR = 1
-    const val DEFAULT_WORKSPACE_NAME = "default"
+    const val DEFAULT_COLOR = -1
     const val DATE_STRING = "DATE_STRING"
     const val TIME_STRING = "TIME_STRING"
     const val WORKSPACE_NAME_STRING = "WORKSPACE_NAME"
@@ -29,6 +28,3 @@ object Constants {
     )
 }
 
-fun log(msg: String) {
-    Log.d(TODODBRR, msg)
-}

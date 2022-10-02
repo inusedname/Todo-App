@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 69 69">
+    <defs>
+        <style>
+            .cls-1{fill:none;stroke-miterlimit:10;stroke-width:8px;stroke:url(#linear-gradient);}.cls-2{fill:#f47d7d;}
+        </style>
+        <linearGradient id="linear-gradient" x1="6.44" y1="14.43" x2="62.56" y2="54.57"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0" stop-color="#ff3600" />
+            <stop offset="0.61" stop-color="#f47d7d" />
+        </linearGradient>
+    </defs>
+    <title>fg_tin_chuan_2</title>
+    <g id="Layer_2" data-name="Layer 2">
+        <g id="date">
+            <circle class="cls-1" cx="34.5" cy="34.5" r="30.5" />
+            <path class="cls-2"
+                d="M45.52,31.17h-8v-7.8A2.38,2.38,0,0,0,35.18,21H33.82a2.38,2.38,0,0,0-2.38,2.37v7.8h-8A2.48,2.48,0,0,0,21,33.64v1.72a2.48,2.48,0,0,0,2.48,2.47h8v7.8A2.38,2.38,0,0,0,33.82,48h1.36a2.38,2.38,0,0,0,2.38-2.37v-7.8h8A2.48,2.48,0,0,0,48,35.36V33.64A2.48,2.48,0,0,0,45.52,31.17Z" />
+        </g>
+    </g>
+</svg>

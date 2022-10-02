@@ -45,7 +45,10 @@ class MainActivity : AppCompatActivity() {
     private fun setUpDataBinding() {
         val repo = TodoRepo.getInstance(TodoDatabase.getInstance(this).todoDAO)
         binding.viewModel =
-            ViewModelProvider(this, TaskViewModelFactory(repo))[TaskViewModel::class.java]
+            ViewModelProvider(
+                this,
+                TaskViewModelFactory(repo, getString(R.string.default_workspace_name))
+            )[TaskViewModel::class.java]
         binding.lifecycleOwner = this
     }
 
@@ -58,6 +61,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpActivityComponentAppearance() {
         val fragment = currentFragment()
+
+        // The second condition is to enable moving animation of fab
+        if (fragment is HasFab) {
+            (fragment as HasFab).setUpFabAppearance(binding.fab)
+            if (!binding.fab.isShown)
+                binding.fab.show()
+        } else {
+            binding.fab.hide()
+        }
+
         if (fragment is HasTopAppBar) {
             binding.topAppBar.visibility = View.VISIBLE
             (fragment as HasTopAppBar).setUpTopAppBarAppearance(binding.topAppBar)
@@ -68,13 +81,7 @@ class MainActivity : AppCompatActivity() {
             (fragment as HasBotAppBar).setUpBotAppBarAppearance(binding.bottomAppBar)
         } else binding.bottomAppBar.visibility = View.GONE
 
-        // The second condition is to enable moving animation of fab
-        if (fragment is HasFab) {
-            (fragment as HasFab).setUpFabAppearance(binding.fab)
-            if (!binding.fab.isShown)
-                binding.fab.show()
-        } else
-            binding.fab.hide()
+
     }
 
     private fun setOnClickListeners() {

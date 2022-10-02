@@ -1,9 +1,6 @@
 package com.vstd.todo.utilities
 
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneId
+import java.time.*
 import java.time.format.DateTimeFormatter
 
 /* Convert DateTime to pattern "yyyy-mm-ddTHH:mm:ss" */
@@ -42,11 +39,19 @@ fun LocalTime.toFriendlyString(): String {
     return this.format(DateTimeFormatter.ofPattern("HH:mm"))
 }
 
-fun LocalDate.toMilliSecEpoch(): Long {
+fun LocalDate.toEpochMillisecond(): Long {
     return this
         .atTime(9, 0)
         .atZone(ZoneId.systemDefault())
         .toEpochSecond() * 1000
+}
+
+fun Long.toLocalDate(): LocalDate {
+    val localDateTime = LocalDateTime.ofInstant(
+        Instant.ofEpochMilli(this),
+        ZoneId.systemDefault()
+    )
+    return localDateTime.toLocalDate()
 }
 
 class DateTimeUtils {

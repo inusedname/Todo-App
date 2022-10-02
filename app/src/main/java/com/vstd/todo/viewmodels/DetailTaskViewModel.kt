@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.vstd.todo.data.Subtask
 import com.vstd.todo.data.Task
 import com.vstd.todo.utilities.TextUtils
-import com.vstd.todo.utilities.log
 import java.time.LocalDateTime
 
 class DetailTaskViewModel(private val _task: Task) : ViewModel() {
@@ -55,7 +54,6 @@ class DetailTaskViewModel(private val _task: Task) : ViewModel() {
     }
 
     fun renameSubtask(i: Int, newName: String) {
-        log("renameSubtask $i ${subtasks.size} ${subtasks[i].title} $newName")
         if (i < subtasks.size && subtasks[i].title != newName) {
             subtasks[i] = subtasks[i].copy(title = newName)
             updateSubtaskLiveData()

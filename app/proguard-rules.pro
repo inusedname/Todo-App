@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-keepattributes Signature
+-keepattributes *Annotation*
+
+-keep class com.google.gson.stream.** { *; }
+-keep class com.vstd.todo.data.Subtask { *; }
+-keepclassmembers class com.vstd.todo.data.Subtask { *; }

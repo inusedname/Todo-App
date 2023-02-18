@@ -4,132 +4,136 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.datetime.DateTimePickerDialog">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
 
-        <GridLayout
-            android:id="@+id/fixed_quick_pick_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:rowCount="2"
-            android:useDefaultMargins="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_quick_tomorrow"
-                style="@style/ButtonInsideGridlayout"
-                android:layout_width="0dp"
+            <GridLayout
+                android:id="@+id/fixed_quick_pick_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="0"
-                android:text="@string/tomorrow"
-                app:icon="@drawable/ic_tomorrow"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                android:columnCount="2"
+                android:rowCount="2"
+                android:useDefaultMargins="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_quick_next_week"
-                style="@style/ButtonInsideGridlayout"
-                android:layout_width="0dp"
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_quick_tomorrow"
+                    style="@style/ButtonInsideGridlayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="0"
+                    android:text="@string/tomorrow"
+                    app:icon="@drawable/ic_tomorrow"
+                    app:iconSize="@dimen/quick_date_icon_size" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_quick_next_week"
+                    style="@style/ButtonInsideGridlayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="0"
+                    android:layout_column="1"
+                    android:text="@string/next_week"
+                    app:icon="@drawable/ic_nextweek"
+                    app:iconSize="@dimen/quick_date_icon_size" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_quick_tonight"
+                    style="@style/ButtonInsideGridlayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="0"
+                    android:text="@string/tonight"
+                    app:icon="@drawable/ic_tonight"
+                    app:iconSize="@dimen/quick_date_icon_size" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_custom_date"
+                    style="@style/ButtonInsideGridlayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_row="1"
+                    android:layout_column="1"
+                    android:text="@string/custom"
+                    app:icon="@drawable/ic_tonight"
+                    app:iconSize="@dimen/quick_date_icon_size" />
+
+            </GridLayout>
+
+            <CalendarView
+                android:id="@+id/calendar_view"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_column="1"
-                android:text="@string/next_week"
-                app:icon="@drawable/ic_nextweek"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
+                app:layout_constraintTop_toBottomOf="@id/fixed_quick_pick_layout" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_quick_tonight"
-                style="@style/ButtonInsideGridlayout"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="0"
-                android:text="@string/tonight"
-                app:icon="@drawable/ic_tonight"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                android:divider="@drawable/divider_icons"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:showDividers="middle"
+                app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
+                app:layout_constraintTop_toBottomOf="@id/calendar_view">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_custom_date"
-                style="@style/ButtonInsideGridlayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_column="1"
-                android:text="@string/custom"
-                app:icon="@drawable/ic_tonight"
-                app:iconSize="@dimen/quick_date_icon_size" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_set_due_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="16dp"
+                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                    android:textColor="?attr/colorOnPrimary"
+                    app:icon="@drawable/ic_alarm"
+                    app:iconTint="?attr/colorOnPrimary"
+                    tools:text="Due time" />
 
-        </GridLayout>
-
-        <CalendarView
-            android:id="@+id/calendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
-            app:layout_constraintTop_toBottomOf="@id/fixed_quick_pick_layout" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:divider="@drawable/divider_icons"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:showDividers="middle"
-            app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"
-            app:layout_constraintTop_toBottomOf="@id/calendar_view">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_set_due_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingVertical="16dp"
-                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
-                android:textColor="?attr/colorOnPrimary"
-                app:icon="@drawable/ic_alarm"
-                app:iconTint="?attr/colorOnPrimary"
-                tools:text="Due time" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bt_set_repeat"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingVertical="16dp"
-                android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
-                android:textColor="?attr/colorOnPrimary"
-                app:icon="@drawable/ic_baseline_repeat_24"
-                app:iconTint="?attr/colorOnPrimary"
-                android:text="@string/set_repeat" />
-        </LinearLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/bt_set_repeat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingVertical="16dp"
+                    android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Caption"
+                    android:textColor="?attr/colorOnPrimary"
+                    app:icon="@drawable/ic_baseline_repeat_24"
+                    app:iconTint="?attr/colorOnPrimary"
+                    android:text="@string/set_repeat" />
+            </LinearLayout>
 
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/bt_set_repeat"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="16dp"-->
-        <!--            android:background="@drawable/bg_filled_card"-->
-        <!--            android:drawablePadding="10dp"-->
-        <!--            android:foreground="?android:attr/selectableItemBackground"-->
-        <!--            android:paddingHorizontal="16dp"-->
-        <!--            android:paddingVertical="16dp"-->
-        <!--            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Subtitle1"-->
-        <!--            android:textColor="?attr/colorOnPrimary"-->
-        <!--            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"-->
-        <!--            app:drawableStartCompat="@drawable/ic_baseline_repeat_24"-->
-        <!--            app:drawableTint="?attr/colorOnPrimary"-->
-        <!--            app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/bt_set_due_time"-->
-        <!--            tools:text="Repeat" />-->
+            <!--        <TextView-->
+            <!--            android:id="@+id/bt_set_repeat"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="16dp"-->
+            <!--            android:background="@drawable/bg_filled_card"-->
+            <!--            android:drawablePadding="10dp"-->
+            <!--            android:foreground="?android:attr/selectableItemBackground"-->
+            <!--            android:paddingHorizontal="16dp"-->
+            <!--            android:paddingVertical="16dp"-->
+            <!--            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.Subtitle1"-->
+            <!--            android:textColor="?attr/colorOnPrimary"-->
+            <!--            app:drawableEndCompat="@drawable/ic_baseline_keyboard_arrow_right_24"-->
+            <!--            app:drawableStartCompat="@drawable/ic_baseline_repeat_24"-->
+            <!--            app:drawableTint="?attr/colorOnPrimary"-->
+            <!--            app:layout_constraintStart_toStartOf="@id/fixed_quick_pick_layout"-->
+            <!--            app:layout_constraintTop_toBottomOf="@id/bt_set_due_time"-->
+            <!--            tools:text="Repeat" />-->
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>
